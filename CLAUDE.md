@@ -103,6 +103,90 @@ for the 64-block range. Don't slice clips.
 - Every id referenced in `phases`/`breaking` must exist in `clips`; every `clips[*].sound` must exist
   in sounds.json.
 
+## Gameplay contract (M3 + M4)
+Common package `com.manzarig.fadoecravo`, client package `com.manzarig.fadoecravo.client`.
+Each module exposes a static `init()`/`register()`; the orchestrator wires the one-line calls into
+`FadoECravo` / `FadoECravoClient`.
+
+### Registry (`registry/`) — `ModRegistry.init()`
+`ModBlocks.RADIO` (`fadoecravo:radio`), `ModItems.RADIO` (BlockItem), `ModBlockEntities.RADIO`
+(`BlockEntityType<RadioBlockEntity>`), `ModSounds.<ID>` = registered `SoundEvent` for every `sfx.*` id
+(`POWER_ON` = `fadoecravo:sfx.power_on`, `POWER_OFF`, `TUBE_WARMUP`, `TUNING_WHISTLE`, `STATIC_LOOP`,
+`CARRIER_HISS`), `ModCreativeTab` (title `itemGroup.fadoecravo`, icon = radio).
+
+### Block — `block/RadioBlock` (`BaseEntityBlock`, with `MapCodec`)
+- State: `FACING` (horizontal; placed facing the player — model front is on the NORTH face), `ON`
+  (bool, default false), `POWERED` (bool, redstone edge memory).
+- Shape: 14×12×8 px cabinet (x 1–15, y 0–12, z 4–12 when facing north), rotated by facing. Axe-mineable,
+  drops itself.
+- Use without sneak: on the client call `RadioClientBridge.openScreen(pos)` (common class holding a
+  static `Consumer<BlockPos>`, default no-op; the client sets it). Sneak + use: server toggles `ON`.
+- Redstone: on neighbour change, if `hasNeighborSignal` goes false→true toggle `ON` (pulse toggles);
+  always store `POWERED`.
+- Toggle sounds at the block (`SoundSource.BLOCKS`): on → `POWER_ON` + `TUBE_WARMUP`; off → `POWER_OFF`.
+- Models (hand-written, not datagen): `fadoecravo:block/radio` (off) and `fadoecravo:block/radio_on`;
+  blockstate (datagen) picks by `ON` and rotates `y` 0/90/180/270 for north/east/south/west.
+
+### Block entity — `block/entity/RadioBlockEntity`
+`int frequencyKhz` (default 1035, clamped 530–1600, NBT key `frequency`); `getFrequencyKhz()`,
+`setFrequencyKhz(int)` (calls `setChanged` + `level.sendBlockUpdated`). Client sync via
+`getUpdateTag` + `ClientboundBlockEntityDataPacket.create(this)`. On/off lives in the block state only.
+Constants: `RadioBlockEntity.MIN_KHZ = 530`, `MAX_KHZ = 1600`.
+
+### Networking — `net/` (`CustomPacketPayload` records + `StreamCodec`), `ModNetworking.init()`
+- C2S `SetFrequencyPayload(BlockPos pos, int frequencyKhz)` — id `fadoecravo:set_frequency`.
+- C2S `TogglePowerPayload(BlockPos pos)` — id `fadoecravo:toggle_power`.
+- S2C `BreakingNewsPayload(String stationId, long startGameTime, long seed)` — id
+  `fadoecravo:breaking_news`; empty `stationId` = cleared.
+- Server receivers run on the server thread and check: chunk loaded, block entity is a radio, player
+  within 8 blocks (`distanceToSqr ≤ 64`), frequency in range. Toggling through the payload behaves
+  exactly like sneak + use.
+
+### Breaking news — `broadcast/BreakingNewsState` (SavedData on the overworld), `command/RadioCommand`
+- `/fadoecravo breaking <station>` (permission 2, station suggestions) stores `{station,
+  startGameTime = level.getGameTime(), seed = random long}`, broadcasts the payload, replies
+  `command.fadoecravo.breaking.success`. `/fadoecravo breaking clear` clears and replies
+  `command.fadoecravo.breaking.cleared`. Unknown station → `command.fadoecravo.breaking.unknown_station`.
+- Known station ids = file names of `assets/fadoecravo/stations/*.json` in the mod's own jar
+  (`FabricLoader.getInstance().getModContainer("fadoecravo")…findPath(...)`) — works on dedicated
+  servers. Current news is sent to each player on join.
+- The client picks the clip from the station's `breaking` list using `seed`, and ends it after the
+  clip's duration.
+
+### Station model + schedule — common `broadcast/` (pure, unit-tested, no client classes)
+- Records `StationDefinition(int schema, String id, String name, int frequencyKhz, double signalStrength,
+  Map<Phase, PhaseDefinition> phases, List<String> breaking, Map<String, ClipInfo> clips)`,
+  `PhaseDefinition(boolean onAir, List<String> opening, List<String> programs, List<String> interstitials,
+  int interstitialEvery)`, `ClipInfo(ResourceLocation sound, String kind, double duration)`, each with a
+  `CODEC` matching schema v1 JSON keys exactly (snake_case).
+- `enum Phase { DAWN(23000,1000), DAY(1000,12000), DUSK(12000,13800), NIGHT(13800,23000) }` with
+  `Phase.of(long dayTime)`; phase-instance day = `floorDiv(dayTime + 1000, 24000)`; elapsed ticks =
+  `floorMod(dayTime - start, 24000)`.
+- `record Slot(String clipId, ResourceLocation sound, String kind, double offsetSeconds, Phase phase,
+  long day, int sequenceIndex)`; `Optional<Slot>` empty = off air.
+- `BroadcastSchedule.at(StationDefinition, long dayTime)`: sequence = `opening` once, then `programs` as
+  an ordered cycle with one interstitial (taken in rotating order) after every `interstitialEvery`
+  programs; cycle start rotated by `(hash(id, day, phase) mod (programs.size()/step)) * step`,
+  `step = max(1, interstitialEvery)`. Offset = elapsed seconds walked through clip durations.
+- `BroadcastSchedule.next(StationDefinition, Slot)` → following slot (offset 0) in the same phase
+  instance. `BroadcastSchedule.breaking(StationDefinition, long startGameTime, long seed, long gameTime)`
+  → `Optional<Slot>` (kind `breaking`), empty once the clip is over.
+- `Tuning.signal(StationDefinition, int khz)`: 1.0 within ±4 kHz, linear to 0 at ±15 kHz, × signal
+  strength. `Tuning.best(Collection<StationDefinition>, int khz)` → strongest `Optional<Tuned(station,
+  signal)>`. Constants `CLEAR_KHZ = 4`, `FADE_KHZ = 15`.
+
+### Client (M4)
+- `client/station/StationRegistry` (resource reload listener, `stations/*.json`, bad files skipped and
+  logged; `all()`, `get(id)`), `client/broadcast/ClientBreakingNews`, `client/audio/RadioAudioManager`
+  (per-tick: 4 nearest ON radios within 72 blocks; programme at volume s, `STATIC_LOOP` at `(1-s)·0.6`,
+  off air → `CARRIER_HISS` + static; continue with `next()`, resync with `at()` on phase/frequency/news
+  change or drift > 5 s; fade out 0.5 s on off/unload), `client/audio/StaticSoundInstance` (looping).
+- `client/gui/RadioScreen` — no container; GUI fills in the Terracotta palette (textured in M5); dial
+  530–1600 kHz, scroll ±1 (Shift ±10), drag needle, frequency + station name + signal bar, power
+  button → `TogglePowerPayload`; `SetFrequencyPayload` 250 ms after the last change and on close;
+  `TUNING_WHISTLE` played locally at the radio when the needle enters a station's ±4 kHz.
+  `RadioScreen.register()` sets `RadioClientBridge`.
+
 ## Palette (Terracotta design system — use for textures, icons, GUI)
 terracotta `#BD5D37` · umber `#663A29` · alabaster `#EDDFDA` · charcoal `#262322` ·
 saffron `#D1C42E` · garnet `#A8190F` · plum `#9C4165`
