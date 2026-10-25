@@ -24,3 +24,6 @@ __pycache__/
 
 # Datagen hash cache
 src/main/generated/.cache/
+
+# Agent worktrees (isolated copies used by parallel workers)
+.claude/worktrees/
