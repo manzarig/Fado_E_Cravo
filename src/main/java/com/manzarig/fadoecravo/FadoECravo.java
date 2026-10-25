@@ -1,5 +1,9 @@
 package com.manzarig.fadoecravo;
 
+import com.manzarig.fadoecravo.command.RadioCommand;
+import com.manzarig.fadoecravo.net.ModNetworking;
+import com.manzarig.fadoecravo.registry.ModRegistry;
+
 import net.fabricmc.api.ModInitializer;
 
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +19,9 @@ public class FadoECravo implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Fado e Cravo: the wireless is warming up.");
+		ModRegistry.init();
+		ModNetworking.init();
+		RadioCommand.register();
 	}
 
 	public static ResourceLocation id(String path) {

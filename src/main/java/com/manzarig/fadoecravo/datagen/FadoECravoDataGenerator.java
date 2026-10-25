@@ -7,6 +7,9 @@ public class FadoECravoDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-		// Providers (models, loot tables, recipes, tags) are added here as features land.
+		pack.addProvider(ModModelProvider::new);
+		pack.addProvider(ModBlockLootTableProvider::new);
+		pack.addProvider(ModRecipeProvider::new);
+		pack.addProvider(ModBlockTagProvider::new);
 	}
 }
