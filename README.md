@@ -13,7 +13,16 @@ not you are listening. A later, secret "Proto-Cravo" storyline waits behind the 
 - Fabric API
 - GeckoLib 4.9+
 
+## Play it in Modrinth
+
+See [docs/MODRINTH.md](docs/MODRINTH.md) for a step-by-step guide to installing the current build in
+the Modrinth App.
+
 ## Building
+
+Building needs a **Java 21 JDK** (on Windows: `winget install --id EclipseAdoptium.Temurin.21.JDK -e`,
+then open a new terminal). The Java bundled with the Modrinth App or Minecraft launcher is not enough
+for Gradle.
 
 ```sh
 ./gradlew build        # Linux / macOS
