@@ -81,8 +81,23 @@ java {
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
+// Let tests see the client source set (src/client) and the client-only Minecraft classes, such as
+// the OGG decoder. Loom keeps them out of the test source set by default.
+sourceSets {
+	test {
+		compileClasspath += sourceSets.client.output + sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.output + sourceSets.client.runtimeClasspath
+	}
+}
+
 test {
 	useJUnitPlatform()
+
+	// Minecraft's bundled log4j config writes logs/latest.log into the working directory, so run
+	// the tests somewhere under build/ rather than in the project root.
+	def testWorkDir = layout.buildDirectory.dir("test-work").get().asFile
+	workingDir = testWorkDir
+	doFirst { testWorkDir.mkdirs() }
 }
 
 jar {

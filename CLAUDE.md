@@ -67,6 +67,14 @@ Mono, 22 050 Hz, Ogg Vorbis (`libvorbis -q:a 2`). Raw WAVs: mono 16-bit PCM, 22 
   `power_off` (≤0.3 s clicks).
 - **Test** (`test.*`): `seek_test` (60 s, pitch changes every 5 s — used to verify mid-clip starts).
 
+### Mid-clip playback (M1 decision: seek)
+Vanilla 1.21.1 has no `SoundInstance#getStream`. Fabric API's sound API adds
+`FabricSoundInstance#getAudioStream(SoundBufferLibrary, ResourceLocation, boolean)`, which
+`RadioSoundInstance` overrides to wrap the decoded `JOrbisAudioStream` in `SkippingAudioStream`
+(skip decoded on `Util.backgroundExecutor()`). It only runs for `"stream": true` sounds. Range is
+`max(volume,1) * attenuation_distance`, so keep instance volume ≤ 1 and use `attenuation_distance`
+for the 64-block range. Don't slice clips.
+
 ### Station file schema v1 (`stations/<station_id>.json`, read by the client in M4)
 ```json
 {
