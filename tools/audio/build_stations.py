@@ -195,10 +195,11 @@ def measure(item: Item) -> None:
 def sound_entry(item: Item) -> tuple[str, dict[str, Any]]:
     """sounds.json event for a station/music/sfx clip (test entries come from extra_sounds.json)."""
     if item.group == "sfx":
-        return f"sfx.{item.clip}", {"sounds": [{
+        return f"sfx.{item.clip}", {"subtitle": f"subtitles.{common.MOD_ID}.sfx.{item.clip}", "sounds": [{
             "name": f"{common.MOD_ID}:sfx/{item.clip}", "stream": False,
             "attenuation_distance": item.attenuation}]}
-    return common.sound_event(item.group, item.clip), {"sounds": [{
+    subtitle = f"subtitles.{common.MOD_ID}.{item.kind}"
+    return common.sound_event(item.group, item.clip), {"subtitle": subtitle, "sounds": [{
         "name": common.sound_resource(item.group, item.clip), "stream": True,
         "attenuation_distance": STREAM_ATTENUATION}]}
 

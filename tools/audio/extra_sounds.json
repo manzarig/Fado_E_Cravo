@@ -1,5 +1,6 @@
 {
   "test.seek_test": {
+    "subtitle": "subtitles.fadoecravo.test.seek_test",
     "sounds": [
       {"name": "fadoecravo:test/seek_test", "stream": true, "attenuation_distance": 64}
     ]
