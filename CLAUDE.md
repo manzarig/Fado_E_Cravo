@@ -30,6 +30,70 @@ stations. Every agent working in this repo follows this file.
 - Language files: `src/main/resources/assets/fadoecravo/lang/en_us.json`, `pt_pt.json`
 - Translation keys use `block.fadoecravo.*`, `item.fadoecravo.*`, `itemGroup.fadoecravo`, `gui.fadoecravo.*`, `station.fadoecravo.*`, `command.fadoecravo.*`
 
+## Audio contract (M1 + M2)
+### Paths
+| What | Where | Committed? |
+|---|---|---|
+| Pipeline code | `tools/audio/*.py`, `tools/audio/requirements.txt`, `tools/audio/README.md` | yes |
+| Source manifest | `tools/audio/stations.yaml` | yes |
+| Hand-written sounds.json entries (test/SFX extras) | `tools/audio/extra_sounds.json` | yes |
+| Speech scripts (pt-PT, UTF-8, one clip per file) | `tools/audio/scripts/<station_id>/<clip>.txt` | yes |
+| Music sources | `tools/audio/source/music/<clip>.mid` | yes |
+| Intermediate WAVs (raw, before AM FX) | `tools/audio/.cache/{speech/<station_id>,music,sfx}/<clip>.wav` | no (ignored) |
+| Final game audio | `src/main/resources/assets/fadoecravo/sounds/radio/<station_id or music>/<clip>.ogg`, `.../sounds/sfx/<id>.ogg`, `.../sounds/test/<id>.ogg` | yes |
+| Generated `sounds.json` | `src/main/resources/assets/fadoecravo/sounds.json` | yes (generated — don't hand-edit) |
+| Generated station files | `src/main/resources/assets/fadoecravo/stations/<station_id>.json` | yes (generated) |
+
+### Format of every game OGG
+Mono, 22 050 Hz, Ogg Vorbis (`libvorbis -q:a 2`). Raw WAVs: mono 16-bit PCM, 22 050 or 44 100 Hz.
+
+### Sound ids (keys in sounds.json, namespace `fadoecravo`)
+`radio.<station_id>.<clip>`, `radio.music.<clip>`, `sfx.<id>`, `test.<id>`. Station and music clips:
+`"stream": true`, `"attenuation_distance": 64`. Short SFX: `"stream": false`; radio-borne SFX use
+`"attenuation_distance": 64`, UI clicks 16.
+
+### Clip ids (fixed — scripts, music and manifest must all use exactly these)
+- **Music** (shared by stations, `radio.music.*`): `fado_menor_1`, `fado_menor_2`, `fado_corrido_1`,
+  `marcha_1`, `guitarrada_1`, `orquestra_1` (each 60–100 s); `interval_lusitana`, `interval_atlantico`
+  (interval-signal chimes, 8–12 s).
+- **emissora_lusitana** (670 kHz, formal state-style, no ads): `ident_1`, `ident_2`, `news_morning_1`,
+  `news_evening_1`, `news_evening_2`, `notice_1`, `notice_2`, `market_prices_1`, `signoff_1`, `breaking_1`.
+- **radio_tejo** (1035 kHz, popular, ads): `ident_1`, `ident_2`, `ad_1`, `ad_2`, `ad_3`, `ad_4`,
+  `announce_1`, `announce_2`, `announce_3`, `request_1`, `breaking_1`.
+- **radio_atlantico** (1440 kHz, weak, night only, foreign news in Portuguese): `ident_1`, `news_1`,
+  `news_2`, `news_3`, `personal_messages_1`, `breaking_1`.
+- **SFX** (`sfx.*`): `static_loop` (10 s seamless loop), `carrier_hiss` (10 s seamless loop, quiet
+  off-air hiss), `tuning_whistle` (~1.5 s heterodyne sweep), `tube_warmup` (~2.5 s), `power_on`,
+  `power_off` (≤0.3 s clicks).
+- **Test** (`test.*`): `seek_test` (60 s, pitch changes every 5 s — used to verify mid-clip starts).
+
+### Station file schema v1 (`stations/<station_id>.json`, read by the client in M4)
+```json
+{
+  "schema": 1,
+  "id": "radio_tejo",
+  "name": "station.fadoecravo.radio_tejo",
+  "frequency_khz": 1035,
+  "signal_strength": 1.0,
+  "phases": {
+    "dawn":  {"on_air": true, "opening": ["ident_1"], "programs": ["marcha_1", "fado_corrido_1"],
+              "interstitials": ["ad_1", "ad_2"], "interstitial_every": 2},
+    "day":   {"...": "same shape"}, "dusk": {"...": "same shape"},
+    "night": {"on_air": false, "opening": [], "programs": [], "interstitials": [], "interstitial_every": 0}
+  },
+  "breaking": ["breaking_1"],
+  "clips": {
+    "ident_1":  {"sound": "fadoecravo:radio.radio_tejo.ident_1", "kind": "ident", "duration": 12.48},
+    "marcha_1": {"sound": "fadoecravo:radio.music.marcha_1", "kind": "music", "duration": 84.02}
+  }
+}
+```
+- Phases are `dawn` (ticks 23000–1000), `day` (1000–12000), `dusk` (12000–13800), `night` (13800–23000).
+- `kind` ∈ `music`, `ident`, `news`, `notice`, `ad`, `announce`, `request`, `personal_messages`,
+  `signoff`, `breaking`, `interval`. `duration` is seconds (float, from ffprobe) of the final OGG.
+- Every id referenced in `phases`/`breaking` must exist in `clips`; every `clips[*].sound` must exist
+  in sounds.json.
+
 ## Palette (Terracotta design system — use for textures, icons, GUI)
 terracotta `#BD5D37` · umber `#663A29` · alabaster `#EDDFDA` · charcoal `#262322` ·
 saffron `#D1C42E` · garnet `#A8190F` · plum `#9C4165`
