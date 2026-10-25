@@ -1,0 +1,16 @@
+{
+  "itemGroup.fadoecravo": "Fado e Cravo",
+  "block.fadoecravo.radio": "AM Radio",
+  "gui.fadoecravo.radio.title": "Medium Wave Radio",
+  "gui.fadoecravo.radio.power_on": "On",
+  "gui.fadoecravo.radio.power_off": "Off",
+  "gui.fadoecravo.radio.frequency": "%s kHz",
+  "gui.fadoecravo.radio.static": "— static —",
+  "gui.fadoecravo.radio.signal_locked": "Signal locked",
+  "gui.fadoecravo.radio.no_station": "No station on this frequency",
+  "station.fadoecravo.emissora_lusitana": "Emissora Lusitana",
+  "station.fadoecravo.radio_tejo": "Rádio Tejo",
+  "station.fadoecravo.radio_atlantico": "Rádio Atlântico",
+  "command.fadoecravo.breaking.success": "Breaking news on %s",
+  "command.fadoecravo.breaking.unknown_station": "Unknown station: %s"
+}

@@ -1,0 +1,23 @@
+# Gradle / build output
+.gradle/
+build/
+out/
+run/
+bin/
+classes/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Audio pipeline (local cache and virtualenv)
+tools/audio/.cache/
+tools/audio/.venv/
+__pycache__/

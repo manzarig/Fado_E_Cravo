@@ -1,0 +1,16 @@
+{
+  "itemGroup.fadoecravo": "Fado e Cravo",
+  "block.fadoecravo.radio": "Telefonia",
+  "gui.fadoecravo.radio.title": "Telefonia de Onda Média",
+  "gui.fadoecravo.radio.power_on": "Ligado",
+  "gui.fadoecravo.radio.power_off": "Desligado",
+  "gui.fadoecravo.radio.frequency": "%s kHz",
+  "gui.fadoecravo.radio.static": "— estática —",
+  "gui.fadoecravo.radio.signal_locked": "Sinal sintonizado",
+  "gui.fadoecravo.radio.no_station": "Nenhuma emissora nesta frequência",
+  "station.fadoecravo.emissora_lusitana": "Emissora Lusitana",
+  "station.fadoecravo.radio_tejo": "Rádio Tejo",
+  "station.fadoecravo.radio_atlantico": "Rádio Atlântico",
+  "command.fadoecravo.breaking.success": "Notícia de última hora na %s",
+  "command.fadoecravo.breaking.unknown_station": "Emissora desconhecida: %s"
+}

@@ -1,2 +1,16 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Shell scripts and the Gradle wrapper must keep LF line endings
+gradlew text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
+
+# Binary assets: never normalize or diff as text
+*.jar binary
+*.png binary
+*.ogg binary
+*.wav binary
+*.mid binary
+*.zip binary
+*.onnx binary
