@@ -12,5 +12,11 @@
   "station.fadoecravo.radio_tejo": "Rádio Tejo",
   "station.fadoecravo.radio_atlantico": "Rádio Atlântico",
   "command.fadoecravo.breaking.success": "Breaking news on %s",
-  "command.fadoecravo.breaking.unknown_station": "Unknown station: %s"
+  "command.fadoecravo.breaking.unknown_station": "Unknown station: %s",
+  "gui.fadoecravo.radio.tune_hint": "Scroll to tune · Shift ×10 · drag the needle",
+  "gui.fadoecravo.radio.signal": "Signal",
+  "gui.fadoecravo.radio.off_air": "Off the air",
+  "gui.fadoecravo.radio.power": "Power",
+  "block.fadoecravo.radio.tooltip": "Use to tune · Sneak + use to switch on or off",
+  "command.fadoecravo.breaking.cleared": "Breaking news cleared"
 }

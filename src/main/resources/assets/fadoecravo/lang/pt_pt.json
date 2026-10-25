@@ -12,5 +12,11 @@
   "station.fadoecravo.radio_tejo": "Rádio Tejo",
   "station.fadoecravo.radio_atlantico": "Rádio Atlântico",
   "command.fadoecravo.breaking.success": "Notícia de última hora na %s",
-  "command.fadoecravo.breaking.unknown_station": "Emissora desconhecida: %s"
+  "command.fadoecravo.breaking.unknown_station": "Emissora desconhecida: %s",
+  "gui.fadoecravo.radio.tune_hint": "Role para sintonizar · Shift ×10 · arraste o ponteiro",
+  "gui.fadoecravo.radio.signal": "Sinal",
+  "gui.fadoecravo.radio.off_air": "Fora do ar",
+  "gui.fadoecravo.radio.power": "Ligar",
+  "block.fadoecravo.radio.tooltip": "Use para sintonizar · Agachado + use para ligar ou desligar",
+  "command.fadoecravo.breaking.cleared": "Notícia de última hora terminada"
 }

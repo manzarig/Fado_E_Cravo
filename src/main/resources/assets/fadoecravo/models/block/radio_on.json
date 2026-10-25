@@ -1,0 +1,6 @@
+{
+  "parent": "fadoecravo:block/radio",
+  "textures": {
+    "front": "fadoecravo:block/radio_front_on"
+  }
+}
