@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "id": "radio_atlantico",
+  "name": "station.fadoecravo.radio_atlantico",
+  "frequency_khz": 1440,
+  "signal_strength": 0.55,
+  "phases": {
+    "dawn": {
+      "on_air": false,
+      "opening": [],
+      "programs": [],
+      "interstitials": [],
+      "interstitial_every": 0
+    },
+    "day": {
+      "on_air": false,
+      "opening": [],
+      "programs": [],
+      "interstitials": [],
+      "interstitial_every": 0
+    },
+    "dusk": {
+      "on_air": false,
+      "opening": [],
+      "programs": [],
+      "interstitials": [],
+      "interstitial_every": 0
+    },
+    "night": {
+      "on_air": true,
+      "opening": [
+        "interval_atlantico",
+        "ident_1"
+      ],
+      "programs": [
+        "news_1",
+        "fado_menor_1",
+        "news_2",
+        "orquestra_1",
+        "news_3",
+        "guitarrada_1"
+      ],
+      "interstitials": [
+        "personal_messages_1",
+        "interval_atlantico"
+      ],
+      "interstitial_every": 2
+    }
+  },
+  "breaking": [
+    "breaking_1"
+  ],
+  "clips": {
+    "interval_atlantico": {
+      "sound": "fadoecravo:radio.music.interval_atlantico",
+      "kind": "interval",
+      "duration": 11.1
+    },
+    "ident_1": {
+      "sound": "fadoecravo:radio.radio_atlantico.ident_1",
+      "kind": "ident",
+      "duration": 13.4
+    },
+    "news_1": {
+      "sound": "fadoecravo:radio.radio_atlantico.news_1",
+      "kind": "news",
+      "duration": 30.7
+    },
+    "fado_menor_1": {
+      "sound": "fadoecravo:radio.music.fado_menor_1",
+      "kind": "music",
+      "duration": 84.6
+    },
+    "news_2": {
+      "sound": "fadoecravo:radio.radio_atlantico.news_2",
+      "kind": "news",
+      "duration": 29.3
+    },
+    "orquestra_1": {
+      "sound": "fadoecravo:radio.music.orquestra_1",
+      "kind": "music",
+      "duration": 79.9
+    },
+    "news_3": {
+      "sound": "fadoecravo:radio.radio_atlantico.news_3",
+      "kind": "news",
+      "duration": 33.1
+    },
+    "guitarrada_1": {
+      "sound": "fadoecravo:radio.music.guitarrada_1",
+      "kind": "music",
+      "duration": 74.8
+    },
+    "personal_messages_1": {
+      "sound": "fadoecravo:radio.radio_atlantico.personal_messages_1",
+      "kind": "personal_messages",
+      "duration": 37.6
+    },
+    "breaking_1": {
+      "sound": "fadoecravo:radio.radio_atlantico.breaking_1",
+      "kind": "breaking",
+      "duration": 25.3
+    }
+  }
+}

@@ -96,6 +96,7 @@ for the 64-block range. Don't slice clips.
   }
 }
 ```
+- `programs` is an **ordered cycle**: play it in the order written (a seeded start point is fine, shuffling is not). Rádio Tejo puts each `announce_N`/`request_N` directly before the song it introduces, and keeps every programs list even so interstitials land between pairs.
 - Phases are `dawn` (ticks 23000–1000), `day` (1000–12000), `dusk` (12000–13800), `night` (13800–23000).
 - `kind` ∈ `music`, `ident`, `news`, `notice`, `ad`, `announce`, `request`, `personal_messages`,
   `signoff`, `breaking`, `interval`. `duration` is seconds (float, from ffprobe) of the final OGG.
