@@ -21,3 +21,6 @@ Thumbs.db
 tools/audio/.cache/
 tools/audio/.venv/
 __pycache__/
+
+# Datagen hash cache
+src/main/generated/.cache/

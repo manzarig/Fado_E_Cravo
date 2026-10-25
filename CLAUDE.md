@@ -14,6 +14,7 @@ stations. Every agent working in this repo follows this file.
 | Loader | Fabric only — Fabric Loader `0.20.1`, Fabric API `0.116.17+1.21.1` |
 | Mappings | Mojang official (`loom.officialMojangMappings()`) |
 | Java | 21 |
+| Build | Gradle wrapper `9.5.1` + plugin `fabric-loom` `1.17.21` — GeckoLib 4.9.3 was built with Loom 1.17.21 (Loom rejects mods built with a newer Loom), and Loom 1.18+ needs Java 25. Don't change without checking both. |
 | Animated models | GeckoLib `software.bernie.geckolib:geckolib-fabric-1.21.1:4.9.3` from `https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/` |
 | Source sets | Loom `splitEnvironmentSourceSets()`: common code in `src/main/java`, client-only code in `src/client/java` |
 | Datagen output | `src/main/generated` (Fabric `fabricApi { configureDataGeneration() }`) |
