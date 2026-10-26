@@ -31,12 +31,14 @@ class RadioChannelTest {
 	private List<StationDefinition> stations = List.of(TEJO, LISBOA);
 	private BreakingNewsPayload news = BreakingNewsPayload.CLEARED;
 	private int dial = 1000;
+	/** How many radios of the tuned station are near the listener, as the manager would count them. */
+	private int crowd = 1;
 	/** Ticks the day time stands still while the frame still says it runs; for the drift check. */
 	private boolean dayTimeStands;
 
 	/** One client tick without moving the clock. */
 	private void tick() {
-		channel.tick(clock.frame(stations, news), dial);
+		channel.tick(clock.frame(stations, news), dial, crowd);
 	}
 
 	/** Moves the clock by one tick and ticks the channel, {@code count} times. */
@@ -123,23 +125,264 @@ class RadioChannelTest {
 		tick();
 		assertEquals(0.5f, output.lastProgramme().getTargetVolume(), 1e-6f);
 		assertEquals(1, output.loops(STATIC_EVENT).size());
-		assertEquals(0.3f, output.loops(STATIC_EVENT).get(0).getTargetVolume(), 1e-6f);
+		// (1 - 0.5) * 0.6 for the fade, and the floor of a weak station on top: (1 - 0.5) * 0.35.
+		assertEquals(0.3f + 0.175f, output.loops(STATIC_EVENT).get(0).getTargetVolume(), 1e-6f);
 		assertTrue(output.loops(CARRIER_EVENT).isEmpty(), "no hiss while a programme is on");
-		assertEquals(0.3f, channel.debugState().staticVolume(), 1e-6f);
+		assertEquals(0.3f + 0.175f, channel.debugState().staticVolume(), 1e-6f);
 	}
 
 	@Test
-	void theStaticLoopIsStartedSilentAndWantedEvenAtVolumeZero() {
+	void aWeakStationDoesNotSoundClear() {
+		// The weak station of the game: Atlantico at 0.55, dialled in exactly.
+		stations = List.of(RadioTestKit.station("atlantico", 1000, 0.55));
+		tick();
+		assertEquals(0.55f, output.lastProgramme().getTargetVolume(), 1e-6f);
+		float staticTarget = output.loops(STATIC_EVENT).get(0).getTargetVolume();
+		assertEquals(0.27f + 0.1575f, staticTarget, 1e-6f);
+		assertTrue(staticTarget > 0.40f, "was 0.27 before the floor");
+		assertEquals(staticTarget, channel.debugState().staticVolume());
+	}
+
+	@Test
+	void aStrongStationHasNoFloor() {
+		tick();
+		assertEquals(0.0f, channel.debugState().staticVolume());
+		dial = 1010;
+		step(1);
+		assertEquals((1.0f - 5.0f / 11.0f) * 0.6f, channel.debugState().staticVolume(), 1e-5f);
+	}
+
+	// ------------------------------------------------------------------ the loops come and go
+
+	@Test
+	void aStationThatComesInClearlyPlaysNoStaticLoopAtAll() {
+		tick();
+		step(60);
+		assertTrue(output.loops(STATIC_EVENT).isEmpty(), "a loop at volume 0 would still be announced as Radio static");
+		assertTrue(output.loops(CARRIER_EVENT).isEmpty());
+		assertEquals(1, output.played.size(), "the programme alone");
+		assertEquals(0.0f, channel.debugState().staticVolume());
+	}
+
+	@Test
+	void theStaticStartsSilentAndFadesInWhenTheDialLeavesTheStation() {
+		tick();
+		dial = 1010; // 10 kHz off: static (1 - 5/11) * 0.6
+		step(1);
+		assertEquals(1, output.loops(STATIC_EVENT).size());
+		StaticSoundInstance staticLoop = output.loops(STATIC_EVENT).get(0);
+		assertEquals(0.0f, staticLoop.getCurrentVolume(), "it starts silent");
+		assertEquals((1.0f - 5.0f / 11.0f) * 0.6f, staticLoop.getTargetVolume(), 1e-5f);
+		staticLoop.tick();
+		assertEquals(0.1f, staticLoop.getCurrentVolume(), 1e-6f, "and glides up");
+	}
+
+	@Test
+	void theStaticStartsAsSoonAsTheDialIsOneKilohertzOutsideTheClearWindow() {
+		tick();
+		dial = 1005; // 5 kHz off: signal 10/11, static 0.0545
+		step(1);
+		assertEquals(1, output.loops(STATIC_EVENT).size());
+		assertTrue(output.loops(STATIC_EVENT).get(0).getTargetVolume() > RadioMix.LOOP_START_VOLUME);
+	}
+
+	@Test
+	void theStaticFadesOutAndStopsWhenTheStationComesInClearly() {
+		dial = 1010;
 		tick();
 		StaticSoundInstance staticLoop = output.loops(STATIC_EVENT).get(0);
-		assertEquals(0.0f, staticLoop.getCurrentVolume());
-		assertEquals(0.0f, staticLoop.getTargetVolume(), "a clear signal leaves no static");
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 10; i++) {
+			staticLoop.tick();
+		}
+		dial = 1000;
+		step(1);
+		assertEquals(0.0f, staticLoop.getTargetVolume(), "it is let go");
+		assertFalse(staticLoop.isStopped(), "by a fade, not a cut");
+		staticLoop.tick();
+		assertEquals((1.0f - 5.0f / 11.0f) * 0.6f - RadioSoundInstance.FADE_STEP, staticLoop.getCurrentVolume(), 1e-5f,
+			"it is already fading");
+		fadeCompletely(staticLoop);
+		assertTrue(staticLoop.isStopped());
+		assertTrue(output.stopped.isEmpty(), "faded, not cut");
+
+		step(5);
+		assertEquals(1, output.loops(STATIC_EVENT).size(), "and nothing takes its place");
+	}
+
+	@Test
+	void aStoppedStaticStartsAgainWhenTheDialLeavesOnceMore() {
+		dial = 1010;
+		tick();
+		StaticSoundInstance first = output.loops(STATIC_EVENT).get(0);
+		dial = 1000;
+		step(1);
+		fadeCompletely(first);
+		assertTrue(first.isStopped());
+		step(1);
+		dial = 1010;
+		step(1);
+		assertEquals(2, output.loops(STATIC_EVENT).size());
+		StaticSoundInstance second = output.loops(STATIC_EVENT).get(1);
+		assertFalse(second.isStopped());
+		assertEquals((1.0f - 5.0f / 11.0f) * 0.6f, second.getTargetVolume(), 1e-5f);
+	}
+
+	@Test
+	void aStaticThatIsStillFadingOutIsTakenBackNotDoubled() {
+		dial = 1010;
+		tick();
+		StaticSoundInstance staticLoop = output.loops(STATIC_EVENT).get(0);
+		for (int i = 0; i < 10; i++) {
+			staticLoop.tick();
+		}
+		dial = 1000;
+		step(1);
+		staticLoop.tick();
+		staticLoop.tick();
+		assertEquals(0.0f, staticLoop.getTargetVolume());
+		dial = 1010; // back before it is gone
+		step(1);
+		assertEquals(1, output.loops(STATIC_EVENT).size(), "the same loop");
+		assertEquals((1.0f - 5.0f / 11.0f) * 0.6f, staticLoop.getTargetVolume(), 1e-5f);
+		fadeCompletely(staticLoop);
+		assertFalse(staticLoop.isStopped(), "the pending stop was cancelled");
+	}
+
+	@Test
+	void aStaticAtTheEdgeOfTheThresholdDoesNotFlap() {
+		// Strength 0.98 dialled in exactly: static (1 - 0.98) * 0.6 + (1 - 0.98) * 0.35 = 0.019, between the stop and start volumes.
+		stations = List.of(RadioTestKit.station("strong", 1000, 0.98));
+		tick();
+		step(20);
+		assertTrue(output.loops(STATIC_EVENT).isEmpty(), "0.019 is not enough to start a loop");
+
+		dial = 1005; // clearly more
+		step(1);
+		assertEquals(1, output.loops(STATIC_EVENT).size());
+		StaticSoundInstance staticLoop = output.loops(STATIC_EVENT).get(0);
+
+		dial = 1000; // back to 0.019: a running loop is kept
+		for (int i = 0; i < 40; i++) {
 			step(1);
 			staticLoop.tick();
 		}
+		assertEquals(0.019f, staticLoop.getTargetVolume(), 1e-6f);
 		assertFalse(staticLoop.isStopped());
-		assertEquals(1, output.loops(STATIC_EVENT).size(), "it is not restarted");
+		assertEquals(1, output.loops(STATIC_EVENT).size());
+		assertEquals(0.019f, staticLoop.getCurrentVolume(), 1e-6f);
+
+		crowd = 4; // half of that is below the stop volume: now it goes
+		step(1);
+		assertEquals(0.0f, staticLoop.getTargetVolume());
+		fadeCompletely(staticLoop);
+		assertTrue(staticLoop.isStopped());
+		crowd = 1; // and 0.019 does not bring it back
+		step(20);
+		assertEquals(1, output.loops(STATIC_EVENT).size());
+	}
+
+	@Test
+	void theHissStartsSilentAndStaysWhileNothingIsOnTheAir() {
+		stations = List.of(RadioTestKit.stationOnlyIn("nightly", 1000, Phase.NIGHT));
+		tick();
+		StaticSoundInstance hiss = output.loops(CARRIER_EVENT).get(0);
+		assertEquals(0.5f, hiss.getTargetVolume());
+		assertEquals(0.0f, hiss.getCurrentVolume(), "silent to begin with, then it fades in");
+
+		dial = 1300; // nothing tuned: still no programme, so the hiss carries on
+		step(5);
+		assertEquals(1, output.loops(CARRIER_EVENT).size());
+		assertEquals(0.5f, hiss.getTargetVolume());
+		assertFalse(hiss.isStopped());
+	}
+
+	@Test
+	void everyLoopIsFadedOutAndNoneIsLeftBehindWhenTheChannelIsReleased() {
+		dial = 1300;
+		tick();
+		StaticSoundInstance staticLoop = output.loops(STATIC_EVENT).get(0);
+		StaticSoundInstance hiss = output.loops(CARRIER_EVENT).get(0);
+		channel.release();
+		fadeCompletely(staticLoop);
+		fadeCompletely(hiss);
+		assertTrue(staticLoop.isStopped());
+		assertTrue(hiss.isStopped());
+	}
+
+	// ------------------------------------------------------------------ several radios
+
+	@Test
+	void aRadioAloneIsNotTurnedDown() {
+		tick();
+		assertEquals(1.0f, output.lastProgramme().getTargetVolume());
+		assertEquals(1, channel.debugState().crowd());
+	}
+
+	@Test
+	void aCrowdOfFourPlaysEachRadioAtTheCrowdGain() {
+		crowd = 4;
+		tick();
+		assertEquals(RadioMix.crowdGain(4), output.lastProgramme().getTargetVolume(), 1e-6f);
+		assertEquals(RadioMix.crowdGain(4), channel.debugState().programmeVolume(), 1e-6f);
+		assertEquals(4, channel.debugState().crowd());
+	}
+
+	@Test
+	void aCrowdScalesTheStaticToo() {
+		stations = List.of(RadioTestKit.station("weak", 1000, 0.5));
+		crowd = 4;
+		tick();
+		assertEquals(0.5f * RadioMix.crowdGain(4), output.lastProgramme().getTargetVolume(), 1e-6f);
+		assertEquals((0.3f + 0.175f) * RadioMix.crowdGain(4), output.loops(STATIC_EVENT).get(0).getTargetVolume(), 1e-6f);
+	}
+
+	@Test
+	void aCrowdScalesTheStaticAndTheHissOfAnEmptyDial() {
+		dial = 1300;
+		crowd = 4;
+		tick();
+		assertEquals(0.6f * RadioMix.crowdGain(4), output.loops(STATIC_EVENT).get(0).getTargetVolume(), 1e-6f);
+		assertEquals(0.5f * RadioMix.crowdGain(4), output.loops(CARRIER_EVENT).get(0).getTargetVolume(), 1e-6f);
+	}
+
+	@Test
+	void aClipThatBeginsAtItsStartPlaysAtTheCrowdVolumeFromTheFirstInstant() {
+		clock.dayTime = 72_000L + 1000L; // the ident, from 0 s
+		crowd = 3;
+		tick();
+		assertEquals(RadioMix.crowdGain(3), output.lastProgramme().getCurrentVolume(), 1e-6f);
+	}
+
+	@Test
+	void theCrowdGrowingOrShrinkingOnlyMovesTheTargets() {
+		tick();
+		RadioSoundInstance sound = output.lastProgramme();
+		crowd = 2;
+		step(1);
+		assertEquals(RadioMix.crowdGain(2), sound.getTargetVolume(), 1e-6f);
+		crowd = 4;
+		step(1);
+		assertEquals(RadioMix.crowdGain(4), sound.getTargetVolume(), 1e-6f);
+		crowd = 1;
+		step(1);
+		assertEquals(1.0f, sound.getTargetVolume());
+		assertEquals(1, output.programmes().size(), "no restart");
+		assertFalse(output.stopped.contains(sound));
+	}
+
+	@Test
+	void aCountBelowOneIsTakenAsOne() {
+		crowd = 0;
+		tick();
+		assertEquals(1.0f, output.lastProgramme().getTargetVolume());
+		assertEquals(1, channel.debugState().crowd());
+	}
+
+	@Test
+	void theTwoArgumentTickIsARadioAlone() {
+		channel.tick(clock.frame(stations, news), dial);
+		assertEquals(1, channel.debugState().crowd());
+		assertEquals(1.0f, output.lastProgramme().getTargetVolume());
 	}
 
 	// ------------------------------------------------------------------ tuning
@@ -175,7 +418,7 @@ class RadioChannelTest {
 		RadioSoundInstance second = output.lastProgramme();
 		assertEquals(scheduled(LISBOA, clock.dayTime).sound(), second.getLocation());
 		assertEquals("lisboa", channel.debugState().stationId());
-		assertEquals(1, output.loops(STATIC_EVENT).size(), "the static carries on");
+		assertTrue(output.loops(STATIC_EVENT).isEmpty(), "both stations come in clearly, so there is no static to carry on");
 	}
 
 	@Test
@@ -496,6 +739,7 @@ class RadioChannelTest {
 
 	@Test
 	void aLoopTheEngineDroppedIsStartedAgain() {
+		dial = 1300; // nothing tuned, so the static is wanted
 		tick();
 		StaticSoundInstance first = output.loops(STATIC_EVENT).get(0);
 		output.end(first);
@@ -521,7 +765,7 @@ class RadioChannelTest {
 			step(1);
 			long wantedProgrammes = output.programmes().stream().filter(sound -> sound.getTargetVolume() > 0.0f).count();
 			assertTrue(wantedProgrammes <= 1, "round " + round + ": " + wantedProgrammes + " programmes wanted");
-			assertEquals(1, output.loops(STATIC_EVENT).size(), "the static loop is never doubled");
+			assertTrue(output.loops(STATIC_EVENT).size() <= 1, "the static loop is never doubled");
 		}
 	}
 

@@ -36,5 +36,6 @@
   "subtitles.fadoecravo.sfx.tube_warmup": "Válvulas aquecem",
   "subtitles.fadoecravo.sfx.power_on": "Telefonia liga-se",
   "subtitles.fadoecravo.sfx.power_off": "Telefonia desliga-se",
-  "subtitles.fadoecravo.test.seek_test": "Tom de teste"
+  "subtitles.fadoecravo.test.seek_test": "Tom de teste",
+  "gui.fadoecravo.radio.signal_weak": "Sinal fraco"
 }

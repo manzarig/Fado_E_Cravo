@@ -266,6 +266,7 @@ public final class CriticHarness {
 			r.addProperty("programme_volume", round(state.programmeVolume(), 3));
 			r.addProperty("static_volume", round(state.staticVolume(), 3));
 			r.addProperty("breaking", state.breaking());
+			r.addProperty("crowd", state.crowd());
 			radios.add(r);
 		}
 		o.add("radios", radios);

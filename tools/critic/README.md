@@ -154,7 +154,7 @@ the harness started) and, once in a world, `game_time` and `day_time`.
 | `open`, `scroll`, `key`, `click`, `drag`, `click_power` | What was sent and what it was aimed at (`open`: `block`, `block_entity_khz`, `distance`, `screen`). |
 | `screen` | `from`, `to`: whenever the open screen class changes, including a radio screen closing itself. |
 | `mark` | `label`; the wall time is the sync point for the WAV. |
-| `snapshot` | `label` (`periodic` every `snapshot_every_ticks`); `radios`: array of `pos`, `khz`, `station`, `signal`, `clip`, `kind`, `offset_s`, `programme_volume`, `static_volume`, `breaking`; `player` (x, y, z, yaw, pitch); `screen`; `hud_hidden`; `fps`; `subtitles` (what the subtitle overlay drew in the last frame, read from vanilla's private list). |
+| `snapshot` | `label` (`periodic` every `snapshot_every_ticks`); `radios`: array of `pos`, `khz`, `station`, `signal`, `clip`, `kind`, `offset_s`, `programme_volume`, `static_volume`, `breaking`, `crowd` (radios on the same station within 32 blocks, used for the 1/n^0.75 crowd gain); `player` (x, y, z, yaw, pitch); `screen`; `hud_hidden`; `fps`; `subtitles` (what the subtitle overlay drew in the last frame, read from vanilla's private list). |
 | `shot` | A snapshot plus `name`, `file`, `width`, `height`, `frames`. |
 | `note`, `warn`, `fatal` | `message`. A `warn` is a step that could not do its job (no screen open, no radio at that position); `fatal` is an exception. |
 | `quit`, `end` | `reason`, `steps_run`, `shots`, `warnings`, `real_seconds`. `end` is the last line; the script calls the run complete only if it is there. |

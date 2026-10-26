@@ -6,12 +6,17 @@ import com.manzarig.fadoecravo.registry.ModBlocks;
 import com.manzarig.fadoecravo.registry.ModSounds;
 import com.mojang.serialization.MapCodec;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -97,6 +102,12 @@ public class RadioBlock extends BaseEntityBlock {
 				default -> throw new IllegalArgumentException("Not a horizontal direction: " + facing);
 			};
 		}
+	}
+
+	/** The grey line under the item's name that says how to use the radio; {@code BlockItem} asks the block for it. */
+	@Override
+	public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+		tooltip.add(RadioTooltip.line());
 	}
 
 	@Override

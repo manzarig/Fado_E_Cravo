@@ -36,5 +36,6 @@
   "subtitles.fadoecravo.sfx.tube_warmup": "Radio valves warm up",
   "subtitles.fadoecravo.sfx.power_on": "Radio switches on",
   "subtitles.fadoecravo.sfx.power_off": "Radio switches off",
-  "subtitles.fadoecravo.test.seek_test": "Test tone"
+  "subtitles.fadoecravo.test.seek_test": "Test tone",
+  "gui.fadoecravo.radio.signal_weak": "Weak signal"
 }

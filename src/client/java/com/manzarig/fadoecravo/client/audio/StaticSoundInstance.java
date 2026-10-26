@@ -73,8 +73,7 @@ public class StaticSoundInstance extends AbstractTickableSoundInstance {
 
 	/**
 	 * The sound engine skips an instance whose volume is 0 when it is started unless this is true. A
-	 * radio keeps its static running at volume 0 while a station comes in clearly, and fades it in
-	 * again when the dial moves away.
+	 * radio starts every loop at volume 0 and lets it fade in, so it must be allowed to start silent.
 	 */
 	@Override
 	public boolean canStartSilent() {

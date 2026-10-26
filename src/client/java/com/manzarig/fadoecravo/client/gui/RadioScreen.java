@@ -53,6 +53,7 @@ public class RadioScreen extends Screen {
 	private static final String KEY_FREQUENCY = "gui.fadoecravo.radio.frequency";
 	private static final String KEY_STATIC = "gui.fadoecravo.radio.static";
 	private static final String KEY_SIGNAL_LOCKED = "gui.fadoecravo.radio.signal_locked";
+	private static final String KEY_SIGNAL_WEAK = "gui.fadoecravo.radio.signal_weak";
 	private static final String KEY_NO_STATION = "gui.fadoecravo.radio.no_station";
 	private static final String KEY_TUNE_HINT = "gui.fadoecravo.radio.tune_hint";
 	private static final String KEY_SIGNAL = "gui.fadoecravo.radio.signal";
@@ -281,7 +282,12 @@ public class RadioScreen extends Screen {
 	private RadioReadout readout() {
 		ClientLevel level = Minecraft.getInstance().level;
 		long dayTime = level == null ? 0L : level.getDayTime();
-		return RadioReadout.of(StationRegistry.all(), sync.shown(), dayTime);
+		return RadioReadout.of(StationRegistry.all(), sync.shown(), dayTime, isOn());
+	}
+
+	/** "Weak signal", with an English fallback for a language file that does not have the key yet. */
+	private static Component signalWeakText() {
+		return Component.translatableWithFallback(KEY_SIGNAL_WEAK, "Weak signal");
 	}
 
 	private static Component stationName(StationDefinition station) {
@@ -305,6 +311,7 @@ public class RadioScreen extends Screen {
 		RadioReadout readout = readout();
 		MutableComponent text = frequencyText(sync.shown()).copy();
 		switch (readout.status()) {
+			case POWER_OFF -> text.append(", ").append(Component.translatable(KEY_POWER_OFF));
 			case NO_STATION -> text.append(", ").append(Component.translatable(KEY_NO_STATION));
 			case OFF_AIR -> text.append(", ").append(stationName(readout.station()))
 				.append(", ").append(Component.translatable(KEY_OFF_AIR));
@@ -312,6 +319,8 @@ public class RadioScreen extends Screen {
 				text.append(", ").append(stationName(readout.station()));
 				if (readout.locked()) {
 					text.append(", ").append(Component.translatable(KEY_SIGNAL_LOCKED));
+				} else if (readout.weak()) {
+					text.append(", ").append(signalWeakText());
 				}
 			}
 		}
@@ -422,6 +431,15 @@ public class RadioScreen extends Screen {
 		drawFitted(g, frequencyText(sync.shown()), leftX, panelY + RadioLayout.FREQ_Y, RadioLayout.LEFT_COL_W,
 			RadioLayout.FREQ_SCALE, SAFFRON, true, false);
 		switch (readout.status()) {
+			case POWER_OFF -> {
+				// Off: the dial still works, so the station under the needle is named, dimmed, for pre-tuning.
+				drawFitted(g, Component.translatable(KEY_POWER_OFF), leftX, panelY + RadioLayout.NAME_Y,
+					RadioLayout.LEFT_COL_W, 1.0f, ALABASTER_DIM, true, false);
+				if (readout.station() != null) {
+					drawFitted(g, stationName(readout.station()), leftX, panelY + RadioLayout.SUB_Y,
+						RadioLayout.LEFT_COL_W, RadioLayout.SUB_SCALE, ALABASTER_DIM, false, false);
+				}
+			}
 			case NO_STATION -> {
 				drawFitted(g, Component.translatable(KEY_STATIC), leftX, panelY + RadioLayout.NAME_Y,
 					RadioLayout.LEFT_COL_W, 1.0f, ALABASTER, true, false);
@@ -438,13 +456,18 @@ public class RadioScreen extends Screen {
 				RadioLayout.LEFT_COL_W, 1.0f, ALABASTER, true, false);
 		}
 
-		// Right column: signal meter, and "locked" when the programme comes in at full strength.
+		// Right column: signal meter (empty and dimmed when the radio is off), "locked" when the
+		// programme comes in at full strength, "weak" when the station is on the air but cannot.
+		boolean off = readout.status() == RadioReadout.Status.POWER_OFF;
 		drawFitted(g, Component.translatable(KEY_SIGNAL), rightX, panelY + RadioLayout.SIGNAL_LABEL_Y,
-			RadioLayout.RIGHT_COL_W, 1.0f, ALABASTER, true, false);
+			RadioLayout.RIGHT_COL_W, 1.0f, off ? ALABASTER_DIM : ALABASTER, true, false);
 		drawSignalBar(g, readout.signal());
 		if (readout.locked()) {
 			drawFitted(g, Component.translatable(KEY_SIGNAL_LOCKED), rightX, panelY + RadioLayout.LOCKED_Y,
 				RadioLayout.RIGHT_COL_W, 1.0f, SAFFRON, true, false);
+		} else if (readout.weak()) {
+			drawFitted(g, signalWeakText(), rightX, panelY + RadioLayout.LOCKED_Y,
+				RadioLayout.RIGHT_COL_W, 1.0f, ALABASTER_DIM, true, false);
 		}
 
 		// Hint, centred under the readout.

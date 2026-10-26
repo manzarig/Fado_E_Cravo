@@ -4,12 +4,14 @@ import com.manzarig.fadoecravo.block.RadioBlock;
 import com.manzarig.fadoecravo.block.entity.RadioBlockEntity;
 import com.manzarig.fadoecravo.broadcast.ClipInfo;
 import com.manzarig.fadoecravo.broadcast.StationDefinition;
+import com.manzarig.fadoecravo.broadcast.Tuning;
 import com.manzarig.fadoecravo.client.broadcast.ClientBreakingNews;
 import com.manzarig.fadoecravo.client.station.StationRegistry;
 import com.manzarig.fadoecravo.registry.ModSounds;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,6 +50,12 @@ import net.minecraft.world.phys.Vec3;
  * {@link RadioChannel}. A radio that stops qualifying (switched off, too far, unloaded, another
  * level) fades out over half a second; leaving the world stops everything at once. Nothing is
  * played or advanced while the game is paused in a single-player world.
+ *
+ * <p><b>Several radios.</b> Radios on the same station are in step to within a fraction of a second
+ * and add up to a louder programme, 6 dB for four. Each tick the manager counts, for every radio
+ * played, the radios on its station within {@value RadioCrowd#RADIUS_BLOCKS} blocks of the
+ * listener ({@link RadioCrowd}) and the channel turns its volumes down by the square root of that
+ * count ({@link RadioMix#crowdGain}). A radio on its own, or far from the others, is not quieted.
  *
  * <p>Everything runs on the client main thread. Wire it up with one call to {@link #register()} from
  * the client initializer.
@@ -180,13 +188,26 @@ public final class RadioAudioManager {
 			return true;
 		});
 
+		Collection<StationDefinition> stations = StationRegistry.all();
 		RadioChannel.Frame frame = new RadioChannel.Frame(tick, dayTime, currentLevel.getGameTime(), CLOCK.isFrozen(),
-			StationRegistry.all(), ClientBreakingNews.current());
+			stations, ClientBreakingNews.current());
+		Map<BlockPos, Integer> crowds = crowdSizes(stations, ear);
 		for (BlockPos pos : selected) {
 			RadioChannel channel = CHANNELS.computeIfAbsent(pos,
 				key -> new RadioChannel(key, ENGINE, ModSounds.STATIC_LOOP, ModSounds.CARRIER_HISS));
-			channel.tick(frame, RADIOS.get(pos).getFrequencyKhz());
+			channel.tick(frame, RADIOS.get(pos).getFrequencyKhz(), crowds.getOrDefault(pos, 1));
 		}
+	}
+
+	/** For each radio played, how many on its station are near the listener, see {@link RadioCrowd}. */
+	private static Map<BlockPos, Integer> crowdSizes(Collection<StationDefinition> stations, Vec3 ear) {
+		List<RadioCrowd.Radio> heard = new ArrayList<>();
+		for (BlockPos pos : selected) {
+			int khz = RADIOS.get(pos).getFrequencyKhz();
+			String stationId = Tuning.best(stations, khz).map(tuned -> tuned.station().id()).orElse(null);
+			heard.add(new RadioCrowd.Radio(pos, stationId));
+		}
+		return RadioCrowd.sizes(heard, ear.x, ear.y, ear.z);
 	}
 
 	private static boolean isSwitchedOn(ClientLevel world, BlockPos pos) {

@@ -27,7 +27,7 @@ import org.slf4j.Logger;
  * <ul>
  *   <li><i>on the air</i>: a station is tuned and the schedule (or a breaking-news bulletin) has a
  *       clip for this moment. The programme plays at the signal strength {@code s}, the static at
- *       {@code (1 - s) * 0.6};
+ *       {@code (1 - s) * 0.6} and, for a weak station, a floor on top, see {@link RadioMix};
  *   <li><i>off the air</i>: a station is tuned but the schedule has nothing on, or the programme did
  *       not start. Static at 0.6 and the carrier hiss at 0.5;
  *   <li><i>no station</i>: nothing is tuned. The same as off the air.
@@ -48,7 +48,16 @@ import org.slf4j.Logger;
  * a programme fades the old one out over half a second, except at a scheduled change of phase,
  * where every radio switches in the same tick and a fade would open twice as many of the engine's
  * few streaming channels. A clip joined part-way is faded in so the cut does not click. Volumes are
- * set as targets and glide, see {@link RadioMix}.
+ * set as targets and glide, see {@link RadioMix}. A loop is only there while it is wanted: the static
+ * of a station that comes in clearly is not kept running at volume 0, because the engine tells the
+ * subtitles about every sound it plays, silent or not. It is started when its target rises above
+ * {@link RadioMix#LOOP_START_VOLUME}, faded out and stopped when the target falls to
+ * {@link RadioMix#LOOP_STOP_VOLUME}, and brought back instead of started anew if the target
+ * rises while it is still fading out.
+ *
+ * <p><b>Other radios.</b> The manager tells each tick how many radios of the same station are near
+ * the listener ({@link RadioCrowd}); all the volumes are turned down by {@link RadioMix#crowdGain}
+ * of that, so that several radios in step do not clip.
  *
  * <p>Only the client main thread calls this class. The sound engine is reached through
  * {@link Output}, which a test replaces.
@@ -118,6 +127,8 @@ final class RadioChannel {
 		final StaticSoundInstance sound;
 		final long startTick;
 		boolean seenActive;
+		/** It is fading out to a stop and is not wanted any more, unless its target rises again. */
+		boolean fadingOut;
 
 		Loop(StaticSoundInstance sound, long startTick) {
 			this.sound = sound;
@@ -136,6 +147,10 @@ final class RadioChannel {
 	@Nullable
 	private StationDefinition station;
 	private double signal;
+	/** The signal strength of the tuned station, 1 when none is tuned. */
+	private double strength = 1.0;
+	/** How many radios of the tuned station are near the listener, this one included. */
+	private int crowd = 1;
 	/** The phase instance of the last start; null before the first one and after a sound that did not start. */
 	@Nullable
 	private PhaseKey syncedPhase;
@@ -160,15 +175,27 @@ final class RadioChannel {
 		this.carrierEvent = carrierEvent;
 	}
 
-	/** Advances the channel by one client tick; see the class comment for what it does. */
+	/** Advances the channel of a radio that has no company; see {@link #tick(Frame, int, int)}. */
 	void tick(Frame frame, int frequencyKhz) {
+		tick(frame, frequencyKhz, 1);
+	}
+
+	/**
+	 * Advances the channel by one client tick; see the class comment for what it does.
+	 *
+	 * @param crowd how many playing radios on the same station are near the listener, this one
+	 *              included if it is near ({@link RadioCrowd}); the volumes are divided by its square root
+	 */
+	void tick(Frame frame, int frequencyKhz, int crowd) {
 		long now = frame.tick();
 		this.lastTick = now;
 		this.frequencyKhz = frequencyKhz;
+		this.crowd = Math.max(1, crowd);
 
 		Optional<Tuning.Tuned> tuned = Tuning.best(frame.stations(), frequencyKhz);
 		StationDefinition tunedStation = tuned.map(Tuning.Tuned::station).orElse(null);
 		this.signal = tuned.map(Tuning.Tuned::signal).orElse(0.0);
+		this.strength = tunedStation == null ? 1.0 : tunedStation.signalStrength();
 
 		boolean ended = false;
 		boolean neverStarted = false;
@@ -265,7 +292,7 @@ final class RadioChannel {
 		return new RadioDebugState(pos, frequencyKhz, station == null ? null : station.id(), signal,
 			current == null ? null : current.slot.clipId(), current == null ? null : current.slot.kind(),
 			current == null ? 0.0 : current.position(lastTick), current == null ? 0.0f : mix.programme(), mix.staticLoop(),
-			current != null && playingNews != null);
+			current != null && playingNews != null, crowd);
 	}
 
 	/** The bulletin slot for the tuned station, if a bulletin is running on it and has not been played out. */
@@ -314,7 +341,7 @@ final class RadioChannel {
 		if (tuned != null && target.isPresent()) {
 			Slot slot = target.get();
 			// Joined part-way: start silent and let the volume glide up, so the cut does not click.
-			float volume = slot.offsetSeconds() > 0.0 ? 0.0f : RadioMix.onAir(signal).programme();
+			float volume = slot.offsetSeconds() > 0.0 ? 0.0f : RadioMix.onAir(signal, strength).inCrowd(crowd).programme();
 			RadioSoundInstance sound = new RadioSoundInstance(slot.sound(), pos, slot.offsetSeconds(), volume);
 			output.play(sound);
 			Programme started = new Programme(slot, sound, now, durationOf(tuned, slot));
@@ -336,41 +363,48 @@ final class RadioChannel {
 
 	/** Sets the target volumes and starts or drops the loops that are wanted or no longer wanted. */
 	private void applyMix(long now) {
-		mix = programme != null ? RadioMix.onAir(signal) : RadioMix.offAir();
+		mix = (programme != null ? RadioMix.onAir(signal, strength) : RadioMix.offAir()).inCrowd(crowd);
 		if (programme != null) {
 			programme.sound.setTargetVolume(mix.programme());
 		}
-		staticLoop = tend(staticLoop, staticEvent, mix.staticLoop(), true, now);
-		carrier = tend(carrier, carrierEvent, mix.carrier(), false, now);
+		staticLoop = tend(staticLoop, staticEvent, mix.staticLoop(), now);
+		carrier = tend(carrier, carrierEvent, mix.carrier(), now);
 	}
 
 	/**
-	 * Brings a loop to its target volume. It is started (silent, to fade in) if it is wanted and not
-	 * playing, and faded out if it is no longer wanted. A loop the engine dropped, or never took
-	 * ({@link SyncPolicy#RETRY_TICKS} after it was handed over), is started again.
+	 * Brings a loop to its target volume. It is started (silent, to fade in) when the target rises
+	 * above {@link RadioMix#LOOP_START_VOLUME} and faded out when it falls to
+	 * {@link RadioMix#LOOP_STOP_VOLUME}, see {@link RadioMix#loopWanted}; a loop that is fading out
+	 * is taken back, not replaced, if it is wanted again before it is gone. A loop the engine
+	 * dropped, or never took ({@link SyncPolicy#RETRY_TICKS} after it was handed over), is started
+	 * again.
 	 *
-	 * @param alwaysWanted whether the loop stays even at volume 0, as the static does while a station comes in clearly
+	 * @return the loop to keep for the next tick; one that is fading out is kept until it has stopped
 	 */
 	@Nullable
-	private Loop tend(@Nullable Loop loop, SoundEvent event, float volume, boolean alwaysWanted, long now) {
+	private Loop tend(@Nullable Loop loop, SoundEvent event, float volume, long now) {
 		if (loop != null) {
 			boolean active = output.isActive(loop.sound);
 			loop.seenActive |= active;
 			boolean dropped = loop.seenActive && !active;
 			boolean neverStarted = !loop.seenActive && now - loop.startTick >= SyncPolicy.RETRY_TICKS;
-			if (dropped || neverStarted) {
+			if (dropped || neverStarted || loop.sound.isStopped()) {
 				loop = null;
 			}
 		}
-		if (!alwaysWanted && volume <= 0.0f) {
-			fadeOut(loop);
-			return null;
+		if (!RadioMix.loopWanted(volume, loop != null && !loop.fadingOut)) {
+			if (loop != null && !loop.fadingOut) {
+				loop.sound.fadeOutAndStop();
+				loop.fadingOut = true;
+			}
+			return loop;
 		}
 		if (loop == null) {
 			loop = new Loop(new StaticSoundInstance(event, pos, 0.0f), now);
 			output.play(loop.sound);
 			loop.seenActive = output.isActive(loop.sound);
 		}
+		loop.fadingOut = false;
 		loop.sound.setTargetVolume(volume);
 		return loop;
 	}
