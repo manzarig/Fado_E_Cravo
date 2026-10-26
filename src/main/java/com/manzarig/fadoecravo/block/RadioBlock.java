@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -58,6 +60,10 @@ public class RadioBlock extends BaseEntityBlock {
 
 	/** The cabinet of a radio facing north: x 1-15 and z 4-12 pixels as seen from above, so 14 x 8, centred on the block. */
 	private static final Footprint CABINET_FACING_NORTH = new Footprint(1, 4, 15, 12);
+	/** Weakest programme that gives off notes. */
+	private static final double NOTE_MIN_LEVEL = 0.3;
+	/** Chance per animation tick (about 20 a second near the player) of a note at full signal. */
+	private static final float NOTE_CHANCE = 0.03f;
 	/** The cabinet is 12 pixels high. */
 	private static final double CABINET_HEIGHT = 12;
 	/** The outline for each way the radio can face. Declared after the constants that {@link #cabinet} reads. */
@@ -136,10 +142,34 @@ public class RadioBlock extends BaseEntityBlock {
 		return SHAPES.get(state.getValue(FACING));
 	}
 
-	/** {@link BaseEntityBlock} makes its blocks invisible, expecting a block entity renderer. The radio uses a model. */
+	/**
+	 * The radio is drawn by its GeckoLib block entity renderer, which animates the needle, the knobs,
+	 * the speaker and the glow. The block model ({@code block/radio}) is only used for the item and
+	 * the break particles.
+	 */
 	@Override
 	protected RenderShape getRenderShape(BlockState state) {
-		return RenderShape.MODEL;
+		return RenderShape.ENTITYBLOCK_ANIMATED;
+	}
+
+	/**
+	 * Now and then a music note above a radio that is playing a programme, like a jukebox; more often
+	 * the clearer the station. Client side only, through {@link RadioClientBridge#speakerLevel}.
+	 */
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		if (!state.getValue(ON)) {
+			return;
+		}
+		double speaker = RadioClientBridge.speakerLevel(pos);
+		if (speaker < NOTE_MIN_LEVEL || random.nextFloat() > NOTE_CHANCE * speaker) {
+			return;
+		}
+		Direction facing = state.getValue(FACING);
+		double x = pos.getX() + 0.5 + facing.getStepX() * 0.3 + (random.nextDouble() - 0.5) * 0.4;
+		double z = pos.getZ() + 0.5 + facing.getStepZ() * 0.3 + (random.nextDouble() - 0.5) * 0.4;
+		// For the note particle the x speed is its colour, from 0 to 1 along the note block palette.
+		level.addParticle(ParticleTypes.NOTE, x, pos.getY() + 0.85, z, random.nextInt(25) / 24.0, 0.0, 0.0);
 	}
 
 	@Override

@@ -12,6 +12,12 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
 /**
  * The state of one radio that is not part of its block state: the frequency its dial is set to.
@@ -21,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
  * syncs it to nearby clients with the usual block entity update packet, which carries
  * {@link #getUpdateTag}.
  */
-public class RadioBlockEntity extends BlockEntity {
+public class RadioBlockEntity extends BlockEntity implements GeoBlockEntity {
 	/** Lowest frequency of the medium wave band, in kHz. */
 	public static final int MIN_KHZ = 530;
 	/** Highest frequency of the medium wave band, in kHz. */
@@ -30,6 +36,16 @@ public class RadioBlockEntity extends BlockEntity {
 	public static final int DEFAULT_KHZ = 1035;
 
 	private static final String FREQUENCY_KEY = "frequency";
+	/** The power knob turning, see {@code animations/block/radio.animation.json}. */
+	private static final RawAnimation POWER_ON = RawAnimation.begin().thenPlayAndHold("power_on");
+	private static final RawAnimation POWER_OFF = RawAnimation.begin().thenPlayAndHold("power_off");
+
+	private final AnimatableInstanceCache animationCache = GeckoLibUtil.createInstanceCache(this);
+	/**
+	 * Client only, never saved: where the needle of the model is drawn, in kHz. It eases towards the
+	 * frequency so that the needle glides instead of jumping; {@link Float#NaN} until first drawn.
+	 */
+	public float renderedKhz = Float.NaN;
 
 	/** How long the valves take to warm up after the radio is switched on, in ticks; as long as {@code sfx.tube_warmup}. */
 	public static final int WARMUP_TICKS = 50;
@@ -104,6 +120,22 @@ public class RadioBlockEntity extends BlockEntity {
 
 	private static boolean isOn(BlockState state) {
 		return state.hasProperty(RadioBlock.ON) && state.getValue(RadioBlock.ON);
+	}
+
+	/**
+	 * One controller, {@code power}, that turns the power knob to match the {@code ON} state. The
+	 * needle, the tuning knob, the speaker and the glow are moved by the client's model and renderer,
+	 * which know the live frequency and what is playing.
+	 */
+	@Override
+	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
+		controllers.add(new AnimationController<>(this, "power", 0,
+			state -> state.setAndContinue(isOn(getBlockState()) ? POWER_ON : POWER_OFF)));
+	}
+
+	@Override
+	public AnimatableInstanceCache getAnimatableInstanceCache() {
+		return animationCache;
 	}
 
 	@Override

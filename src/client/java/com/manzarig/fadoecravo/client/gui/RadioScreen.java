@@ -1,5 +1,6 @@
 package com.manzarig.fadoecravo.client.gui;
 
+import com.manzarig.fadoecravo.FadoECravo;
 import com.manzarig.fadoecravo.RadioClientBridge;
 import com.manzarig.fadoecravo.block.RadioBlock;
 import com.manzarig.fadoecravo.block.entity.RadioBlockEntity;
@@ -28,9 +29,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import java.util.OptionalInt;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -38,8 +41,8 @@ import org.lwjgl.glfw.GLFW;
  * signal meter and a power button. It has no container and does not pause the game, so the radio
  * keeps playing while the player tunes it.
  *
- * <p>Everything is drawn with {@link GuiGraphics#fill} in the Terracotta palette; textures come
- * later. Where things go is in {@link RadioLayout}, the dial arithmetic in {@link DialGeometry} and
+ * <p>The panel is a texture ({@link #PANEL_TEXTURE}); what changes is drawn on top of it with
+ * {@link GuiGraphics#fill} in the Terracotta palette. Where things go is in {@link RadioLayout}, the dial arithmetic in {@link DialGeometry} and
  * the bookkeeping that keeps the needle from jumping in {@link FrequencySync}.
  *
  * <p>The frequency can be changed with the mouse wheel (1 kHz, 10 kHz with Shift), the left and
@@ -62,6 +65,10 @@ public class RadioScreen extends Screen {
 	private static final String KEY_SWITCH_ON = "gui.fadoecravo.radio.switch_on";
 	private static final String KEY_SWITCH_OFF = "gui.fadoecravo.radio.switch_off";
 
+	/** The panel: {@code tools/art/make_radio_gui.py} draws it at the top left of a 256 x 256 texture. */
+	static final ResourceLocation PANEL_TEXTURE = FadoECravo.id("textures/gui/radio.png");
+	static final int PANEL_TEXTURE_SIZE = 256;
+
 	// Terracotta palette (CLAUDE.md), as opaque ARGB.
 	private static final int TERRACOTTA = 0xFFBD5D37;
 	private static final int UMBER = 0xFF663A29;
@@ -69,6 +76,8 @@ public class RadioScreen extends Screen {
 	private static final int CHARCOAL = 0xFF262322;
 	private static final int SAFFRON = 0xFFD1C42E;
 	private static final int GARNET = 0xFFA8190F;
+	/** Saffron at a quarter opacity, the lamp's glow. */
+	private static final int LAMP_HALO = 0x40D1C42E;
 	/** Alabaster, a little dimmed: 5:1 against umber and 11:1 against charcoal, for the small text. */
 	private static final int ALABASTER_DIM = 0xFFC9B8AF;
 
@@ -89,6 +98,18 @@ public class RadioScreen extends Screen {
 	private int panelX;
 	private int panelY;
 	private boolean draggingDial;
+
+	/**
+	 * The frequency the open tuning screen shows for the radio at {@code pos}, which runs ahead of the
+	 * block entity while the player turns the dial; empty when no screen for that radio is open.
+	 * The radio model's needle follows it.
+	 */
+	public static OptionalInt liveFrequency(BlockPos pos) {
+		if (Minecraft.getInstance().screen instanceof RadioScreen screen && screen.pos.equals(pos)) {
+			return OptionalInt.of(screen.sync.shown());
+		}
+		return OptionalInt.empty();
+	}
 
 	/** Sets {@link RadioClientBridge} so that using a radio block opens this screen. Call once from the client initializer. */
 	public static void register() {
@@ -355,34 +376,15 @@ public class RadioScreen extends Screen {
 		int x = panelX;
 		int y = panelY;
 		int w = RadioLayout.PANEL_W;
-		int h = RadioLayout.PANEL_H;
-		int b = RadioLayout.BORDER;
-		g.fill(x, y, x + w, y + h, CHARCOAL);
-		g.fill(x + b, y + b, x + w - b, y + h - b, UMBER);
-		// A lit top and left edge and a shaded bottom and right edge.
-		g.fill(x + b, y + b, x + w - b, y + b + 1, TERRACOTTA);
-		g.fill(x + b, y + b, x + b + 1, y + h - b, TERRACOTTA);
-		g.fill(x + b, y + h - b - 1, x + w - b, y + h - b, CHARCOAL);
-		g.fill(x + w - b - 1, y + b, x + w - b, y + h - b, CHARCOAL);
-		// Rivets in the corners.
-		int rivet = 2;
-		int[] rx = {x + 6, x + w - 6 - rivet};
-		int[] ry = {y + 6, y + h - 6 - rivet};
-		for (int cx : rx) {
-			for (int cy : ry) {
-				g.fill(cx, cy, cx + rivet, cy + rivet, TERRACOTTA);
-			}
-		}
+		// The board, its edges and rivets, the paper of the dial and the glass of the readout.
+		g.blit(PANEL_TEXTURE, x, y, 0, 0, w, RadioLayout.PANEL_H, PANEL_TEXTURE_SIZE, PANEL_TEXTURE_SIZE);
 		g.drawCenteredString(font, title, x + w / 2, y + RadioLayout.TITLE_Y, ALABASTER);
 	}
 
 	private void drawDial(GuiGraphics g) {
+		// The strip itself is part of the panel texture.
 		RadioLayout.Rect strip = RadioLayout.STRIP;
 		int sx = panelX + strip.x();
-		int sy = panelY + strip.y();
-		g.fill(sx - 1, sy - 1, sx + strip.w() + 1, sy + strip.h() + 1, CHARCOAL);
-		g.fill(sx, sy, sx + strip.w(), sy + strip.h(), ALABASTER);
-
 		// Ticks, standing on a base line.
 		int baseY = panelY + RadioLayout.TICK_BASE_Y;
 		g.fill(panelX + dial.left(), baseY, panelX + dial.left() + dial.width() + 1, baseY + 1, CHARCOAL);
@@ -423,9 +425,6 @@ public class RadioScreen extends Screen {
 	}
 
 	private void drawReadout(GuiGraphics g) {
-		RadioLayout.Rect box = RadioLayout.READOUT;
-		g.fill(panelX + box.x(), panelY + box.y(), panelX + box.right(), panelY + box.bottom(), CHARCOAL);
-
 		RadioReadout readout = readout();
 		int leftX = panelX + RadioLayout.LEFT_COL_X;
 		int rightX = panelX + RadioLayout.RIGHT_COL_X;
@@ -505,6 +504,11 @@ public class RadioScreen extends Screen {
 		int lx = panelX + lamp.x();
 		int ly = panelY + lamp.y();
 		boolean on = isOn();
+		if (on) {
+			// The lamp's glow on the board around it.
+			g.fill(lx - 3, ly - 2, lx + lamp.w() + 3, ly + lamp.h() + 2, LAMP_HALO);
+			g.fill(lx - 2, ly - 3, lx + lamp.w() + 2, ly + lamp.h() + 3, LAMP_HALO);
+		}
 		// A round lamp: a charcoal ring around a saffron (on) or umber (off) glass.
 		g.fill(lx + 1, ly, lx + lamp.w() - 1, ly + lamp.h(), CHARCOAL);
 		g.fill(lx, ly + 1, lx + lamp.w(), ly + lamp.h() - 1, CHARCOAL);

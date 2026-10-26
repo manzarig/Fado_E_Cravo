@@ -1,35 +1,19 @@
 {
   "variants": {
-    "facing=east,on=false": {
+    "facing=east": {
       "model": "fadoecravo:block/radio",
       "y": 90
     },
-    "facing=east,on=true": {
-      "model": "fadoecravo:block/radio_on",
-      "y": 90
-    },
-    "facing=north,on=false": {
+    "facing=north": {
       "model": "fadoecravo:block/radio",
       "y": 0
     },
-    "facing=north,on=true": {
-      "model": "fadoecravo:block/radio_on",
-      "y": 0
-    },
-    "facing=south,on=false": {
+    "facing=south": {
       "model": "fadoecravo:block/radio",
       "y": 180
     },
-    "facing=south,on=true": {
-      "model": "fadoecravo:block/radio_on",
-      "y": 180
-    },
-    "facing=west,on=false": {
+    "facing=west": {
       "model": "fadoecravo:block/radio",
-      "y": 270
-    },
-    "facing=west,on=true": {
-      "model": "fadoecravo:block/radio_on",
       "y": 270
     }
   }

@@ -1,0 +1,4 @@
+# Your own recordings, written by studio.py. Merged into stations.yaml by build_stations.py.
+# Each entry replaces a clip's audio (replace: true) or adds a new clip at the places in 'schedule'.
+# Files are relative to tools/audio/. See the 'Your own recordings' section of README.md.
+clips: []

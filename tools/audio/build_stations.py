@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build all radio audio: speech (Piper) + music + SFX -> AM FX -> OGG, sounds.json and station files.
 
-    python -I tools/audio/build_stations.py [--out-root DIR] [--only speech,music,sfx,test]
+    python -I tools/audio/build_stations.py [--out-root DIR] [--only speech,music,sfx,test] [--clips g/c,...]
                                             [--force] [--skip-missing]
 
 Steps
@@ -317,6 +317,12 @@ def main() -> int:
     parser.add_argument("--only", default=",".join(GROUPS),
                         help="comma list of speech,music,sfx,test: which groups to (re)generate (default: all)")
     parser.add_argument("--force", action="store_true", help="redo TTS, generators and AM FX even when up to date")
+    parser.add_argument("--clips", default="",
+                        help="comma list of <group>/<clip> labels: limit the slow work to these clips (the studio uses "
+                             "it); the JSON files are still rebuilt from every OGG")
+    parser.add_argument("--json-only", action="store_true",
+                        help="no TTS, generators or FX at all: only rebuild sounds.json and the station files from the "
+                             "OGGs there are (the studio uses it after taking a clip out)")
     parser.add_argument("--skip-missing", action="store_true",
                         help="leave out clips whose inputs are missing instead of failing")
     args = parser.parse_args()
@@ -334,7 +340,12 @@ def main() -> int:
         return 2
     check_coverage(manifest)
     items = plan(manifest, out_root)
-    chosen = [i for i in items if i.stage in only]
+    clips = {part.strip() for part in args.clips.split(",") if part.strip()}
+    unknown = clips - {i.label for i in items}
+    if unknown:
+        print(f"error: --clips: unknown {', '.join(sorted(unknown))}", file=sys.stderr)
+        return 2
+    chosen = [] if args.json_only else [i for i in items if i.stage in only and (not clips or i.label in clips)]
 
     print(f"out-root: {out_root}")
     if "speech" in only:
@@ -342,19 +353,24 @@ def main() -> int:
         run_tts([i for i in chosen if i.stage == "speech"], args.force)
     if "music" in only:
         missing = [i.clip for i in chosen if i.stage == "music" and not i.overridden and not i.wav.is_file()]
-        run_generator(common.COMPOSE_SCRIPT, "music", missing, args.force)
+        # --force regenerates only when a chosen clip comes from the generator (not with --clips elsewhere).
+        forced = args.force and any(i.stage == "music" and not i.overridden for i in chosen)
+        run_generator(common.COMPOSE_SCRIPT, "music", missing, forced)
     if "sfx" in only:
         missing = [i.clip for i in chosen if i.stage == "sfx" and not i.overridden and not i.wav.is_file()]
-        run_generator(common.SFX_SCRIPT, "sfx", missing, args.force)
+        forced = args.force and any(i.stage == "sfx" and not i.overridden for i in chosen)
+        run_generator(common.SFX_SCRIPT, "sfx", missing, forced)
 
     print("AM FX + encode", flush=True)
     with ThreadPoolExecutor(max_workers=4) as pool:
         list(pool.map(lambda i: build_one(i, args.force), chosen))
+    chosen_labels = {i.label for i in chosen}
     for item in items:
-        if item.stage not in only:
+        if item.label not in chosen_labels:
             item.status = "kept" if item.ogg.is_file() else "MISSING"
             if item.status == "MISSING":
-                item.note = f"not built (--only {args.only})"
+                item.note = "not built (--json-only)" if args.json_only else (
+                    f"not built (--only {args.only}" + (f", --clips {args.clips})" if clips else ")"))
         measure(item)
 
     errors: list[str] = []

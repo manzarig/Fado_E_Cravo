@@ -1,6 +1,7 @@
 package com.manzarig.fadoecravo;
 
 import java.util.function.Consumer;
+import java.util.function.ToDoubleFunction;
 import net.minecraft.core.BlockPos;
 
 /**
@@ -21,7 +22,19 @@ public final class RadioClientBridge {
 	 */
 	public static volatile Consumer<BlockPos> screenOpener = NO_OP;
 
+	/**
+	 * How strongly the radio at a position is sounding a programme, 0 to 1. The client sets it; on a
+	 * dedicated server it stays 0. {@code RadioBlock} uses it for the music notes it gives off.
+	 */
+	public static volatile ToDoubleFunction<BlockPos> speakerLevel = pos -> 0.0;
+
 	private RadioClientBridge() {
+	}
+
+	/** The level {@link #speakerLevel} reports for {@code pos}; 0 without a client. */
+	public static double speakerLevel(BlockPos pos) {
+		ToDoubleFunction<BlockPos> level = speakerLevel;
+		return level == null ? 0.0 : level.applyAsDouble(pos);
 	}
 
 	/** Opens the radio screen for the radio at {@code pos}; does nothing without a client. */

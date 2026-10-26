@@ -41,6 +41,8 @@ tools\audio\.venv\Scripts\python -I tools\audio\build_stations.py
 | `--out-root DIR` | where to write `sounds/`, `sounds.json`, `stations/` (default: the mod assets folder) |
 | `--only speech,music,sfx,test` | limit the slow work (TTS, generators, FX) to some groups; the JSON files are always rebuilt from the OGGs found |
 | `--force` | redo TTS, the generators and the AM FX even if up to date |
+| `--clips g/c,...` | limit the slow work to these clips (labels as in the table, e.g. `radio_tejo/ad_1`); the studio uses it |
+| `--json-only` | no TTS, generators or FX at all: only rebuild `sounds.json` and the station files |
 | `--skip-missing` | leave clips without inputs out of every output (with a warning) and drop references to them. Without it, a missing input is an error and `sounds.json` / `stations/*.json` are not written |
 
 Re-runs are cheap: a speech WAV is re-synthesised only when its script is newer, an OGG is re-encoded only when its
@@ -56,7 +58,10 @@ the speech without a reason: the committed OGGs are the reference.
 | `am_fx.py` | `process(in_wav, out_ogg, profile)` and a CLI: `am_fx.py IN OUT --profile broadcast|sfx|test`. |
 | `stations.yaml` | Authoring manifest: stations, phases, schedules, music and SFX inventory, optional `source:` overrides. Its header explains how a phase is read. |
 | `verify_audio.py` | Checks an out-root; exits non-zero with a list of problems. Run by `build_stations.py` at the end, or alone: `verify_audio.py --out-root DIR`. |
-| `common.py` | Shared paths, constants and helpers. |
+| `common.py` | Shared paths, constants and helpers; loads `stations.yaml` and merges `library.yaml` into it. |
+| `studio.py`, `studio.ps1`, `studio.sh` | The Estúdio (above) and its launchers. |
+| `library.yaml`, `recordings/` | Your own recordings, written by the studio. |
+| `test_library.py` | Unit tests of the library merge. |
 | `extra_sounds.json` | Hand-written `sounds.json` entries (test / SFX extras), merged by the build. |
 | `compose_test_music.py`, `make_sfx.py` | Generate `.cache/music/*.wav` (+ `source/music/*.mid`) and `.cache/sfx/*.wav`. Run by the build when their WAVs are missing. |
 
@@ -90,6 +95,38 @@ The programme is levelled *before* the noise is mixed, so the noise-to-signal ra
 | `test` | mono, 22.05 kHz, format conversion only |
 
 All profiles end in mono 22 050 Hz `libvorbis -q:a 2`, as the contract requires (positional audio needs mono).
+
+## Your own recordings: the Estúdio
+
+The easy way to put a recording on the radio. It needs only Python and ffmpeg; the launcher sets up everything else on
+its first run.
+
+* Windows: right-click `tools\audio\studio.ps1` > **Run with PowerShell** (or `powershell -ExecutionPolicy Bypass -File tools\audio\studio.ps1`).
+* Linux / macOS: `tools/audio/studio.sh`.
+
+Your browser opens at http://127.0.0.1:8765. Then:
+
+1. **Recording.** Drop a file (WAV, FLAC, MP3, M4A, OGG, anything ffmpeg reads) and trim it: click the waveform for the
+   start, Shift+click for the end.
+2. **Where it goes.** Pick *Music* (songs every station can play) or a station. Either **replace** an existing clip (it
+   keeps its place in the schedule) or add a **new** clip. A new clip needs a kind (`ad_`, `news_`, `announce_` and so on;
+   the prefix decides how the game treats it), a name and the places where it plays: a station, a phase (dawn, day, dusk
+   or night) and a list (`programs`, `interstitials` or `opening`; bulletins go in `breaking`).
+3. **Listen.** *Run the AM chain* plays the trimmed original next to what the radio will sound like (the `broadcast` profile
+   below).
+4. **Apply.** *Add to the radio* saves the trimmed take as `recordings/<group>/<clip>.wav`, records it in `library.yaml` and
+   runs `build_stations.py --clips <group>/<clip>`, which encodes only that clip, rewrites `sounds.json` and the station files
+   and verifies them. The output is shown on the page.
+
+Then rebuild the mod (`./gradlew build`) or start it from the project (`./gradlew runClient`). Commit `library.yaml`,
+`recordings/` and the changed assets to keep your additions. The **Library** tab lists them and can remove one: a new clip
+leaves the schedule and its OGG is deleted; a replaced clip gets its generated audio back (speech is synthesised again, so
+the take can differ slightly from the one before).
+
+`library.yaml` is merged into `stations.yaml` every time the pipeline loads it (`common.apply_library`), so you can also
+edit it by hand; its format is described above that function. New ids must start with a known prefix (or, for music,
+with none), must not exist yet, and may only be scheduled on a phase that is on the air. Run
+`tools/audio/.venv/bin/python -I tools/audio/test_library.py` after changing the merge code.
 
 ## Swapping in real recordings
 

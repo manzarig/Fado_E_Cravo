@@ -21,6 +21,8 @@ public final class ModBlocks {
 			.instrument(NoteBlockInstrument.BASS)
 			.sound(SoundType.WOOD)
 			.strength(2.0f)
+			// The dial lamp and the valves give a faint light while the radio is on.
+			.lightLevel(state -> state.getValue(RadioBlock.ON) ? 4 : 0)
 			.noOcclusion()));
 
 	private ModBlocks() {

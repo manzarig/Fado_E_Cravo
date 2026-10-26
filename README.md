@@ -88,11 +88,18 @@ src/
 │       └── assets/fadoecravo/     # textures, models, lang files, icon
 ├── client/
 │   └── java/                      # client-only code
-art/
-└── models/                        # Blockbench sources (planned)
 tools/
-└── audio/                         # audio pipeline (Python, see its README)
+├── art/                           # generators of the radio's model, textures and GUI panel (Python + Pillow)
+├── audio/                         # audio pipeline and the Estúdio (Python, see its README)
+└── critic/                        # headless play-testing harness (see its README)
 ```
+
+## Adding your own recordings
+
+The **Estúdio** puts a recording of yours on the radio, through the same 1940s AM filter and effects as everything else:
+run `tools\audio\studio.ps1` (Windows) or `tools/audio/studio.sh`, drop an audio file in the page that opens, pick a
+station and where in its schedule it plays, listen before and after, and press *Add to the radio*. Details are in
+[tools/audio/README.md](tools/audio/README.md#your-own-recordings-the-estúdio).
 
 ## Roadmap
 

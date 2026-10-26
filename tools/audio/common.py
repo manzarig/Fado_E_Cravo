@@ -23,6 +23,8 @@ AUDIO_DIR = Path(__file__).resolve().parent
 REPO_ROOT = AUDIO_DIR.parent.parent
 
 MANIFEST = AUDIO_DIR / "stations.yaml"
+LIBRARY = AUDIO_DIR / "library.yaml"  # your own recordings, written by studio.py (see README)
+RECORDINGS_DIR = AUDIO_DIR / "recordings"
 EXTRA_SOUNDS = AUDIO_DIR / "extra_sounds.json"
 SCRIPTS_DIR = AUDIO_DIR / "scripts"
 MIDI_DIR = AUDIO_DIR / "source" / "music"
@@ -165,8 +167,10 @@ def python_for_subprocess() -> str:
 
 
 # --------------------------------------------------------------------------- manifest
-def load_manifest(path: Path = MANIFEST) -> dict[str, Any]:
-    """Load and sanity-check stations.yaml. Raises ValueError with a readable message."""
+def load_manifest(path: Path = MANIFEST, library: Path | None = LIBRARY) -> dict[str, Any]:
+    """Load and sanity-check stations.yaml, then merge library.yaml into it (see ``apply_library``).
+
+    Raises ValueError with a readable message. Pass ``library=None`` for stations.yaml alone."""
     import yaml  # imported lazily so verify_audio.py works without PyYAML
 
     with open(path, "r", encoding="utf-8") as handle:
@@ -174,7 +178,145 @@ def load_manifest(path: Path = MANIFEST) -> dict[str, Any]:
     problems = validate_manifest(data)
     if problems:
         raise ValueError("stations.yaml is invalid:\n  - " + "\n  - ".join(problems))
+    if library is not None and library.is_file():
+        data, problems = apply_library(data, load_library(library))
+        if problems:
+            raise ValueError(f"{library.name} is invalid:\n  - " + "\n  - ".join(problems))
     return data
+
+
+# --------------------------------------------------------------------------- library (studio.py)
+# library.yaml lists recordings added with the studio, so stations.yaml (hand-written, commented) is never
+# rewritten. Each entry is either a replacement of an existing clip's audio, or a new clip with the places
+# in the schedule where it plays:
+#
+#   clips:
+#     - {id: ad_1, group: radio_tejo, file: recordings/radio_tejo/ad_1.wav, replace: true}
+#     - id: fado_lisboa_1
+#       group: music                       # a station id, or "music" (songs shared by every station)
+#       file: recordings/music/fado_lisboa_1.flac
+#       schedule:
+#         - {station: radio_tejo, phase: night, list: programs}
+#     - id: breaking_2
+#       group: radio_tejo
+#       file: recordings/radio_tejo/breaking_2.wav
+#       schedule:
+#         - {station: radio_tejo, list: breaking}
+LIBRARY_LISTS = ("opening", "programs", "interstitials", "breaking")
+CLIP_ID_CHARS = frozenset("abcdefghijklmnopqrstuvwxyz0123456789_")
+# A phase that gets its first interstitial from the library plays one after every this many programmes.
+LIBRARY_INTERSTITIAL_EVERY = 2
+
+
+def load_library(path: Path = LIBRARY) -> list[dict[str, Any]]:
+    """The entries of library.yaml; an empty list when there is none."""
+    import yaml
+
+    if not path.is_file():
+        return []
+    with open(path, "r", encoding="utf-8") as handle:
+        data = yaml.safe_load(handle) or {}
+    clips = data.get("clips") if isinstance(data, dict) else None
+    return list(clips) if isinstance(clips, list) else []
+
+
+def apply_library(manifest: dict[str, Any], entries: list[Any]) -> tuple[dict[str, Any], list[str]]:
+    """Merge library entries into a copy of the manifest. Returns (merged manifest, problems).
+
+    A replacement becomes a ``source:`` override. A new clip also gets a ``source:`` override, joins
+    ``music:`` if its group is music, and is appended to every schedule list it names. File paths are
+    relative to tools/audio/ (or absolute)."""
+    import copy
+
+    merged = copy.deepcopy(manifest)
+    merged["source"] = dict(merged.get("source") or {})
+    problems: list[str] = []
+    stations = {st["id"]: st for st in merged["stations"]}
+    seen: set[str] = set()
+    for n, entry in enumerate(entries, 1):
+        where = f"entry {n}"
+        if not isinstance(entry, dict):
+            problems.append(f"{where}: must be a mapping")
+            continue
+        clip, group, file = entry.get("id"), entry.get("group"), entry.get("file")
+        where = f"entry {n} ({group}/{clip})"
+        if not isinstance(clip, str) or not clip or not set(clip) <= CLIP_ID_CHARS:
+            problems.append(f"{where}: id must be lowercase letters, digits and _")
+            continue
+        if group != "music" and group not in stations:
+            problems.append(f"{where}: group must be 'music' or a station id ({', '.join(stations)})")
+            continue
+        label = f"{group}/{clip}"
+        if label in seen:
+            problems.append(f"{where}: listed twice")
+            continue
+        seen.add(label)
+        path = Path(file) if isinstance(file, str) and file else None
+        if path is None or not (path if path.is_absolute() else AUDIO_DIR / path).is_file():
+            problems.append(f"{where}: file {file!r} not found")
+            continue
+        exists = clip in merged["music"] if group == "music" else clip in station_clip_ids(stations[group])
+        schedule = entry.get("schedule") or []
+        if entry.get("replace"):
+            if not exists:
+                problems.append(f"{where}: replace is set but there is no such clip to replace")
+                continue
+            if schedule:
+                problems.append(f"{where}: a replacement keeps the clip's place in the schedule; drop 'schedule'")
+                continue
+            merged["source"][label] = file
+            continue
+        if exists:
+            problems.append(f"{where}: the clip already exists; set replace: true to swap its audio")
+            continue
+        kind = kind_for_clip(clip, None)
+        if group == "music" and kind not in ("music", "interval"):
+            problems.append(f"{where}: a music clip id may not start with a speech prefix ({clip!r} reads as {kind})")
+            continue
+        if group != "music" and kind == "music":
+            prefixes = ", ".join(p for p, _ in KIND_PREFIXES)
+            problems.append(f"{where}: a station clip id must start with one of {prefixes}")
+            continue
+        if not isinstance(schedule, list) or not schedule:
+            problems.append(f"{where}: a new clip needs at least one place in 'schedule'")
+            continue
+        if group == "music":
+            merged["music"].append(clip)
+        merged["source"][label] = file
+        for place in schedule:
+            problems.extend(_schedule(stations, group, clip, place, where))
+    if not problems:
+        problems = validate_manifest(merged)
+    return merged, problems
+
+
+def _schedule(stations: dict[str, Any], group: str, clip: str, place: Any, where: str) -> list[str]:
+    if not isinstance(place, dict):
+        return [f"{where}: each schedule place must be a mapping"]
+    sid, phase, key = place.get("station"), place.get("phase"), place.get("list")
+    if sid not in stations:
+        return [f"{where}: schedule station {sid!r} is unknown"]
+    if group != "music" and sid != group:
+        return [f"{where}: a {group} clip can only be scheduled on {group}"]
+    if key not in LIBRARY_LISTS:
+        return [f"{where}: list must be one of {', '.join(LIBRARY_LISTS)}"]
+    station = stations[sid]
+    if key == "breaking":
+        if not clip.startswith("breaking_"):
+            return [f"{where}: only breaking_ clips go in the breaking list"]
+        station.setdefault("breaking", []).append(clip)
+        return []
+    if clip.startswith("breaking_"):
+        return [f"{where}: a breaking_ clip goes in the breaking list only"]
+    if phase not in PHASES:
+        return [f"{where}: phase must be one of {', '.join(PHASES)}"]
+    block = station["phases"][phase]
+    if not block["on_air"]:
+        return [f"{where}: {sid} is off the air at {phase}"]
+    block[key].append(clip)
+    if key == "interstitials" and block["interstitial_every"] == 0:
+        block["interstitial_every"] = LIBRARY_INTERSTITIAL_EVERY if block["programs"] else 1
+    return []
 
 
 def station_clip_ids(station: Mapping[str, Any]) -> list[str]:

@@ -1,9 +1,11 @@
 package com.manzarig.fadoecravo.client;
 
+import com.manzarig.fadoecravo.RadioClientBridge;
 import com.manzarig.fadoecravo.client.audio.RadioAudioManager;
 import com.manzarig.fadoecravo.client.debug.CriticHarness;
 import com.manzarig.fadoecravo.client.debug.SeekTestCommand;
 import com.manzarig.fadoecravo.client.gui.RadioScreen;
+import com.manzarig.fadoecravo.client.render.RadioGeoRenderer;
 import com.manzarig.fadoecravo.client.station.StationRegistry;
 import net.fabricmc.api.ClientModInitializer;
 
@@ -14,6 +16,8 @@ public class FadoECravoClient implements ClientModInitializer {
 		StationRegistry.register();
 		RadioAudioManager.register();
 		RadioScreen.register();
+		RadioGeoRenderer.register();
+		RadioClientBridge.speakerLevel = pos -> RadioAudioManager.speakerLevel(pos);
 		SeekTestCommand.register();
 		CriticHarness.register();
 	}

@@ -1,0 +1,2 @@
+# Art generator for Fado e Cravo (tools/art/make_radio_model.py).
+Pillow==12.3.0
