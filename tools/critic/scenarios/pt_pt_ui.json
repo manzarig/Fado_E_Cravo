@@ -1,0 +1,43 @@
+{
+  "comment": "The tuning screen in Portuguese (pt_pt) in the tightest layout the game allows: a 640x480 window at GUI scale 2 is a 320x240 GUI. Shots of the screen on every station, off air, and with no station, plus the world view with subtitles.",
+  "settings": {
+    "lang": "pt_pt",
+    "window": "640x480",
+    "gui_scale": 2,
+    "snapshot_every_ticks": 40
+  },
+  "steps": [
+    {"cmd": "time set 6000"},
+    {"tp": [0.5, -60, 0.5, 0, 15]},
+    {"wait": 20},
+    {"cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"},
+    {"wait": 60},
+    {"shot": "world_radio_on_subtitles"},
+    {"open": [0, -60, 3]},
+    {"wait": 10},
+    {"shot": "screen_1035"},
+    {"click_dial_khz": 670},
+    {"wait": 15},
+    {"shot": "screen_670"},
+    {"click_dial_khz": 1440},
+    {"wait": 15},
+    {"snapshot": "day_1440_off_air"},
+    {"shot": "screen_1440_off_air_by_day"},
+    {"click_dial_khz": 900},
+    {"wait": 15},
+    {"shot": "screen_900_no_station"},
+    {"click_dial_khz": 530},
+    {"wait": 15},
+    {"shot": "screen_530_band_edge"},
+    {"click_dial_khz": 1600},
+    {"wait": 15},
+    {"shot": "screen_1600_band_edge"},
+    {"click_power": true},
+    {"wait": 15},
+    {"shot": "screen_power_off"},
+    {"close": true},
+    {"wait": 20},
+    {"snapshot": "radio_switched_off_in_the_screen"},
+    {"quit": true}
+  ]
+}

@@ -1,6 +1,7 @@
 package com.manzarig.fadoecravo.client;
 
 import com.manzarig.fadoecravo.client.audio.RadioAudioManager;
+import com.manzarig.fadoecravo.client.debug.CriticHarness;
 import com.manzarig.fadoecravo.client.debug.SeekTestCommand;
 import com.manzarig.fadoecravo.client.gui.RadioScreen;
 import com.manzarig.fadoecravo.client.station.StationRegistry;
@@ -14,5 +15,6 @@ public class FadoECravoClient implements ClientModInitializer {
 		RadioAudioManager.register();
 		RadioScreen.register();
 		SeekTestCommand.register();
+		CriticHarness.register();
 	}
 }

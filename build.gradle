@@ -33,6 +33,25 @@ loom {
 	}
 }
 
+// Dev-only automation harness (see tools/critic/README.md). With -Pcritic=<absolute scenario.json> the
+// dev client gets the scenario path and a fixed window (1280x720, or -PcriticWidth/-PcriticHeight);
+// -PcriticOut=<absolute dir> says where the harness writes its logs and screenshots. Without -Pcritic
+// nothing changes.
+if (project.hasProperty('critic')) {
+	loom {
+		runs {
+			client {
+				vmArg "-Dfadoecravo.critic=${project.property('critic')}"
+				if (project.hasProperty('criticOut')) {
+					vmArg "-Dfadoecravo.critic.out=${project.property('criticOut')}"
+				}
+				programArgs "--width", "${project.findProperty('criticWidth') ?: '1280'}",
+					"--height", "${project.findProperty('criticHeight') ?: '720'}"
+			}
+		}
+	}
+}
+
 fabricApi {
 	// Datagen writes to src/main/generated, which is added to the main resources.
 	configureDataGeneration {

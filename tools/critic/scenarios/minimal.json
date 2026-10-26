@@ -1,0 +1,12 @@
+{
+  "settings": {"daylight_cycle": false, "snapshot_every_ticks": 20},
+  "steps": [
+    {"cmd": "time set 6000"},
+    {"wait": 20},
+    {"mark": "sync"},
+    {"wait": 40},
+    {"snapshot": "after_mark"},
+    {"shot": "empty_world"},
+    {"quit": true}
+  ]
+}
