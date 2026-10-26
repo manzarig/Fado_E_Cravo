@@ -3,10 +3,10 @@
 Install Fado e Cravo in the Modrinth App and play the radio. It takes about
 ten minutes.
 
-> **Status: v0.1.0-alpha.2, playable radio.** The AM radio is in this build. Craft it or `/give` it,
-> place it, switch it on, and tune in to three stations. The block art is placeholder until M5, and the
-> music is placeholder until real recordings. See the
-> [release notes](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-alpha.2) for what is new
+> **Status: v0.1.0-beta.1, the animated radio (v1 release candidate).** Craft the radio or `/give` it,
+> place it, switch it on, and tune in to three stations. The needle follows the dial and the valves glow.
+> Only the music is still a placeholder until real recordings arrive. See the
+> [release notes](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-beta.1) for what is new
 > and what is still missing.
 
 ## What you need
@@ -42,7 +42,7 @@ ten minutes.
    Search results inside an instance already match its Minecraft version and loader.
 
 4. **Download the mod jar.** Open the
-   [v0.1.0-alpha.2 pre-release](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-alpha.2)
+   [v0.1.0-beta.1 pre-release](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-beta.1)
    and download `fadoecravo-0.1.0.jar` from Assets.
 
    *Release not published yet?* Build the jar from your checkout instead. Building needs a
@@ -94,8 +94,9 @@ ten minutes.
 
 2. **Place it.** The radio turns to face you when you place it.
 
-3. **Switch it on.** Sneak (hold Shift) and right-click the radio. You'll hear a click and the valves
-   warming up. Wait a couple of seconds for the warm-up to finish.
+3. **Switch it on.** Sneak (hold Shift) and right-click the radio. You'll hear a click, the power knob
+   turns and the valves warm up: the dial and the vents start to glow, and after about two and a half
+   seconds the programme fades in.
 
 4. **Tune.** Right-click the radio to open the dial. Scroll to move 1 kHz, or hold Shift to move 10 kHz.
    The left and right arrow keys work too, and you can click or drag the dial. You'll hear a whistle as
@@ -119,12 +120,13 @@ ten minutes.
 | `… requires version 1.21.1 of minecraft` | Create a new 1.21.1 instance. |
 | `… requires version 0.20.1 or later of fabricloader` | Instance settings → pick the latest stable Fabric Loader. |
 | The mod doesn't appear at all | The jar must sit directly in `mods` (not a subfolder) and must not be the `-sources.jar`. |
+| The radio is invisible or a purple-and-black cube | Check that GeckoLib 4.9.3 for **Fabric** 1.21.1 is installed, not the Forge or NeoForge build. |
 
 ## Coming next
 
-- **M5 — the animated radio:** an animated model with glowing valves and a moving needle, and the
-  final block art to replace the placeholder.
-- **M6:** the last milestone of v1. Details to follow.
-- Then replace the jar in `mods` with the new build and press Play.
+- **v1.1 — real 1940s recordings** to replace the synthesized test music.
+- To update, replace the jar in `mods` with the new build and press Play.
+- Want your own recordings on the radio now? The project's **Estúdio** does that from a source checkout. See
+  "Adding your own recordings" in the [README](https://github.com/manzarig/Fado_E_Cravo/blob/claude/radio-v1/README.md).
 
 Button names can differ slightly between Modrinth App versions.

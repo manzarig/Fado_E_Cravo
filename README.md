@@ -4,7 +4,7 @@ A Fabric mod for Minecraft set in 1940s Lisbon. Its first feature is an AM radio
 tunes into stations which broadcast on a schedule, so the city keeps its own rhythm whether or
 not you are listening. A later, secret "Proto-Cravo" storyline waits behind the static.
 
-**Status:** v0.1.0-alpha.2 — playable radio
+**Status:** v0.1.0-beta.1 — the animated radio, release candidate for v1
 
 ## Requirements
 
@@ -103,8 +103,8 @@ station and where in its schedule it plays, listen before and after, and press *
 
 ## Roadmap
 
-- **v1: the radio** — milestones M0 to M6. M0 to M4 are done, so the radio is playable. Next is M5
-  (animated model), then M6.
+- **v1: the radio** — milestones M0 to M6, all done: the playable radio (M3, M4), the animated model, the
+  textured screen and the Estúdio (M5), and the release candidate `v0.1.0-beta.1` (M6).
 - **v1.1:** real 1940s recordings
 - **v2:** art (title screen, concept art)
 - **v3:** Proto-Cravo
