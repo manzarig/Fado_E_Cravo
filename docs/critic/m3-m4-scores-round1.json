@@ -1,0 +1,380 @@
+{
+  "milestone": "M3+M4 round 1 re-test",
+  "build": "e63bfe2 (claude/radio-v1)",
+  "baseline": "docs/critic/m3-m4-scores.json (ceb76ec)",
+  "method": "same scenarios and ASR method as the baseline; 13 runs (build/critic/r1_*), faster-whisper small on 27 clips and medium on 6, python port of BroadcastSchedule, ./gradlew test --rerun (427 pass)",
+  "A": {
+    "before": 4,
+    "score": 4,
+    "summary": "Item frame now shows the radio front (display.fixed [0,0,0]). Models, facings and icon unchanged. On state still not lit at night (P-11).",
+    "evidence": [
+      "docs/critic/m3-m4-round1/04_item_frame_front_vs_furnace.jpg",
+      "build/critic/r1_assets",
+      "build/critic/r1_item_frame"
+    ]
+  },
+  "B": {
+    "before": 4,
+    "score": 4,
+    "summary": "Power-off readout shows 'Off' with an empty bar and no 'locked'; weak stations show 'Weak signal' / 'Sinal fraco'; item hover tooltip wired (code and unit test, not visible in the harness). pt-PT wording nits and the needle over the 1000 label remain.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/01_gui_en_weak_signal_and_power_off.jpg",
+      "docs/critic/m3-m4-round1/02_gui_pt_sinal_fraco_and_desligado.jpg",
+      "docs/critic/m3-m4-round1/03_gui_320x240_weak_and_off.jpg"
+    ]
+  },
+  "C1": {
+    "before": 3,
+    "score": 4,
+    "summary": "Noise bed -30 to -40 dBFS (tail floor -30.8 to -40.1). Whisper-medium WER 0.320 to 0.198 on six clips (0.330 to 0.182 on the five with an unchanged take, raw 0.132); whisper-small 0.403 to 0.335 on 27 clips (0.414 to 0.334 on 24 unchanged, raw 0.288). Three Lusitana clips re-synthesised and checked against their scripts. Remaining errors are mostly the Piper voice.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/asr_wer_round1_whisper_medium_6_clips.csv",
+      "docs/critic/m3-m4-round1/asr_wer_round1_whisper_small_all_speech_clips.csv",
+      "docs/critic/m3-m4-round1/05_asr_wer_before_after.jpg"
+    ]
+  },
+  "C2": {
+    "before": 4,
+    "score": 4,
+    "summary": "Unchanged: 72-85 s songs, 10-11 s chimes, -15.4 to -16.1 LUFS, no clipping. Judged by measurement.",
+    "evidence": [
+      "docs/critic/m3-m4/spectrogram_capture_and_sources.png"
+    ]
+  },
+  "C3": {
+    "before": 4,
+    "score": 4,
+    "summary": "Unchanged character: band-limit, compressor, crackle, run-time static and hiss, whistle, warm-up. Baked noise floor 9 dB lower. 100 Hz hum of carrier_hiss still there (P-07).",
+    "evidence": [
+      "build/critic/r1_blend"
+    ]
+  },
+  "C4": {
+    "before": 4,
+    "score": 4,
+    "summary": "Four in-sync radios: peak 0.00 to -6.05 dBFS, clipped samples 198 to 0, level +5.5 to -3.5 dB re the clip (now 1.6 dB under one radio). Atlantico static 0.27 to 0.43 (13.8 to 9.8 dB under the programme). Loudness spread unchanged (-15.4 to -16.1 LUFS). Hum (P-07) and a slightly low crowd exponent (P-16) are left.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/multi_radio_before_after.csv",
+      "docs/critic/m3-m4-round1/weak_station_before_after.csv",
+      "docs/critic/m3-m4-round1/06_multi_radio_headroom_and_weak_station.jpg"
+    ]
+  },
+  "C5": {
+    "before": 5,
+    "score": 5,
+    "summary": "Unchanged: 1-d/64 within 0.5 dB from 4 to 62 blocks, silent from 64.",
+    "evidence": [
+      "build/critic/r1_falloff"
+    ]
+  },
+  "D": {
+    "before": 4,
+    "score": 5,
+    "summary": "False 'Radio static' subtitle gone: 43 of 61 static-subtitle seconds were false in 11 scenarios, 0 of 38 now. 42 of 42 sounds still covered in en and pt-PT; new key signal_weak in both files.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/false_static_subtitle_census.csv",
+      "docs/critic/m3-m4-round1/07_subtitles_after_power_on_no_false_static.jpg",
+      "build/critic/r1_subtitles_pt"
+    ]
+  },
+  "E1": {
+    "before": 4,
+    "score": 4,
+    "summary": "Unchanged: give, icon, recipe, loot, facing verified; real player placement not drivable.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/04_item_frame_front_vs_furnace.jpg"
+    ]
+  },
+  "E2": {
+    "before": 4,
+    "score": 4,
+    "summary": "Toggle behaviour unchanged and verified (pulse, falling edge, triple pulse, button) without the false static subtitle. Hint tooltip now wired (code only). Sneak+use not drivable; warm-up overlap (P-13) open.",
+    "evidence": [
+      "build/critic/r1_power",
+      "docs/critic/m3-m4-round1/07_subtitles_after_power_on_no_false_static.jpg"
+    ]
+  },
+  "E3": {
+    "before": 5,
+    "score": 5,
+    "summary": "No regression: readouts, clamping, keys, wheel, drag, whistle and block-entity sync as at baseline.",
+    "evidence": [
+      "build/critic/r1_gui_en",
+      "build/critic/r1_gui_pt"
+    ]
+  },
+  "E4": {
+    "before": 4,
+    "score": 4,
+    "summary": "Unchanged for strong stations: fit 0.706 / 0.78, same level table from -30 dB (static only) to -19 dB (locked).",
+    "evidence": [
+      "build/critic/r1_blend"
+    ]
+  },
+  "E5": {
+    "before": 4,
+    "score": 4,
+    "summary": "1245 radio samples agree with the python port of BroadcastSchedule using the new Lusitana durations. Spoken hours now match the clock (cinco, dezoito, vinte horas). Dawn/dusk length and Lusitana night chime loop open (rest of P-08).",
+    "evidence": [
+      "build/critic/r1_phases"
+    ]
+  },
+  "E6": {
+    "before": 4,
+    "score": 5,
+    "summary": "Off air by day, on at 13800, as before; now sounds weak (static 10 dB under the programme, 4.6 dB under Tejo) and the screen says 'Weak signal'.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/01_gui_en_weak_signal_and_power_off.jpg",
+      "docs/critic/m3-m4-round1/weak_station_before_after.csv",
+      "build/critic/r1_misc"
+    ]
+  },
+  "E7": {
+    "before": 5,
+    "score": 5,
+    "summary": "Every snapshot identical to baseline: scope, late joiners, resume, clear, replace, errors, subtitle.",
+    "evidence": [
+      "build/critic/r1_breaking"
+    ]
+  },
+  "E8": {
+    "before": 4,
+    "score": 4,
+    "summary": "Offsets of four radios agree to 0.1 s for 150 s; fifth silent; peak fixed (-6 dBFS). Frozen-clock caveat (P-10) and keep-bonus silence open.",
+    "evidence": [
+      "docs/critic/m3-m4-round1/multi_radio_before_after.csv",
+      "build/critic/r1_multi"
+    ]
+  },
+  "E9": {
+    "before": 5,
+    "score": 5,
+    "summary": "13 logs with five constant vanilla WARN lines, none from the mod; 20.0 ticks/s; median 27-28 fps (software GL); 427 unit tests pass.",
+    "evidence": [
+      "build/critic/r1_*/latest.log"
+    ]
+  },
+  "corrective_actions": [],
+  "polish": [
+    {
+      "id": "P-07",
+      "category": "C3/C4",
+      "suggestion": "carrier_hiss is a 100 Hz mains hum (16% of energy below 130 Hz): high-pass near 300 Hz or take the line down 10 dB.",
+      "files": [
+        "tools/audio/make_sfx.py"
+      ],
+      "retest": "critic_blend 850 stage spectrum"
+    },
+    {
+      "id": "P-08",
+      "category": "E5 content",
+      "suggestion": "Dawn (100 s) and dusk (90 s) hold more than they can play; Lusitana night is signoff_1 plus about 43 chime repeats. (Spoken hours: done.)",
+      "files": [
+        "tools/audio/stations.yaml"
+      ],
+      "retest": "critic_phases"
+    },
+    {
+      "id": "P-09",
+      "category": "B/D",
+      "suggestion": "pt-PT wording: 'Ligar' beside 'Ligado', 'Role para sintonizar', 'Telefonia chia'; halo for the needle over the '1000' label.",
+      "files": [
+        "src/main/resources/assets/fadoecravo/lang/pt_pt.json",
+        "src/client/java/com/manzarig/fadoecravo/client/gui/RadioScreen.java"
+      ],
+      "retest": "critic_gui_pt"
+    },
+    {
+      "id": "P-10",
+      "category": "E8",
+      "suggestion": "With doDaylightCycle false radios have no common clock; derive the schedule position from game time since the freeze.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java"
+      ],
+      "retest": "critic_multi with daylight_cycle false"
+    },
+    {
+      "id": "P-11",
+      "category": "A",
+      "suggestion": "Give the on state a light level or an emissive dial so it reads at night.",
+      "files": [
+        "src/main/java/com/manzarig/fadoecravo/registry/ModBlocks.java"
+      ],
+      "retest": "critic_assets night shots"
+    },
+    {
+      "id": "P-12",
+      "category": "E7",
+      "suggestion": "Case-insensitive station ids; usage line for /fadoecravo.",
+      "files": [
+        "src/main/java/com/manzarig/fadoecravo/command/RadioCommand.java"
+      ],
+      "retest": "critic_breaking"
+    },
+    {
+      "id": "P-13",
+      "category": "E2",
+      "suggestion": "Hold the programme back for the 2.5 s tube warm-up.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java"
+      ],
+      "retest": "critic_power"
+    },
+    {
+      "id": "P-15",
+      "category": "harness",
+      "suggestion": "Add use_item and sneak steps so real placement and sneak+use can be tested.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/debug/CriticHarness.java"
+      ],
+      "retest": "new scenario"
+    },
+    {
+      "id": "P-16",
+      "category": "C4",
+      "suggestion": "RadioMix.CROWD_EXPONENT 0.75 to about 0.65: four radios would sit at about one radio's level with a peak near -3 dBFS (now -1.6 dB under one radio, peak -6 dBFS).",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioMix.java"
+      ],
+      "retest": "critic_multi"
+    },
+    {
+      "id": "P-17",
+      "category": "C1",
+      "suggestion": "Re-take Lusitana news_morning_1 (raw Whisper-medium WER 0.27 for the new take against 0.15 for the old one); target 0.15 or lower.",
+      "files": [
+        "tools/audio/scripts/emissora_lusitana/news_morning_1.txt",
+        "tools/audio/.cache/speech/emissora_lusitana/news_morning_1.wav"
+      ],
+      "retest": "ASR on the clip"
+    },
+    {
+      "id": "P-18",
+      "category": "C1-C3",
+      "suggestion": "A ten-minute ear check of speech, music and the cleaner programme.",
+      "files": [],
+      "retest": "manual"
+    }
+  ],
+  "untested": [
+    {
+      "item": "Placement by a real player and sneak+use",
+      "reason": "harness has no use_item or sneak step; a vanilla dispenser does not place block items; covered by code reading and setblock models"
+    },
+    {
+      "item": "Creative tab contents, inventory screen",
+      "reason": "harness never opens the inventory"
+    },
+    {
+      "item": "Hover tooltips on dial pins, real Shift+wheel",
+      "reason": "no real pointer or keyboard under Xvfb (emulated)"
+    },
+    {
+      "item": "Dedicated server, multiplayer, joining with a bulletin running, two clients",
+      "reason": "single dev client only"
+    },
+    {
+      "item": "Pause menu, sleeping, other dimensions, chunk unload",
+      "reason": "not drivable"
+    },
+    {
+      "item": "Listening to speech, music and noise",
+      "reason": "C1-C3 judged by ASR and spectra, not by ear"
+    },
+    {
+      "item": "GPU performance",
+      "reason": "software GL only"
+    },
+    {
+      "item": "Item hover tooltip in game",
+      "reason": "harness has no inventory screen; verified by code, javap and RadioTooltipTest"
+    }
+  ],
+  "table": [
+    {
+      "id": "A",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "B",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "C1",
+      "before": 3,
+      "after": 4
+    },
+    {
+      "id": "C2",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "C3",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "C4",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "C5",
+      "before": 5,
+      "after": 5
+    },
+    {
+      "id": "D",
+      "before": 4,
+      "after": 5
+    },
+    {
+      "id": "E1",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "E2",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "E3",
+      "before": 5,
+      "after": 5
+    },
+    {
+      "id": "E4",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "E5",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "E6",
+      "before": 4,
+      "after": 5
+    },
+    {
+      "id": "E7",
+      "before": 5,
+      "after": 5
+    },
+    {
+      "id": "E8",
+      "before": 4,
+      "after": 4
+    },
+    {
+      "id": "E9",
+      "before": 5,
+      "after": 5
+    }
+  ]
+}

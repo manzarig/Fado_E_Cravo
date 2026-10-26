@@ -1,0 +1,30 @@
+station,clip,duration_s,script_words,words_per_s,resynthesised_in_round1,wer_raw_tts_now,wer_game_ogg_baseline,wer_game_ogg_round1
+emissora_lusitana,breaking_1,21.32,60,2.81,no,0.367,0.483,0.433
+emissora_lusitana,ident_1,13.95,31,2.22,no,0.323,0.387,0.226
+emissora_lusitana,ident_2,15.55,34,2.19,no,0.382,0.471,0.353
+emissora_lusitana,market_prices_1,33.2,76,2.29,no,0.487,0.553,0.461
+emissora_lusitana,news_evening_1,35.38,86,2.43,yes,0.256,0.364,0.267
+emissora_lusitana,news_evening_2,31.82,86,2.7,no,0.151,0.314,0.233
+emissora_lusitana,news_morning_1,32.12,89,2.77,yes,0.348,0.382,0.506
+emissora_lusitana,notice_1,27.6,80,2.9,no,0.25,0.362,0.263
+emissora_lusitana,notice_2,28.14,74,2.63,no,0.27,0.459,0.23
+emissora_lusitana,signoff_1,18.27,44,2.41,yes,0.091,0.174,0.159
+radio_atlantico,breaking_1,25.22,60,2.38,no,0.3,0.4,0.333
+radio_atlantico,ident_1,13.32,29,2.18,no,0.241,0.448,0.276
+radio_atlantico,news_1,30.66,78,2.54,no,0.128,0.462,0.244
+radio_atlantico,news_2,29.26,78,2.67,no,0.128,0.244,0.192
+radio_atlantico,news_3,33.07,81,2.45,no,0.284,0.321,0.296
+radio_atlantico,personal_messages_1,37.54,84,2.24,no,0.345,0.393,0.333
+radio_tejo,ad_1,22.37,57,2.55,no,0.298,0.421,0.421
+radio_tejo,ad_2,19.17,58,3.03,no,0.397,0.431,0.397
+radio_tejo,ad_3,21.73,59,2.72,no,0.22,0.288,0.237
+radio_tejo,ad_4,20.54,50,2.43,no,0.36,0.62,0.5
+radio_tejo,announce_1,15.45,38,2.46,no,0.184,0.421,0.5
+radio_tejo,announce_2,17.58,46,2.62,no,0.283,0.5,0.391
+radio_tejo,announce_3,21.93,51,2.33,no,0.353,0.373,0.294
+radio_tejo,breaking_1,23.74,59,2.49,no,0.424,0.305,0.39
+radio_tejo,ident_1,14.1,32,2.27,no,0.344,0.469,0.5
+radio_tejo,ident_2,13.5,33,2.44,no,0.303,0.788,0.667
+radio_tejo,request_1,22.31,67,3.0,no,0.239,0.388,0.254
+ALL 27 (word-weighted),,638.8,1620,,,0.284,0.403,0.335
+24 unchanged clips (word-weighted),,,1401,,no,0.288,0.414,0.334
