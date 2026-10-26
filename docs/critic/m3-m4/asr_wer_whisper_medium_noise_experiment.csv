@@ -1,0 +1,8 @@
+station,clip,raw_tts_wav,game_ogg_as_shipped(noise -30 dBFS+crackle),noise -40 dBFS+crackle,noise -36 dBFS+crackle,noise -36 dBFS+half crackle,crackle only (noise -70),no noise no crackle
+emissora_lusitana,ident_1,0.065,0.226,0.065,0.161,0.097,0.065,0.065
+emissora_lusitana,news_morning_1,0.146,0.27,0.202,0.236,0.213,0.135,0.135
+radio_tejo,ad_1,0.193,0.333,0.246,0.333,0.263,0.14,0.14
+radio_tejo,ident_2,0.182,0.636,0.303,0.455,0.485,0.242,0.212
+radio_atlantico,news_1,0.064,0.192,0.115,0.154,0.103,0.09,0.09
+radio_atlantico,personal_messages_1,0.155,0.262,0.179,0.25,0.143,0.19,0.214
+MEAN,(6 clips),0.134,0.32,0.185,0.265,0.217,0.144,0.143

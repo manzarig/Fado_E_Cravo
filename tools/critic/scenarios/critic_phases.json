@@ -1,0 +1,168 @@
+{
+ "comment": "Critic scenario: schedule per phase. Three radios side by side on 670, 1035 and 1440 (so the log shows all three stations at every moment). Stage A follows the dawn and the start of the day in real time; stage B the end of the day, the dusk and the start of the night; stage C jumps with time set to 0, 1000, 12500, 18000 and around the 13800 boundary. Read the clip ids and offsets from the periodic snapshots. The mix in the WAV is a three-station jumble on purpose and is not judged.",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "timeout_minutes": 16
+ },
+ "steps": [
+  {
+   "cmd": "time set 23000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 10 -50 10 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock -3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:670} replace"
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1440} replace"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "note": "STAGE A: natural flow through the dawn (23000 -> 1000, 100 s) and 60 s into the day. time set 23000 is elapsed 0, so openings come first"
+  },
+  {
+   "cmd": "time set 23000"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "A_dawn_start"
+  },
+  {
+   "shot": "A_dawn_start"
+  },
+  {
+   "wait": 1980
+  },
+  {
+   "snapshot": "A_dawn_end"
+  },
+  {
+   "wait": 1200
+  },
+  {
+   "snapshot": "A_day_plus_60s"
+  },
+  {
+   "note": "STAGE B: day -> dusk -> night at their real boundaries"
+  },
+  {
+   "cmd": "time set 11500"
+  },
+  {
+   "wait": 2600
+  },
+  {
+   "snapshot": "B_dusk_plus_30s"
+  },
+  {
+   "shot": "B_dusk"
+  },
+  {
+   "wait": 1000
+  },
+  {
+   "snapshot": "B_dusk_end_night_start"
+  },
+  {
+   "wait": 800
+  },
+  {
+   "snapshot": "B_night_plus_40s"
+  },
+  {
+   "shot": "B_night_atlantico_on"
+  },
+  {
+   "note": "STAGE C: jumps. Each is a fresh resync: 0 (dawn, 50 s in), 1000 (day, 0 s in), 12500 (dusk, 25 s in), 18000 (night, 210 s in)"
+  },
+  {
+   "cmd": "time set 0"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "C_time_0"
+  },
+  {
+   "cmd": "time set 1000"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "C_time_1000"
+  },
+  {
+   "cmd": "time set 12500"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "C_time_12500"
+  },
+  {
+   "cmd": "time set 18000"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "C_time_18000"
+  },
+  {
+   "cmd": "time set 13790"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "C_13790_just_before_night"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "C_13840_just_after_night"
+  },
+  {
+   "cmd": "time set 13790"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "C2_13790_just_before_night"
+  },
+  {
+   "quit": true
+  }
+ ]
+}

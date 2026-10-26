@@ -1,0 +1,262 @@
+{
+  "comment": "Critic scenario: switching on/off. Redstone pulse (rising edge toggles, falling edge does not, a second pulse toggles back), the screen's power button, the lamp and front texture, and the power_on / tube_warmup / power_off sounds and subtitles. Radio A at (0,-60,3) facing north; the player at (0.5,-60,0.5) looks south. Time frozen at noon: only the toggle behaviour matters here.",
+  "settings": {
+    "daylight_cycle": false,
+    "snapshot_every_ticks": 20,
+    "gui_scale": 3,
+    "lang": "en_us"
+  },
+  "steps": [
+    {
+      "cmd": "time set 6000"
+    },
+    {
+      "cmd": "fill -14 -60 -14 14 -50 14 air"
+    },
+    {
+      "cmd": "kill @e[type=!player]"
+    },
+    {
+      "tp": [
+        0.5,
+        -60,
+        0.5,
+        0,
+        15
+      ]
+    },
+    {
+      "wait": 20
+    },
+    {
+      "note": "STAGE 2: radio A placed off, on 1035; redstone block behind it"
+    },
+    {
+      "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=false]{frequency:1035} replace"
+    },
+    {
+      "wait": 30
+    },
+    {
+      "snapshot": "placed_off"
+    },
+    {
+      "shot": "a_off"
+    },
+    {
+      "note": "STAGE 3: rising edge toggles ON. Marker beeps first so the WAV can be aligned."
+    },
+    {
+      "mark": "t0"
+    },
+    {
+      "wait": 60
+    },
+    {
+      "cmd": "setblock 0 -60 4 minecraft:redstone_block"
+    },
+    {
+      "wait": 8
+    },
+    {
+      "snapshot": "pulse1_plus_8_ticks"
+    },
+    {
+      "shot": "a_on_by_pulse_1"
+    },
+    {
+      "wait": 60
+    },
+    {
+      "snapshot": "pulse1_plus_3s"
+    },
+    {
+      "shot": "a_on_warmup_done"
+    },
+    {
+      "note": "STAGE 4: falling edge must not toggle"
+    },
+    {
+      "cmd": "setblock 0 -60 4 air"
+    },
+    {
+      "wait": 40
+    },
+    {
+      "snapshot": "falling_edge_still_on"
+    },
+    {
+      "note": "STAGE 5: second rising edge toggles OFF (power_off click)"
+    },
+    {
+      "cmd": "setblock 0 -60 4 minecraft:redstone_block"
+    },
+    {
+      "wait": 8
+    },
+    {
+      "snapshot": "pulse2_plus_8_ticks"
+    },
+    {
+      "shot": "a_off_by_pulse_2"
+    },
+    {
+      "wait": 50
+    },
+    {
+      "snapshot": "pulse2_plus_3s_off"
+    },
+    {
+      "cmd": "setblock 0 -60 4 air"
+    },
+    {
+      "wait": 40
+    },
+    {
+      "snapshot": "off_after_second_falling_edge"
+    },
+    {
+      "note": "STAGE 6: three quick pulses, 15 ticks apart: ON, OFF, ON"
+    },
+    {
+      "cmd": "setblock 0 -60 4 minecraft:redstone_block"
+    },
+    {
+      "wait": 15
+    },
+    {
+      "cmd": "setblock 0 -60 4 air"
+    },
+    {
+      "wait": 15
+    },
+    {
+      "cmd": "setblock 0 -60 4 minecraft:redstone_block"
+    },
+    {
+      "wait": 15
+    },
+    {
+      "cmd": "setblock 0 -60 4 air"
+    },
+    {
+      "wait": 15
+    },
+    {
+      "cmd": "setblock 0 -60 4 minecraft:redstone_block"
+    },
+    {
+      "wait": 20
+    },
+    {
+      "snapshot": "after_three_pulses_expect_on"
+    },
+    {
+      "cmd": "setblock 0 -60 4 air"
+    },
+    {
+      "wait": 40
+    },
+    {
+      "note": "STAGE 7: power button on the screen: off, on, off"
+    },
+    {
+      "mark": "t1"
+    },
+    {
+      "wait": 60
+    },
+    {
+      "open": [
+        0,
+        -60,
+        3
+      ]
+    },
+    {
+      "wait": 10
+    },
+    {
+      "shot": "screen_while_on"
+    },
+    {
+      "click_power": true
+    },
+    {
+      "wait": 20
+    },
+    {
+      "snapshot": "button_off"
+    },
+    {
+      "shot": "screen_after_button_off"
+    },
+    {
+      "click_power": true
+    },
+    {
+      "wait": 10
+    },
+    {
+      "snapshot": "button_on_plus_10_ticks"
+    },
+    {
+      "shot": "screen_after_button_on"
+    },
+    {
+      "wait": 70
+    },
+    {
+      "snapshot": "button_on_plus_4s"
+    },
+    {
+      "click_power": true
+    },
+    {
+      "wait": 40
+    },
+    {
+      "snapshot": "button_off_again"
+    },
+    {
+      "close": true
+    },
+    {
+      "wait": 30
+    },
+    {
+      "note": "STAGE 8: a switched-off radio still opens its screen and can be tuned silently"
+    },
+    {
+      "open": [
+        0,
+        -60,
+        3
+      ]
+    },
+    {
+      "wait": 10
+    },
+    {
+      "click_dial_khz": 670
+    },
+    {
+      "wait": 20
+    },
+    {
+      "snapshot": "off_radio_tuned_670_must_be_silent"
+    },
+    {
+      "shot": "screen_off_radio_670"
+    },
+    {
+      "close": true
+    },
+    {
+      "wait": 30
+    },
+    {
+      "quit": true
+    }
+  ]
+}

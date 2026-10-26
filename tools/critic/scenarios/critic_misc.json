@@ -1,0 +1,160 @@
+{
+ "comment": "Critic scenario: leftovers. Radio Atlantico (weak, night) against Radio Tejo at the same spot; a radio switched on in the middle of a breaking-news bulletin; two stations playing at once.",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "timeout_minutes": 12
+ },
+ "steps": [
+  {
+   "cmd": "time set 18000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 12 -50 12 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1440} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "mark": "sync_start"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "STAGE 1: weak station. Radio Atlantico (signal 0.55) at 3 m for 25 s: programme 0.55, static 0.27"
+  },
+  {
+   "wait": 500
+  },
+  {
+   "snapshot": "atlantico_weak"
+  },
+  {
+   "shot": "atlantico_weak_world"
+  },
+  {
+   "note": "STAGE 2: the same spot on Radio Tejo (signal 1.0) for comparison"
+  },
+  {
+   "open": [
+    0,
+    -60,
+    3
+   ]
+  },
+  {
+   "wait": 10
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 30
+  },
+  {
+   "close": true
+  },
+  {
+   "wait": 40
+  },
+  {
+   "mark": "tejo_compare"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "tejo_compare"
+  },
+  {
+   "note": "STAGE 3: a radio switched on in the middle of a bulletin joins it part-way"
+  },
+  {
+   "cmd": "setblock 0 -60 3 air"
+  },
+  {
+   "cmd": "setblock 3 -60 3 fadoecravo:radio[facing=north,on=false]{frequency:1035} replace"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "cmd": "fadoecravo breaking radio_tejo"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "bulletin_before_power_on"
+  },
+  {
+   "cmd": "setblock 3 -60 4 minecraft:redstone_block"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "bulletin_power_on_plus_1s"
+  },
+  {
+   "shot": "bulletin_power_on_subtitles"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "bulletin_power_on_plus_6s"
+  },
+  {
+   "cmd": "fadoecravo breaking clear"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "after_clear"
+  },
+  {
+   "note": "STAGE 4: two different stations in range at once (670 and 1035): a mixed room"
+  },
+  {
+   "cmd": "setblock -3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:670} replace"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "two_stations"
+  },
+  {
+   "mark": "two_stations"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "quit": true
+  }
+ ]
+}

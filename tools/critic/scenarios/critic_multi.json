@@ -1,0 +1,249 @@
+{
+ "comment": "Critic scenario: several radios on one station with the daylight cycle on. A at 3 m on first, B joins 6 s later, C and D make four, E is the fifth and must stay silent; then the player walks to E. Offsets of all radios are in every snapshot (compare them), and the WAV gives the level of 1, 2, 4 and 5 radios (clipping check).",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "timeout_minutes": 16
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -12 -60 -12 12 -50 12 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=false]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 4 -60 2 fadoecravo:radio[facing=west,on=false]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock -5 -60 4 fadoecravo:radio[facing=east,on=false]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 6 -60 6 fadoecravo:radio[facing=west,on=false]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock -8 -60 6 fadoecravo:radio[facing=east,on=false]{frequency:1035} replace"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "mark": "sync_start"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "note": "STAGE 1: one radio (A, 3 m) alone for 20 s"
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "mark": "one_radio"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "one_radio"
+  },
+  {
+   "note": "STAGE 2: radio B (4 m) switched on part-way; it must join A's position, not start the clip over"
+  },
+  {
+   "cmd": "setblock 4 -60 2 fadoecravo:radio[facing=west,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "B_joined"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "mark": "two_radios"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "two_radios"
+  },
+  {
+   "note": "STAGE 3: C (5.7 m) and D (7.5 m): four radios"
+  },
+  {
+   "cmd": "setblock -5 -60 4 fadoecravo:radio[facing=east,on=true]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 6 -60 6 fadoecravo:radio[facing=west,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "four_radios_start"
+  },
+  {
+   "mark": "four_radios"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "four_radios"
+  },
+  {
+   "shot": "four_radios_in_view"
+  },
+  {
+   "note": "STAGE 4: E (9.6 m) is the fifth: it must stay silent"
+  },
+  {
+   "cmd": "setblock -8 -60 6 fadoecravo:radio[facing=east,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "fifth_radio_on"
+  },
+  {
+   "mark": "five_radios"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "five_radios"
+  },
+  {
+   "note": "STAGE 5: walk to E; the farthest of the old four must drop out, E come in, no restart of clips"
+  },
+  {
+   "tp": [
+    -5.5,
+    -60,
+    7.5,
+    90,
+    10
+   ]
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "moved_to_E_1"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "snapshot": "moved_to_E_2"
+  },
+  {
+   "mark": "moved"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "note": "STAGE 6: two minutes more with all four, across clip boundaries, for drift"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 60
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_0"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_1"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_2"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_3"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_4"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_5"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_6"
+  },
+  {
+   "wait": 300
+  },
+  {
+   "snapshot": "drift_check_7"
+  },
+  {
+   "mark": "sync_end"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "quit": true
+  }
+ ]
+}

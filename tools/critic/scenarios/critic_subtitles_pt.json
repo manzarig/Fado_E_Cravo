@@ -1,0 +1,217 @@
+{
+ "comment": "Critic scenario: Portuguese (pt_pt) subtitle tour. Three radios (670, 1035, 1440); time set jumps to just before the first clip of each kind (computed from the station files) so that every kind of subtitle appears once in pt-PT: ident, news, notice, ad, announce, request, personal_messages, signoff, interval, music, plus whistle/static/hiss and power on/off.",
+ "settings": {
+  "lang": "pt_pt",
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "timeout_minutes": 10
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 12 -50 12 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock -3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:670} replace"
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1440} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "note": "KIND ident: emissora_lusitana/ident_2 starts at 1220"
+  },
+  {
+   "cmd": "time set 1190"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_ident"
+  },
+  {
+   "note": "KIND news: emissora_lusitana/news_evening_1 starts at 12000"
+  },
+  {
+   "cmd": "time set 11970"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_news"
+  },
+  {
+   "note": "KIND notice: emissora_lusitana/notice_2 starts at 4760"
+  },
+  {
+   "cmd": "time set 4730"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_notice"
+  },
+  {
+   "note": "KIND ad: radio_tejo/ad_1 starts at 3220"
+  },
+  {
+   "cmd": "time set 3190"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_ad"
+  },
+  {
+   "note": "KIND announce: radio_tejo/announce_1 starts at 1280"
+  },
+  {
+   "cmd": "time set 1250"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_announce"
+  },
+  {
+   "note": "KIND request: radio_tejo/request_1 starts at 5980"
+  },
+  {
+   "cmd": "time set 5950"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_request"
+  },
+  {
+   "note": "KIND personal_messages: radio_atlantico/personal_messages_1 starts at 18980"
+  },
+  {
+   "cmd": "time set 18950"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_personal_messages"
+  },
+  {
+   "note": "KIND signoff: emissora_lusitana/signoff_1 starts at 13800"
+  },
+  {
+   "cmd": "time set 13770"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_signoff"
+  },
+  {
+   "note": "KIND interval: emissora_lusitana/interval_lusitana starts at 1000"
+  },
+  {
+   "cmd": "time set 970"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_interval"
+  },
+  {
+   "note": "KIND music: emissora_lusitana/orquestra_1 starts at 0"
+  },
+  {
+   "cmd": "time set 23970"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "kind_music"
+  },
+  {
+   "note": "KIND static+hiss+whistle"
+  },
+  {
+   "open": [
+    0,
+    -60,
+    3
+   ]
+  },
+  {
+   "wait": 10
+  },
+  {
+   "click_dial_khz": 850
+  },
+  {
+   "wait": 40
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "kind_whistle_static_hiss"
+  },
+  {
+   "click_power": true
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "kind_power_off"
+  },
+  {
+   "click_power": true
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "kind_power_on"
+  },
+  {
+   "close": true
+  },
+  {
+   "quit": true
+  }
+ ]
+}

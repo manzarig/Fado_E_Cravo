@@ -1,0 +1,411 @@
+{
+ "comment": "Critic scenario: spatial falloff. One radio on 1035 at (0,-60,0); the player stands d blocks away along +z looking back at it: 4, 8, 16, 24, 32, 40, 48, 52, 56, 60, 62, 64, 66, 68, 72, 76 and 4 again. Each stop is 6 s; the audio level of the last 3 s is compared with the clip's own level (mixcheck.py) to get the gain. Linear attenuation over 64 blocks is expected (gain 1 - d/64).",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "timeout_minutes": 14
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 10 -50 10 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    4.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 0 fadoecravo:radio[facing=south,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "mark": "sync_start"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "note": "DISTANCE 4"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    4.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_4"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 8"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    8.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_8"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 16"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    16.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_16"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 24"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    24.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_24"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 32"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    32.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_32"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 40"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    40.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_40"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 48"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    48.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_48"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 52"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    52.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_52"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 56"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    56.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_56"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 60"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    60.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_60"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 62"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    62.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_62"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 64"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    64.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_64"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 66"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    66.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_66"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 68"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    68.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_68"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 72"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    72.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_72"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 76"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    76.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_76"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "note": "DISTANCE 4"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    4.5,
+    180,
+    0
+   ]
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "distance_4"
+  },
+  {
+   "wait": 90
+  },
+  {
+   "mark": "sync_end"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "quit": true
+  }
+ ]
+}

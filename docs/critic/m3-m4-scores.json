@@ -1,0 +1,403 @@
+{
+  "milestone": "M3+M4",
+  "build": "ceb76ec (clean tree)",
+  "method": "headless dev client, 14 scenario runs, OpenAL wave capture, offline OGG analysis, faster-whisper ASR (small on 27 clips, medium on 6), python port of BroadcastSchedule, ./gradlew test (371 pass)",
+  "A": {
+    "score": 4,
+    "summary": "Reads as a 1940s cabinet radio in the Terracotta palette; four facings, on/off strips and item icon correct; no missing textures in 86 shots. Item frame shows the plain back (fixed display rotation 180).",
+    "evidence": [
+      "docs/critic/m3-m4/01_radio_day_front_on_left_off_right.jpg",
+      "docs/critic/m3-m4/02_four_facings_NESW.jpg",
+      "docs/critic/m3-m4/03_radio_night_on_left_off_right.jpg",
+      "docs/critic/m3-m4/04_item_icon_hotbar_and_item_frame_back_face.jpg"
+    ]
+  },
+  "B": {
+    "score": 4,
+    "summary": "Clean, readable tuning screen in en and pt-PT down to a 320x240 GUI; every readout matched the block entity. Shows 'Signal locked' and a full bar with the power off, and 'locked' on a 55% weak station; tooltip key unused.",
+    "evidence": [
+      "docs/critic/m3-m4/05_gui_en_1035_1440day_1045partial_850static.jpg",
+      "docs/critic/m3-m4/06_gui_pt_1035_1440day_1051static_power_off.jpg",
+      "docs/critic/m3-m4/07_gui_320x240_en_small_layout.jpg"
+    ]
+  },
+  "C1": {
+    "score": 3,
+    "summary": "Pace is fine (2.18-3.03, mean 2.53 words/s) but ASR word error rate on the shipped speech is 0.40 (whisper small, 27 clips) and 0.32 (medium, 6 clips) against 0.28 and 0.13 before the AM chain. The -30 dBFS baked-in pink noise is the cause: same chain without noise gives 0.143; noise -40 dBFS gives 0.185.",
+    "evidence": [
+      "docs/critic/m3-m4/asr_wer_whisper_small_all_speech_clips.csv",
+      "docs/critic/m3-m4/asr_wer_whisper_medium_noise_experiment.csv"
+    ]
+  },
+  "C2": {
+    "score": 4,
+    "summary": "Placeholder music fits the role: 72-85 s songs and 10-11 s chimes, -15.4 to -16.1 LUFS, no clipping, quiet clip edges, plausible instruments and tempi. Judged by measurement and spectrogram, not by ear.",
+    "evidence": [
+      "docs/critic/m3-m4/spectrogram_capture_and_sources.png"
+    ]
+  },
+  "C3": {
+    "score": 4,
+    "summary": "Band-limited programme (95% of energy in 300 Hz-3.4 kHz in the capture), baked noise and crackle, run-time static, hiss, whistle and warm-up. The strong sub-130 Hz energy is the 100 Hz mains hum of carrier_hiss.ogg (16% of its energy), the tube_warmup hum and the power on/off thumps; not the programme or the static.",
+    "evidence": [
+      "docs/critic/m3-m4/spectrogram_capture_and_sources.png",
+      "docs/critic/m3-m4/capture_excerpt_blend_programme_to_static.ogg"
+    ]
+  },
+  "C4": {
+    "score": 4,
+    "summary": "Station and music clips are within 0.7 LU (-15.4 to -16.1 LUFS); the gain chain matches the formula (fit 0.707 / 0.685). Static-only floor is 11 dB under a locked programme. Four in-sync radios are 6-8 dB louder than one and touch 0 dBFS (198 clipped samples); a weak station barely sounds weak.",
+    "evidence": [
+      "build/critic/critic_blend",
+      "build/critic/critic_multi",
+      "build/critic/critic_misc"
+    ]
+  },
+  "C5": {
+    "score": 5,
+    "summary": "Linear 1-d/64 attenuation measured within 0.2 dB from 4 to 62 blocks, silent from 64, no click at the edge.",
+    "evidence": [
+      "build/critic/critic_falloff"
+    ]
+  },
+  "D": {
+    "score": 4,
+    "summary": "All 42 sounds have subtitles in en_us and pt_pt with identical key sets; every kind seen in game. Subtitles appear once per sound. A false 'Radio static' shows when the static loop runs at volume 0 on a clear station.",
+    "evidence": [
+      "docs/critic/m3-m4/08_subtitles_after_power_on.jpg",
+      "docs/critic/m3-m4/09_breaking_news_subtitle_and_command_errors.jpg",
+      "build/critic/critic_subtitles_pt"
+    ]
+  },
+  "E1": {
+    "score": 4,
+    "summary": "/give, hotbar icon, recipe unlock, loot table and facing from four angles verified. Real player placement and the creative tab could not be driven by the harness.",
+    "evidence": [
+      "docs/critic/m3-m4/02_four_facings_NESW.jpg",
+      "docs/critic/m3-m4/04_item_icon_hotbar_and_item_frame_back_face.jpg"
+    ]
+  },
+  "E2": {
+    "score": 4,
+    "summary": "Redstone rising edge toggles, falling edge does not, three pulses give on-off-on, screen button toggles; lamp, texture, sounds and subtitles follow. Sneak+use not drivable; its hint text is not wired.",
+    "evidence": [
+      "docs/critic/m3-m4/08_subtitles_after_power_on.jpg",
+      "build/critic/critic_power"
+    ]
+  },
+  "E3": {
+    "score": 5,
+    "summary": "All three stations, partial signal both sides, static, band ends and clamping, keys, wheel, drag and whistle verified; readouts and block entity agree.",
+    "evidence": [
+      "docs/critic/m3-m4/05_gui_en_1035_1440day_1045partial_850static.jpg",
+      "build/critic/critic_gui_en"
+    ]
+  },
+  "E4": {
+    "score": 4,
+    "summary": "Smooth monotone crossfade that matches Tuning and RadioMix; static only dominates the last quarter of the fade (equal to the programme at signal 0.22).",
+    "evidence": [
+      "build/critic/critic_blend",
+      "docs/critic/m3-m4/capture_excerpt_blend_programme_to_static.ogg"
+    ]
+  },
+  "E5": {
+    "score": 4,
+    "summary": "1242 radio samples agree with an independent port of BroadcastSchedule: openings first, order kept, announce/request directly before their song, ads between pairs. Content timing is awkward: dawn 100 s and dusk 90 s are shorter than their content, Lusitana night is a chime on repeat, spoken hours do not match the clock.",
+    "evidence": [
+      "build/critic/critic_phases"
+    ]
+  },
+  "E6": {
+    "score": 4,
+    "summary": "Off air by day (hiss and static only), on air from tick 13800 exactly. The weak signal (0.55) is subtle and the screen says 'Signal locked' at 55%.",
+    "evidence": [
+      "build/critic/critic_gui_en",
+      "build/critic/critic_misc"
+    ]
+  },
+  "E7": {
+    "score": 5,
+    "summary": "Bulletin interrupts only the named station, late tuners and late power-ons join at the right offset, the schedule resumes at the right position after the clip or 'clear', a second command replaces the first, error messages and subtitles correct in en and pt-PT.",
+    "evidence": [
+      "docs/critic/m3-m4/09_breaking_news_subtitle_and_command_errors.jpg",
+      "build/critic/critic_breaking"
+    ]
+  },
+  "E8": {
+    "score": 4,
+    "summary": "Offsets of four radios agree to 0.1 s for 150 s across five clip boundaries; a late radio joins in sync; the fifth is silent; swapping on movement does not restart clips. Four coherent radios are hot; with doDaylightCycle false radios do not share a clock.",
+    "evidence": [
+      "build/critic/critic_multi"
+    ]
+  },
+  "E9": {
+    "score": 5,
+    "summary": "No warning or error from the mod in 14 client logs (five constant vanilla/dev WARN lines), 20.0 ticks/s held, median 25-31 fps in software GL, 371 unit tests pass, no crash.",
+    "evidence": [
+      "build/critic/*/latest.log"
+    ]
+  },
+  "corrective_actions": [
+    {
+      "id": "CA-C1-01",
+      "category": "C1",
+      "severity": "medium",
+      "problem": "Speech is hard to follow: the pink noise bed baked into every clip at -30 dBFS raises the Whisper-medium word error rate from 0.134 (raw TTS) to 0.320 (shipped OGG, 6-clip subset; 0.278 to 0.403 with whisper small on all 27 clips). The same chain without noise scores 0.143, crackle alone 0.144, noise -36 dBFS 0.265, noise -40 dBFS 0.185. The game already adds run-time static and hiss, and the baked noise never fades with the signal.",
+      "fix": "In tools/audio/am_fx.py set NOISE_RMS_DBFS from -30.0 to -40.0 (try -42); keep the crackle and the 300 Hz-3.4 kHz band-limit. Rebuild with tools/audio/.venv/bin/python -I tools/audio/build_stations.py (FX is redone because am_fx.py is newer; TTS takes are kept). Target: Whisper-medium WER <= 0.20 on the same six clips (within 1.5x of raw) with loudness unchanged at -16 LUFS.",
+      "files": [
+        "tools/audio/am_fx.py",
+        "src/main/resources/assets/fadoecravo/sounds/radio/**/*.ogg",
+        "src/main/resources/assets/fadoecravo/stations/*.json (durations)",
+        "src/main/resources/assets/fadoecravo/sounds.json"
+      ],
+      "retest": "ASR run on the six clips (docs/critic/m3-m4-report.md section 4), ebur128 on all OGGs, then scenario critic_blend (static balance) and critic_phases"
+    }
+  ],
+  "polish": [
+    {
+      "id": "P-01",
+      "category": "D",
+      "suggestion": "False 'Radio static' subtitle on a clear station: start the static loop only when its target volume is above 0 (RadioChannel.tend alwaysWanted false) or drop the subtitle from static_loop.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java",
+        "src/main/resources/assets/fadoecravo/sounds.json (via tools/audio)"
+      ],
+      "retest": "critic_power pulse1_plus_8_ticks, critic_multi"
+    },
+    {
+      "id": "P-02",
+      "category": "B/E6",
+      "suggestion": "Dim the signal bar and drop 'Signal locked' when the radio is off; make RadioReadout.locked require signal >= 1.0 (or label it 'Tuned') so Atlantico does not read 'locked' at 55%.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/gui/RadioScreen.java",
+        "src/client/java/com/manzarig/fadoecravo/client/gui/RadioReadout.java"
+      ],
+      "retest": "critic_gui_en shots 05 and 15"
+    },
+    {
+      "id": "P-03",
+      "category": "A",
+      "suggestion": "Item frame shows the back: set display.fixed.rotation to [0,0,0] in models/block/radio.json.",
+      "files": [
+        "src/main/resources/assets/fadoecravo/models/block/radio.json"
+      ],
+      "retest": "critic_assets shot 02"
+    },
+    {
+      "id": "P-04",
+      "category": "docs/B",
+      "suggestion": "docs/MODRINTH.md and README.md still say the radio is not in the build; add recipe, use and sneak+use, dial range, stations, breaking command. Wire block.fadoecravo.radio.tooltip (defined, never shown) to the item tooltip.",
+      "files": [
+        "docs/MODRINTH.md",
+        "README.md",
+        "src/main/java/com/manzarig/fadoecravo/registry/ModItems.java"
+      ],
+      "retest": "manual"
+    },
+    {
+      "id": "P-05",
+      "category": "C4/E8",
+      "suggestion": "Headroom with several radios: scale each active channel's programme and static volume by about 1/sqrt(n) for n radios on, or cap at three. Target peak at or below -3 dBFS with four in-sync radios.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java",
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioMix.java"
+      ],
+      "retest": "critic_multi"
+    },
+    {
+      "id": "P-06",
+      "category": "E4/E6/C4",
+      "suggestion": "Weak stations: add a static floor, e.g. static = (1-s)*0.6 + (1-strength)*0.15 (Atlantico 0.27 -> 0.40, about 8 dB under its programme instead of 14).",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioMix.java"
+      ],
+      "retest": "critic_misc atlantico_weak"
+    },
+    {
+      "id": "P-07",
+      "category": "C3/C4",
+      "suggestion": "carrier_hiss is a 100 Hz mains hum (16% of energy below 130 Hz): high-pass it near 300 Hz or take the 100 Hz line down 10 dB so it rises with frequency; target below -20 dB of energy under 130 Hz. Keep the hum in tube_warmup.",
+      "files": [
+        "tools/audio/make_sfx.py"
+      ],
+      "retest": "critic_blend 850 stage spectrum"
+    },
+    {
+      "id": "P-08",
+      "category": "E5 content",
+      "suggestion": "Lusitana night: signoff then silence or a chime once a minute instead of 43 repeats; fit dawn (100 s) and dusk (90 s) content to the phase length; align spoken hours with the clock (tick 12000 = 18:00).",
+      "files": [
+        "tools/audio/stations.yaml",
+        "tools/audio/scripts/emissora_lusitana/*.txt"
+      ],
+      "retest": "critic_phases"
+    },
+    {
+      "id": "P-09",
+      "category": "B/D",
+      "suggestion": "pt-PT wording: 'Ligar' label next to 'Ligado' button; 'Role para sintonizar' -> 'Use a roda do rato para sintonizar'; 'Telefonia chia' -> 'Telefonia faz ruido'; English 'AM Radio' vs 'Medium Wave Radio'.",
+      "files": [
+        "src/main/resources/assets/fadoecravo/lang/pt_pt.json",
+        "src/main/resources/assets/fadoecravo/lang/en_us.json"
+      ],
+      "retest": "critic_gui_pt, critic_subtitles_pt"
+    },
+    {
+      "id": "P-10",
+      "category": "E8",
+      "suggestion": "With doDaylightCycle false radios ignore the clock: every switch-on restarts the same clip at the same offset and two radios drift apart. Derive the schedule position from game time since the freeze.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java",
+        "src/client/java/com/manzarig/fadoecravo/client/audio/DayClockWatch.java"
+      ],
+      "retest": "critic_power (frozen clock), critic_multi with daylight_cycle false"
+    },
+    {
+      "id": "P-11",
+      "category": "A",
+      "suggestion": "Give the on state lightLevel 2 or an emissive dial so it reads at night.",
+      "files": [
+        "src/main/java/com/manzarig/fadoecravo/registry/ModBlocks.java"
+      ],
+      "retest": "critic_assets night shots"
+    },
+    {
+      "id": "P-12",
+      "category": "E7",
+      "suggestion": "Accept station ids case-insensitively; add a usage message for /fadoecravo and /fadoecravo breaking.",
+      "files": [
+        "src/main/java/com/manzarig/fadoecravo/command/RadioCommand.java"
+      ],
+      "retest": "critic_breaking"
+    },
+    {
+      "id": "P-13",
+      "category": "E2",
+      "suggestion": "Let the programme wait for the 2.5 s tube warm-up (fade in over it).",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/audio/RadioChannel.java"
+      ],
+      "retest": "critic_power"
+    },
+    {
+      "id": "P-14",
+      "category": "C1 doc",
+      "suggestion": "tools/audio/README.md says Piper length_scale 1.1, tts.py uses 1.4.",
+      "files": [
+        "tools/audio/README.md"
+      ],
+      "retest": "manual"
+    },
+    {
+      "id": "P-15",
+      "category": "harness",
+      "suggestion": "Add use_item (right click a block face) and sneak steps so real placement and sneak+use can be tested.",
+      "files": [
+        "src/client/java/com/manzarig/fadoecravo/client/debug/CriticHarness.java",
+        "src/client/java/com/manzarig/fadoecravo/client/debug/CriticScenario.java"
+      ],
+      "retest": "new scenario"
+    }
+  ],
+  "untested": [
+    {
+      "item": "Placement by a real player and sneak+use",
+      "reason": "harness has no use_item or sneak step; a vanilla dispenser does not place block items; covered by code reading and setblock models"
+    },
+    {
+      "item": "Creative tab contents, inventory screen",
+      "reason": "harness never opens the inventory"
+    },
+    {
+      "item": "Hover tooltips on dial pins, real Shift+wheel",
+      "reason": "no real pointer or keyboard under Xvfb (emulated)"
+    },
+    {
+      "item": "Dedicated server, multiplayer, joining with a bulletin running, two clients",
+      "reason": "single dev client only"
+    },
+    {
+      "item": "Pause menu, sleeping, other dimensions, chunk unload",
+      "reason": "not drivable"
+    },
+    {
+      "item": "Listening to speech, music and noise",
+      "reason": "C1-C3 judged by ASR and spectra, not by ear"
+    },
+    {
+      "item": "GPU performance",
+      "reason": "software GL only"
+    }
+  ],
+  "table": [
+    {
+      "id": "A",
+      "score": 4
+    },
+    {
+      "id": "B",
+      "score": 4
+    },
+    {
+      "id": "C1",
+      "score": 3
+    },
+    {
+      "id": "C2",
+      "score": 4
+    },
+    {
+      "id": "C3",
+      "score": 4
+    },
+    {
+      "id": "C4",
+      "score": 4
+    },
+    {
+      "id": "C5",
+      "score": 5
+    },
+    {
+      "id": "D",
+      "score": 4
+    },
+    {
+      "id": "E1",
+      "score": 4
+    },
+    {
+      "id": "E2",
+      "score": 4
+    },
+    {
+      "id": "E3",
+      "score": 5
+    },
+    {
+      "id": "E4",
+      "score": 4
+    },
+    {
+      "id": "E5",
+      "score": 4
+    },
+    {
+      "id": "E6",
+      "score": 4
+    },
+    {
+      "id": "E7",
+      "score": 5
+    },
+    {
+      "id": "E8",
+      "score": 4
+    },
+    {
+      "id": "E9",
+      "score": 5
+    }
+  ]
+}
