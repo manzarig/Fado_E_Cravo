@@ -130,6 +130,16 @@ public final class RadioAudioManager {
 		return List.copyOf(states);
 	}
 
+	/**
+	 * How strongly the radio at {@code pos} is sounding its programme, from 0 (not played, off the
+	 * air, warming up or only static) to 1 (a clear station). The speaker cone of the model moves by
+	 * it. Call on the client thread.
+	 */
+	public static float speakerLevel(BlockPos pos) {
+		RadioChannel channel = CHANNELS.get(pos);
+		return channel == null ? 0.0f : channel.speakerLevel();
+	}
+
 	private static void onUnload(RadioBlockEntity radio) {
 		BlockPos pos = radio.getBlockPos();
 		// A replacement block entity is loaded before the old one is unloaded; keep the newer one.
@@ -173,7 +183,10 @@ public final class RadioAudioManager {
 				continue;
 			}
 			BlockPos pos = radio.getBlockPos();
-			if (distanceSqr(pos, ear) <= RANGE_SQR && isSwitchedOn(currentLevel, pos)) {
+			// A radio just switched on stays silent while its valves warm up (the warm-up sound plays
+			// meanwhile), then joins the programme where the schedule is, fading in.
+			if (distanceSqr(pos, ear) <= RANGE_SQR && isSwitchedOn(currentLevel, pos)
+				&& radio.warmupTicksLeft(currentLevel.getGameTime()) == 0) {
 				candidates.add(pos);
 			}
 		}

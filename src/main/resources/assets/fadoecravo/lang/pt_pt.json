@@ -13,11 +13,11 @@
   "station.fadoecravo.radio_atlantico": "Rádio Atlântico",
   "command.fadoecravo.breaking.success": "Notícia de última hora na %s",
   "command.fadoecravo.breaking.unknown_station": "Emissora desconhecida: %s",
-  "gui.fadoecravo.radio.tune_hint": "Role para sintonizar · Shift ×10 · arraste o ponteiro",
+  "gui.fadoecravo.radio.tune_hint": "Roda do rato para sintonizar · Shift ×10 · arraste o ponteiro",
   "gui.fadoecravo.radio.signal": "Sinal",
   "gui.fadoecravo.radio.off_air": "Fora do ar",
-  "gui.fadoecravo.radio.power": "Ligar",
-  "block.fadoecravo.radio.tooltip": "Use para sintonizar · Agachado + use para ligar ou desligar",
+  "gui.fadoecravo.radio.power": "Ligar ou desligar",
+  "block.fadoecravo.radio.tooltip": "Use para sintonizar · Agache-se e use para ligar ou desligar",
   "command.fadoecravo.breaking.cleared": "Notícia de última hora terminada",
   "subtitles.fadoecravo.music": "Telefonia toca música",
   "subtitles.fadoecravo.ident": "Emissora identifica-se",
@@ -37,5 +37,7 @@
   "subtitles.fadoecravo.sfx.power_on": "Telefonia liga-se",
   "subtitles.fadoecravo.sfx.power_off": "Telefonia desliga-se",
   "subtitles.fadoecravo.test.seek_test": "Tom de teste",
-  "gui.fadoecravo.radio.signal_weak": "Sinal fraco"
+  "gui.fadoecravo.radio.signal_weak": "Sinal fraco",
+  "gui.fadoecravo.radio.switch_on": "Ligar",
+  "gui.fadoecravo.radio.switch_off": "Desligar"
 }

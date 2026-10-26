@@ -59,6 +59,8 @@ public class RadioScreen extends Screen {
 	private static final String KEY_SIGNAL = "gui.fadoecravo.radio.signal";
 	private static final String KEY_OFF_AIR = "gui.fadoecravo.radio.off_air";
 	private static final String KEY_POWER = "gui.fadoecravo.radio.power";
+	private static final String KEY_SWITCH_ON = "gui.fadoecravo.radio.switch_on";
+	private static final String KEY_SWITCH_OFF = "gui.fadoecravo.radio.switch_off";
 
 	// Terracotta palette (CLAUDE.md), as opaque ARGB.
 	private static final int TERRACOTTA = 0xFFBD5D37;
@@ -275,8 +277,9 @@ public class RadioScreen extends Screen {
 		return level != null && level.getBlockState(pos).getOptionalValue(RadioBlock.ON).orElse(false);
 	}
 
+	/** The button says what it will do: switch off a radio that is on, switch on one that is off. */
 	private static Component powerLabel(boolean on) {
-		return Component.translatable(on ? KEY_POWER_ON : KEY_POWER_OFF);
+		return Component.translatable(on ? KEY_SWITCH_OFF : KEY_SWITCH_ON);
 	}
 
 	private RadioReadout readout() {
@@ -510,7 +513,8 @@ public class RadioScreen extends Screen {
 		if (on) {
 			g.fill(lx + 2, ly + 2, lx + 4, ly + 4, ALABASTER);
 		}
-		String label = Component.translatable(KEY_POWER).getString();
+		// Beside the lamp, the state; the button next to it names the action.
+		String label = Component.translatable(on ? KEY_POWER_ON : KEY_POWER_OFF).getString();
 		int labelX = Math.max(panelX + RadioLayout.INTERIOR.x() + 4, panelX + RadioLayout.POWER_LABEL_RIGHT - font.width(label));
 		g.drawString(font, label, labelX, panelY + RadioLayout.POWER_BUTTON.y() + (RadioLayout.POWER_BUTTON.h() - font.lineHeight) / 2 + 1,
 			ALABASTER, true);

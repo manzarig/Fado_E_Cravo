@@ -1,5 +1,6 @@
 package com.manzarig.fadoecravo.block.entity;
 
+import com.manzarig.fadoecravo.block.RadioBlock;
 import com.manzarig.fadoecravo.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -30,7 +31,15 @@ public class RadioBlockEntity extends BlockEntity {
 
 	private static final String FREQUENCY_KEY = "frequency";
 
+	/** How long the valves take to warm up after the radio is switched on, in ticks; as long as {@code sfx.tube_warmup}. */
+	public static final int WARMUP_TICKS = 50;
+
 	private int frequencyKhz = DEFAULT_KHZ;
+	/**
+	 * Client only, never saved: the game time at which this client saw the radio switched on, or
+	 * {@link Long#MIN_VALUE} if it never did. A radio that was already on when it loaded is warm.
+	 */
+	private long switchedOnAt = Long.MIN_VALUE;
 
 	public RadioBlockEntity(BlockPos pos, BlockState state) {
 		super(ModBlockEntities.RADIO, pos, state);
@@ -65,6 +74,36 @@ public class RadioBlockEntity extends BlockEntity {
 			BlockState state = getBlockState();
 			level.sendBlockUpdated(worldPosition, state, state, Block.UPDATE_ALL);
 		}
+	}
+
+	/**
+	 * Notices, on the client, the radio being switched on, which starts the warm-up. The chunk calls
+	 * this whenever the block state at this position changes and the block entity stays.
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	public void setBlockState(BlockState state) {
+		BlockState old = getBlockState();
+		super.setBlockState(state);
+		if (level != null && level.isClientSide && !isOn(old) && isOn(state)) {
+			switchedOnAt = level.getGameTime();
+		}
+	}
+
+	/**
+	 * Ticks of warm-up left at {@code gameTime}: from {@link #WARMUP_TICKS} right after the switch
+	 * down to 0. Always 0 on the server and for a radio this client did not see switched on.
+	 */
+	public int warmupTicksLeft(long gameTime) {
+		if (switchedOnAt == Long.MIN_VALUE || !isOn(getBlockState())) {
+			return 0;
+		}
+		long since = gameTime - switchedOnAt;
+		return since < 0 || since >= WARMUP_TICKS ? 0 : (int) (WARMUP_TICKS - since);
+	}
+
+	private static boolean isOn(BlockState state) {
+		return state.hasProperty(RadioBlock.ON) && state.getValue(RadioBlock.ON);
 	}
 
 	@Override

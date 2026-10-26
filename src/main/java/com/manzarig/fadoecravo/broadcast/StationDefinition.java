@@ -142,8 +142,10 @@ public record StationDefinition(int schema, String id, String name, int frequenc
 		if (!definition.onAir()) {
 			return;
 		}
-		if (definition.programs().isEmpty() && definition.interstitials().isEmpty()) {
-			problems.add(prefix + "on the air but has no programs or interstitials to loop, so it falls silent after the opening");
+		// An opening with nothing to loop after it is allowed: a station that closes down plays its
+		// sign-off and falls silent. A phase on the air with nothing at all is a mistake.
+		if (definition.opening().isEmpty() && definition.programs().isEmpty() && definition.interstitials().isEmpty()) {
+			problems.add(prefix + "on the air but has no clips at all; mark it off the air instead");
 		}
 		if (!definition.programs().isEmpty() && !definition.interstitials().isEmpty() && definition.interstitialEvery() == 0) {
 			problems.add(prefix + "has interstitials but interstitial_every is 0, so they are never played");

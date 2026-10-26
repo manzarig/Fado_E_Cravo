@@ -143,8 +143,8 @@ def validate_station(data, filename_stem: str, problems: list[str], where: str) 
         if not lists_ok or not isinstance(block["on_air"], bool):
             continue
         if block["on_air"]:
-            if not block["programs"]:
-                problems.append(f"{pw}: on-air phase has no programs")
+            if not (block["opening"] or block["programs"] or block["interstitials"]):
+                problems.append(f"{pw}: on-air phase has no clips at all (mark it off-air instead)")
             if block["interstitials"] and every < 1:
                 problems.append(f"{pw}: interstitials need interstitial_every >= 1")
             if not block["interstitials"] and every != 0:

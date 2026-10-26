@@ -266,7 +266,7 @@ def build_station_file(station: dict[str, Any], by_label: dict[str, Item], music
                 block[key] = kept
             if not block["interstitials"]:
                 block["interstitial_every"] = 0
-            if not block["programs"]:
+            if not block["programs"] and station["phases"][phase]["programs"]:
                 warn(f"{sid} {phase}: no programs left, phase set off-air")
                 block = {"on_air": False, "opening": [], "programs": [], "interstitials": [], "interstitial_every": 0}
         phases[phase] = {k: block[k] for k in ("on_air", "opening", "programs", "interstitials", "interstitial_every")}

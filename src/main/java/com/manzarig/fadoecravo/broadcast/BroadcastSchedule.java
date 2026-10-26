@@ -37,6 +37,15 @@ import java.util.stream.StreamSupport;
  * {@link #MIN_CLIP_SECONDS}, which stops a clip with a zero duration from stalling the walk. A phase
  * lasts at most 550 s of this, so walking from the start every time is cheap. Clip ids that are not
  * in the station's {@code clips} are skipped as if they were not in the list.
+ *
+ * <p><b>Carry-over.</b> A clip that is still playing when its phase ends is not cut: it plays to its
+ * end, and the next phase's sequence starts after it. The time it takes from the next phase is the
+ * <i>carry-in</i> of that phase, see {@link #carryIn}. It is capped at
+ * {@link #MAX_CARRY_FRACTION} of the phase, so that a long song cannot take a short dusk, and dawn
+ * never has one: the broadcasting day starts at five o'clock sharp. That also keeps the reckoning
+ * short, because a carry-in depends only on the phases back to the last dawn. During a carry-in,
+ * {@link #at} returns the slot of the previous phase instance, and {@link #ownerAt} says which
+ * instance owns a moment.
  */
 public final class BroadcastSchedule {
 	/** Every clip is treated as at least one tick long, so a walk always moves forward. */
@@ -48,6 +57,8 @@ public final class BroadcastSchedule {
 	private static final int MAX_UNRESOLVED_RUN = 10_000;
 	private static final long FNV_OFFSET_BASIS = 0xCBF29CE484222325L;
 	private static final long FNV_PRIME = 0x100000001B3L;
+	/** The most of a phase that the last clip of the phase before it may take, as a fraction of its length. */
+	public static final double MAX_CARRY_FRACTION = 0.5;
 
 	private BroadcastSchedule() {
 	}
@@ -61,22 +72,96 @@ public final class BroadcastSchedule {
 	 */
 	public static Optional<Slot> at(StationDefinition station, long dayTime) {
 		Phase phase = Phase.of(dayTime);
-		Plan plan = Plan.of(station, phase, Phase.dayOf(dayTime));
+		PhaseInstance instance = new PhaseInstance(phase, Phase.dayOf(dayTime));
+		double elapsed = phase.elapsedTicks(dayTime) / TICKS_PER_SECOND;
+		double carry = carryIn(station, instance);
+		if (elapsed + EPSILON < carry) {
+			// Still the last clip of the phase before, which runs on into this one.
+			PhaseInstance previous = instance.previous();
+			Located last = lastClipOf(station, previous);
+			double offset = previous.lengthSeconds() - last.clipStart() + elapsed;
+			return Optional.of(last.slot().withOffset(offset));
+		}
+		Plan plan = Plan.of(station, phase, instance.day());
 		if (plan == null) {
 			return Optional.empty();
 		}
-		double elapsed = phase.elapsedTicks(dayTime) / TICKS_PER_SECOND;
-		double clipStart = 0.0;
+		Located located = locate(plan, carry, elapsed);
+		if (located == null) {
+			return Optional.empty();
+		}
+		double offset = elapsed - located.clipStart();
+		return Optional.of(located.slot().withOffset(offset < EPSILON ? 0.0 : offset));
+	}
+
+	/**
+	 * The phase instance whose sequence is on the air at {@code dayTime}: the one the clock says,
+	 * except during a carry-in, when it is the one before. A radio compares it to tell a change of
+	 * programme from the clock merely passing a phase boundary.
+	 */
+	public static PhaseInstance ownerAt(StationDefinition station, long dayTime) {
+		PhaseInstance instance = PhaseInstance.of(dayTime);
+		double elapsed = instance.phase().elapsedTicks(dayTime) / TICKS_PER_SECOND;
+		return elapsed + EPSILON < carryIn(station, instance) ? instance.previous() : instance;
+	}
+
+	/**
+	 * Seconds at the start of {@code instance} that the last clip of the instance before it still
+	 * takes: what is left of that clip when its phase ends, at most {@link #MAX_CARRY_FRACTION} of
+	 * {@code instance}. It is 0 for a dawn, after a phase that is off the air and after a sequence
+	 * that ended before its phase did. The phase of {@code instance} itself may be off the air: a
+	 * song still finishes before the station goes quiet.
+	 */
+	public static double carryIn(StationDefinition station, PhaseInstance instance) {
+		if (instance.phase() == Phase.DAWN) {
+			return 0.0;
+		}
+		PhaseInstance previous = instance.previous();
+		double previousEnd = previous.lengthSeconds();
+		Located last = lastClipOf(station, previous);
+		if (last == null) {
+			return 0.0;
+		}
+		double left = last.clipStart() + effectiveDuration(station.clips().get(last.slot().clipId())) - previousEnd;
+		if (left <= EPSILON) {
+			return 0.0;
+		}
+		return Math.min(left, instance.lengthSeconds() * MAX_CARRY_FRACTION);
+	}
+
+	/** A slot of a sequence and the second of its phase at which it begins. */
+	private record Located(Slot slot, double clipStart) {
+	}
+
+	/**
+	 * The clip that is playing as {@code instance} ends: the one that began before its end, not one
+	 * that would begin exactly on it. Null when the instance is off the air or its sequence ended.
+	 */
+	private static Located lastClipOf(StationDefinition station, PhaseInstance instance) {
+		return locate(station, instance, carryIn(station, instance), instance.lengthSeconds() - 2 * EPSILON);
+	}
+
+	/** {@link #locate(Plan, double, double)} for an instance that may be off the air (then null). */
+	private static Located locate(StationDefinition station, PhaseInstance instance, double start, double time) {
+		Plan plan = Plan.of(station, instance.phase(), instance.day());
+		return plan == null ? null : locate(plan, start, time);
+	}
+
+	/**
+	 * The clip that is playing {@code time} seconds into the phase, when the sequence begins at
+	 * {@code start} seconds; null when the sequence has ended by then.
+	 */
+	private static Located locate(Plan plan, double start, double time) {
+		double clipStart = start;
 		int index = 0;
 		while (true) {
 			Slot slot = plan.slotFrom(index);
 			if (slot == null) {
-				return Optional.empty();
+				return null;
 			}
-			double clipEnd = clipStart + effectiveDuration(station.clips().get(slot.clipId()));
-			if (elapsed + EPSILON < clipEnd) {
-				double offset = elapsed - clipStart;
-				return Optional.of(slot.withOffset(offset < EPSILON ? 0.0 : offset));
+			double clipEnd = clipStart + effectiveDuration(plan.station().clips().get(slot.clipId()));
+			if (time + EPSILON < clipEnd) {
+				return new Located(slot, clipStart);
 			}
 			clipStart = clipEnd;
 			index = slot.sequenceIndex() + 1;
@@ -87,7 +172,7 @@ public final class BroadcastSchedule {
 	 * The clip that follows {@code slot} in the same phase instance, from its beginning (offset 0).
 	 * A radio uses it to carry on when a clip ends, without asking the clock, so playback goes on
 	 * even when time stands still. It can lie past the end of the phase: the caller moves to
-	 * {@link #at} when the phase changes.
+	 * {@link #at} when {@link #ownerAt} changes.
 	 *
 	 * @return the following slot, or empty when the sequence ends there, the phase is off the air
 	 *         or {@code slot} is a breaking-news slot

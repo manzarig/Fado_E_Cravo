@@ -254,8 +254,8 @@ def validate_manifest(data: Any) -> list[str]:
                 if block["opening"] or block["programs"] or block["interstitials"] or every:
                     problems.append(f"{pw}: off-air phase must have empty lists and interstitial_every 0")
             else:
-                if not block["programs"]:
-                    problems.append(f"{pw}: on-air phase needs at least one program")
+                if not (block["opening"] or block["programs"] or block["interstitials"]):
+                    problems.append(f"{pw}: on-air phase has no clips at all (mark it off-air instead)")
                 if block["interstitials"] and every < 1:
                     problems.append(f"{pw}: interstitials need interstitial_every >= 1")
                 if not block["interstitials"] and every != 0:

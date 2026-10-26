@@ -56,11 +56,10 @@
     "night": {
       "on_air": true,
       "opening": [
-        "signoff_1"
-      ],
-      "programs": [
+        "signoff_1",
         "interval_lusitana"
       ],
+      "programs": [],
       "interstitials": [],
       "interstitial_every": 0
     }

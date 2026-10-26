@@ -168,6 +168,14 @@ Constants: `RadioBlockEntity.MIN_KHZ = 530`, `MAX_KHZ = 1600`.
   an ordered cycle with one interstitial (taken in rotating order) after every `interstitialEvery`
   programs; cycle start rotated by `(hash(id, day, phase) mod (programs.size()/step)) * step`,
   `step = max(1, interstitialEvery)`. Offset = elapsed seconds walked through clip durations.
+- **Carry-over (M5):** a clip still playing when its phase ends finishes first; the next phase's
+  sequence starts after it. `BroadcastSchedule.carryIn(station, PhaseInstance)` is that overlap,
+  capped at `MAX_CARRY_FRACTION` (0.5) of the phase, and always 0 for dawn (the broadcasting day starts
+  at 05:00 sharp). `at()` returns the previous instance's slot during a carry-in;
+  `ownerAt(station, dayTime)` → the `PhaseInstance(phase, day)` whose sequence is on the air, which
+  the client compares instead of the clock's phase.
+- An on-air phase may have only an `opening` (a close-down: Lusitana's night is `signoff_1` +
+  `interval_lusitana`, then silence). An on-air phase with no clips at all is invalid.
 - `BroadcastSchedule.next(StationDefinition, Slot)` → following slot (offset 0) in the same phase
   instance. `BroadcastSchedule.breaking(StationDefinition, long startGameTime, long seed, long gameTime)`
   → `Optional<Slot>` (kind `breaking`), empty once the clip is over.
@@ -180,7 +188,9 @@ Constants: `RadioBlockEntity.MIN_KHZ = 530`, `MAX_KHZ = 1600`.
   logged; `all()`, `get(id)`), `client/broadcast/ClientBreakingNews`, `client/audio/RadioAudioManager`
   (per-tick: 4 nearest ON radios within 72 blocks; programme at volume s, `STATIC_LOOP` at `(1-s)·0.6`,
   off air → `CARRIER_HISS` + static; continue with `next()`, resync with `at()` on phase/frequency/news
-  change or drift > 5 s; fade out 0.5 s on off/unload), `client/audio/StaticSoundInstance` (looping).
+  change or drift > 5 s; fade out 0.5 s on off/unload). A radio this client saw switched on stays
+  silent for `RadioBlockEntity.WARMUP_TICKS` (50, the length of `TUBE_WARMUP`;
+  `warmupTicksLeft(gameTime)`), then joins the schedule faded in, `client/audio/StaticSoundInstance` (looping).
 - `client/gui/RadioScreen` — no container; GUI fills in the Terracotta palette (textured in M5); dial
   530–1600 kHz, scroll ±1 (Shift ±10), drag needle, frequency + station name + signal bar, power
   button → `TogglePowerPayload`; `SetFrequencyPayload` 250 ms after the last change and on close;

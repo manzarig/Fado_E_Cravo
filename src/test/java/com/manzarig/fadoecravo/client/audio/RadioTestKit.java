@@ -35,12 +35,16 @@ final class RadioTestKit {
 	}
 
 	/**
-	 * A station at {@code khz} whose every phase opens with a 10 s ident, then cycles two songs (60 s
-	 * and 40 s) with a 20 s ad after each. It has a 15 s bulletin.
+	 * A station at {@code khz} whose every phase but dawn opens with a 10 s ident, then cycles two
+	 * songs (60 s and 40 s) with a 20 s ad after each. It has a 15 s bulletin. Dawn is off the air, so
+	 * nothing is carried over into the day ({@code BroadcastSchedule#carryIn}), and the day ends
+	 * exactly with a clip (10 + 3 x 140 + 120 = 550 s), so nothing is carried into dusk either: every
+	 * phase starts with its ident at its first tick.
 	 */
 	static StationDefinition station(String stationId, int khz, double strength) {
 		return builder(stationId, khz, strength)
 			.allPhases(new PhaseDefinition(true, List.of("ident"), List.of("song_a", "song_b"), List.of("ad"), 1))
+			.phase(Phase.DAWN, PhaseDefinition.OFF_AIR)
 			.build();
 	}
 

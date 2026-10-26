@@ -28,6 +28,18 @@ class BroadcastScheduleTest {
 		return phase == Phase.DAWN ? 24000L * day - 1000 : 24000L * day + phase.startTick();
 	}
 
+	/** Ticks at the start of a phase instance taken by the clip carried over from the one before, see {@link BroadcastSchedule#carryIn}. */
+	static int carryTicks(StationDefinition station, Phase phase, long day) {
+		double ticks = BroadcastSchedule.carryIn(station, new PhaseInstance(phase, day)) * 20;
+		assertEquals(Math.round(ticks), ticks, 1e-6, "a carry-in is a whole number of ticks");
+		return (int) Math.round(ticks);
+	}
+
+	/** First day time of the phase instance's own sequence: its start, after any carry-in. */
+	static long openingStart(StationDefinition station, Phase phase, long day) {
+		return phaseStart(phase, day) + carryTicks(station, phase, day);
+	}
+
 	static List<Slot> walk(StationDefinition station, Phase phase, long day, int count) {
 		return BroadcastSchedule.sequence(station, phase, day).limit(count).toList();
 	}
@@ -41,7 +53,7 @@ class BroadcastScheduleTest {
 		static Timeline of(StationDefinition station, Phase phase, long day) {
 			List<Slot> slots = walk(station, phase, day, 80);
 			List<Long> starts = new ArrayList<>();
-			long tick = 0;
+			long tick = carryTicks(station, phase, day);
 			for (Slot slot : slots) {
 				starts.add(tick);
 				double ticks = station.clips().get(slot.clipId()).duration() * 20;
@@ -52,7 +64,7 @@ class BroadcastScheduleTest {
 			return new Timeline(station, slots, starts);
 		}
 
-		/** The slot on the air {@code elapsedTicks} into the phase. */
+		/** The slot on the air {@code elapsedTicks} into the phase, which must be after the carry-in. */
 		Slot at(int elapsedTicks) {
 			int i = 0;
 			while (i + 1 < slots.size() && startTicks.get(i + 1) <= elapsedTicks) {
@@ -64,6 +76,14 @@ class BroadcastScheduleTest {
 
 	private static List<Phase> onAirPhases(StationDefinition station) {
 		return Arrays.stream(Phase.values()).filter(phase -> station.phases().get(phase).onAir()).toList();
+	}
+
+	/** The on-air phases that loop until they end, unlike a close-down that falls silent after its opening. */
+	private static List<Phase> loopingPhases(StationDefinition station) {
+		return onAirPhases(station).stream().filter(phase -> {
+			PhaseDefinition definition = station.phases().get(phase);
+			return !definition.programs().isEmpty() || !definition.interstitials().isEmpty();
+		}).toList();
 	}
 
 	// --- determinism ---
@@ -123,7 +143,7 @@ class BroadcastScheduleTest {
 		for (Phase phase : onAirPhases(station)) {
 			PhaseDefinition definition = station.phases().get(phase);
 			for (long day : new long[] {0, 1, 17, -4}) {
-				Slot first = BroadcastSchedule.at(station, phaseStart(phase, day)).orElseThrow();
+				Slot first = BroadcastSchedule.at(station, openingStart(station, phase, day)).orElseThrow();
 				String where = id + " " + phase + " day " + day;
 				assertEquals(phase, first.phase(), where);
 				assertEquals(day, first.day(), where);
@@ -144,7 +164,7 @@ class BroadcastScheduleTest {
 		StationDefinition lusitana = TestStations.load("emissora_lusitana");
 		for (Phase phase : Phase.values()) {
 			List<String> opening = lusitana.phases().get(phase).opening();
-			Slot first = BroadcastSchedule.at(lusitana, phaseStart(phase, 3)).orElseThrow();
+			Slot first = BroadcastSchedule.at(lusitana, openingStart(lusitana, phase, 3)).orElseThrow();
 			assertEquals(opening.get(0), first.clipId(), phase.toString());
 			assertEquals(lusitana.clips().get(opening.get(0)).sound(), first.sound());
 			assertEquals(lusitana.clips().get(opening.get(0)).kind(), first.kind());
@@ -245,17 +265,21 @@ class BroadcastScheduleTest {
 	}
 
 	@Test
-	void lusitanaNightLoopsTheIntervalSignalAfterTheSignOff() {
+	void lusitanaClosesDownAtNightAfterTheSignOffAndOneChime() {
 		StationDefinition lusitana = TestStations.load("emissora_lusitana");
 		PhaseDefinition night = lusitana.phases().get(Phase.NIGHT);
+		assertEquals(List.of("signoff_1", "interval_lusitana"), night.opening());
+		assertTrue(night.programs().isEmpty());
 		assertTrue(night.interstitials().isEmpty());
-		List<Slot> slots = walk(lusitana, Phase.NIGHT, 2, 40);
-		assertEquals(night.opening(), ids(slots.subList(0, night.opening().size())));
-		for (Slot slot : slots.subList(night.opening().size(), slots.size())) {
-			assertEquals(night.programs().get(0), slot.clipId());
-		}
-		Slot late = BroadcastSchedule.at(lusitana, phaseStart(Phase.NIGHT, 2) + Phase.NIGHT.lengthTicks() - 1).orElseThrow();
-		assertEquals(night.programs().get(0), late.clipId());
+		assertEquals(night.opening(), ids(walk(lusitana, Phase.NIGHT, 2, 40)), "the sequence ends after the opening");
+		long opening = openingStart(lusitana, Phase.NIGHT, 2);
+		assertEquals("signoff_1", BroadcastSchedule.at(lusitana, opening).orElseThrow().clipId());
+		double length = lusitana.clips().get("signoff_1").duration() + lusitana.clips().get("interval_lusitana").duration();
+		long silent = opening + Math.round(length * 20);
+		assertTrue(BroadcastSchedule.at(lusitana, silent - 1).isPresent());
+		assertTrue(BroadcastSchedule.at(lusitana, silent).isEmpty(), "closed down until dawn");
+		assertTrue(BroadcastSchedule.at(lusitana, phaseStart(Phase.NIGHT, 2) + Phase.NIGHT.lengthTicks() - 1).isEmpty());
+		assertEquals("ident_1", BroadcastSchedule.at(lusitana, phaseStart(Phase.DAWN, 3)).orElseThrow().clipId());
 	}
 
 	// --- Rádio Tejo pairs ---
@@ -304,13 +328,14 @@ class BroadcastScheduleTest {
 		PhaseDefinition day = tejo.phases().get(Phase.DAY);
 		List<Slot> slots = walk(tejo, Phase.DAY, 0, 3);
 		double firstDuration = tejo.clips().get(slots.get(0).clipId()).duration();
-		// 100 ticks into the day phase: 5 seconds into the opening clip.
-		Slot five = BroadcastSchedule.at(tejo, 1000 + 100).orElseThrow();
+		// 100 ticks into the day's own sequence: 5 seconds into the opening clip.
+		long opening = openingStart(tejo, Phase.DAY, 0);
+		Slot five = BroadcastSchedule.at(tejo, opening + 100).orElseThrow();
 		assertEquals(day.opening().get(0), five.clipId());
 		assertEquals(5.0, five.offsetSeconds(), TICK);
 		// Half a second into the second clip.
 		long secondStart = Math.round(firstDuration * 20);
-		Slot second = BroadcastSchedule.at(tejo, 1000 + secondStart + 10).orElseThrow();
+		Slot second = BroadcastSchedule.at(tejo, opening + secondStart + 10).orElseThrow();
 		assertEquals(slots.get(1).clipId(), second.clipId());
 		assertEquals(1, second.sequenceIndex());
 		assertEquals(0.5, second.offsetSeconds(), TICK);
@@ -320,10 +345,10 @@ class BroadcastScheduleTest {
 	@MethodSource("stationIds")
 	void everyTickOfEveryPhaseMatchesAnIndependentWalk(String id) {
 		StationDefinition station = TestStations.load(id);
-		for (Phase phase : onAirPhases(station)) {
+		for (Phase phase : loopingPhases(station)) {
 			for (long day : new long[] {0, 3, -2}) {
 				Timeline timeline = Timeline.of(station, phase, day);
-				for (int tick = 0; tick < phase.lengthTicks(); tick++) {
+				for (int tick = carryTicks(station, phase, day); tick < phase.lengthTicks(); tick++) {
 					String where = id + " " + phase + " day " + day + " tick " + tick;
 					Slot actual = BroadcastSchedule.at(station, phaseStart(phase, day) + tick).orElseThrow();
 					Slot expected = timeline.at(tick);
@@ -341,9 +366,9 @@ class BroadcastScheduleTest {
 	@MethodSource("stationIds")
 	void theOffsetGrowsWithinAClipAndRestartsAtTheNext(String id) {
 		StationDefinition station = TestStations.load(id);
-		for (Phase phase : onAirPhases(station)) {
+		for (Phase phase : loopingPhases(station)) {
 			Slot previous = null;
-			for (int tick = 0; tick < phase.lengthTicks(); tick++) {
+			for (int tick = carryTicks(station, phase, 5); tick < phase.lengthTicks(); tick++) {
 				Slot slot = BroadcastSchedule.at(station, phaseStart(phase, 5) + tick).orElseThrow();
 				double duration = station.clips().get(slot.clipId()).duration();
 				assertTrue(slot.offsetSeconds() >= 0 && slot.offsetSeconds() < duration, id + " " + phase + " tick " + tick);
@@ -438,10 +463,10 @@ class BroadcastScheduleTest {
 	void nextEqualsAtEvaluatedAtTheEndOfTheClip(String id) {
 		StationDefinition station = TestStations.load(id);
 		int checked = 0;
-		for (Phase phase : onAirPhases(station)) {
+		for (Phase phase : loopingPhases(station)) {
 			for (long day : new long[] {0, 6}) {
 				long start = phaseStart(phase, day);
-				for (int tick = 0; tick < phase.lengthTicks(); tick++) {
+				for (int tick = carryTicks(station, phase, day); tick < phase.lengthTicks(); tick++) {
 					Slot slot = BroadcastSchedule.at(station, start + tick).orElseThrow();
 					double remainingTicks = (station.clips().get(slot.clipId()).duration() - slot.offsetSeconds()) * 20;
 					long end = tick + Math.round(remainingTicks);
@@ -468,9 +493,9 @@ class BroadcastScheduleTest {
 	@MethodSource("stationIds")
 	void chainingNextWalksTheSequenceWithoutTheClock(String id) {
 		StationDefinition station = TestStations.load(id);
-		for (Phase phase : onAirPhases(station)) {
+		for (Phase phase : loopingPhases(station)) {
 			List<Slot> expected = walk(station, phase, 4, 50);
-			Slot slot = BroadcastSchedule.at(station, phaseStart(phase, 4)).orElseThrow();
+			Slot slot = BroadcastSchedule.at(station, openingStart(station, phase, 4)).orElseThrow();
 			for (int i = 0; i < expected.size(); i++) {
 				assertEquals(expected.get(i), slot, id + " " + phase + " item " + i);
 				slot = BroadcastSchedule.next(station, slot).orElseThrow();

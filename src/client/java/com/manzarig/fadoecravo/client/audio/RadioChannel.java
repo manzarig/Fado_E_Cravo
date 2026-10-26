@@ -2,7 +2,7 @@ package com.manzarig.fadoecravo.client.audio;
 
 import com.manzarig.fadoecravo.broadcast.BroadcastSchedule;
 import com.manzarig.fadoecravo.broadcast.ClipInfo;
-import com.manzarig.fadoecravo.broadcast.Phase;
+import com.manzarig.fadoecravo.broadcast.PhaseInstance;
 import com.manzarig.fadoecravo.broadcast.Slot;
 import com.manzarig.fadoecravo.broadcast.StationDefinition;
 import com.manzarig.fadoecravo.broadcast.Tuning;
@@ -34,7 +34,8 @@ import org.slf4j.Logger;
  * </ul>
  *
  * <p><b>Staying in step.</b> Each tick the channel works out the strongest station for the radio's
- * frequency, whether a bulletin is running on it, and the phase instance of the day time. It starts
+ * frequency, whether a bulletin is running on it, and the phase instance that owns the day time
+ * ({@link BroadcastSchedule#ownerAt}, which allows for a clip carried over a phase boundary). It starts
  * again from {@link BroadcastSchedule#at} (a <i>resync</i>) when the station, the bulletin or the
  * phase instance differs from what it last started, when it has not been synced yet, when the
  * playback is more than {@link SyncPolicy#DRIFT_LIMIT_SECONDS} from the schedule (only checked while
@@ -92,13 +93,6 @@ final class RadioChannel {
 		BreakingNewsPayload news) {
 	}
 
-	/** A phase instance: which part of which day, as {@link Phase#dayOf} numbers them. */
-	private record PhaseKey(Phase phase, long day) {
-		static PhaseKey of(long dayTime) {
-			return new PhaseKey(Phase.of(dayTime), Phase.dayOf(dayTime));
-		}
-	}
-
 	/** The clip being played and what is needed to follow it. */
 	private static final class Programme {
 		final Slot slot;
@@ -153,7 +147,7 @@ final class RadioChannel {
 	private int crowd = 1;
 	/** The phase instance of the last start; null before the first one and after a sound that did not start. */
 	@Nullable
-	private PhaseKey syncedPhase;
+	private PhaseInstance syncedPhase;
 	/** The bulletin being played; null when the programme is the scheduled one. */
 	@Nullable
 	private BreakingNewsPayload playingNews;
@@ -212,7 +206,10 @@ final class RadioChannel {
 			bulletin = Optional.empty();
 		}
 		BreakingNewsPayload newsNow = bulletin.isPresent() ? frame.news() : null;
-		PhaseKey phaseNow = PhaseKey.of(frame.dayTime());
+		// The instance that owns the moment, not the clock's: a song carried over into the next phase
+		// is not a change of phase until it is over.
+		PhaseInstance phaseNow = tunedStation == null ? PhaseInstance.of(frame.dayTime())
+			: BroadcastSchedule.ownerAt(tunedStation, frame.dayTime());
 
 		boolean stationChanged = tunedStation != station;
 		boolean bulletinChanged = !Objects.equals(newsNow, playingNews);
@@ -286,6 +283,11 @@ final class RadioChannel {
 		carrier = null;
 	}
 
+	/** The signal of the programme being played, or 0 when no programme is; see {@link RadioAudioManager#speakerLevel}. */
+	float speakerLevel() {
+		return programme == null ? 0.0f : (float) Math.max(0.0, Math.min(1.0, signal));
+	}
+
 	/** What the channel is doing now. */
 	RadioDebugState debugState() {
 		Programme current = programme;
@@ -333,7 +335,7 @@ final class RadioChannel {
 
 	/** Replaces the programme with {@code target}, or with silence when it is empty. */
 	private void begin(@Nullable StationDefinition tuned, Optional<Slot> target, @Nullable BreakingNewsPayload news,
-		@Nullable PhaseKey phase, long now, boolean cut) {
+		@Nullable PhaseInstance phase, long now, boolean cut) {
 		retireProgramme(cut);
 		station = tuned;
 		playingNews = news;

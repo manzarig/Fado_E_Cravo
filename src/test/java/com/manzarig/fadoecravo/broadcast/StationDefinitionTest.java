@@ -258,11 +258,10 @@ class StationDefinitionTest {
 			"interstitial_every is -1");
 		assertHasProblem(TestStations.valid().phase(Phase.DAY, List.of(), List.of("song"), List.of("ad"), 0).build().validate(),
 			"never played");
-		assertHasProblem(TestStations.valid().phase(Phase.DAY, List.of("ident"), List.of(), List.of(), 0).build().validate(),
-			"no programs or interstitials");
 		assertHasProblem(TestStations.valid().phase(Phase.DAY, List.of(), List.of(), List.of(), 0).build().validate(),
-			"no programs or interstitials");
-		// Nothing to flag for an off-air phase, or for a loop of interstitials alone.
+			"no clips at all");
+		// Nothing to flag for an off-air phase, a loop of interstitials alone, or an opening that closes the station down.
+		assertEquals(List.of(), TestStations.valid().phase(Phase.DAY, List.of("ident"), List.of(), List.of(), 0).build().validate());
 		assertEquals(List.of(), TestStations.valid().phase(Phase.DAY, PhaseDefinition.OFF_AIR).build().validate());
 		assertEquals(List.of(), TestStations.valid().phase(Phase.DAY, List.of(), List.of(), List.of("ad"), 3).build().validate());
 	}

@@ -13,6 +13,9 @@
 #   interstitials  a pool of short items; one is inserted after every `interstitial_every` programs
 #                  (count each announce / request as one item, as Radio Tejo does: announce + song = 2).
 #   on_air: false  the station is silent in that phase; every list is empty and interstitial_every is 0.
+#   An on-air phase with no programs and no interstitials plays its opening once and then falls silent.
+#   A clip still playing when its phase ends finishes first (at most half of the next phase); the
+#   next phase's sequence starts after it. Dawn never waits: the broadcasting day starts at 05:00.
 # `breaking` is the pool for breaking-news interruptions; breaking_* clips appear nowhere else.
 #
 # Time-of-day wording in the scripts fixes where some clips may be scheduled:
@@ -54,7 +57,7 @@ source: {}
 stations:
   # ---------------------------------------------------------------------------------------------
   # Emissora Lusitana - formal state radio. No ads. Orchestral and fado. Strong signal.
-  # Closes the broadcasting day with the sign-off (night) and then idles on its interval signal.
+  # Closes the broadcasting day with the sign-off and one interval chime (night), then stays silent.
   # ---------------------------------------------------------------------------------------------
   - id: emissora_lusitana
     frequency_khz: 670
@@ -79,9 +82,11 @@ stations:
         interstitials: [news_evening_2]
         interstitial_every: 1
       night:
+        # The sign-off says the station closes until five o'clock, so after it and one interval chime
+        # the sequence ends and the dial hears only the closed-down carrier until dawn.
         on_air: true
-        opening: [signoff_1]
-        programs: [interval_lusitana]
+        opening: [signoff_1, interval_lusitana]
+        programs: []
         interstitials: []
         interstitial_every: 0
     breaking: [breaking_1]
