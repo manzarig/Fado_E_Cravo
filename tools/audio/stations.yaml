@@ -16,9 +16,9 @@
 # `breaking` is the pool for breaking-news interruptions; breaking_* clips appear nowhere else.
 #
 # Time-of-day wording in the scripts fixes where some clips may be scheduled:
-#   news_morning_1 says "oito horas"          -> dawn only
-#   news_evening_1/2 say "vinte e uma horas"  -> dusk only
-#   signoff_1 says "vinte e três horas"       -> night only
+#   news_morning_1 says "cinco horas" (05:00) -> dawn only (dawn opening starts at tick 23000 = 05:00)
+#   news_evening_1 says "dezoito horas"       -> dusk only (dusk opening, tick 12000 = 18:00)
+#   signoff_1 says "vinte horas", back "às cinco horas" -> night only (tick 13800 = 19:48)
 # Every other clip is time-neutral. Phases: dawn 23000-1000, day 1000-12000, dusk 12000-13800,
 # night 13800-23000 (world ticks).
 

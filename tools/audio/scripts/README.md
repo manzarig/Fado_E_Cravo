@@ -18,13 +18,13 @@ Seconds are estimates at roughly 2.3 words per second; the real duration comes f
 |---|---|---|---|---|
 | emissora_lusitana (670 kc) | ident_1 | ident | ~13 | Station ident: Emissora Lusitana, Lisbon, 670 kc, welcome to listeners, at the service of all Portuguese. |
 | emissora_lusitana (670 kc) | ident_2 | ident | ~15 | Second ident: 'Attention' call, speaks to Portugal and the adjacent islands, music, news and the exact time. |
-| emissora_lusitana (670 kc) | news_morning_1 | news | ~39 | Eight o'clock morning bulletin: Government reaffirms neutrality, brief vague foreign news, Lisbon weather, fishermen, shops and buses. |
-| emissora_lusitana (670 kc) | news_evening_1 | news | ~38 | Nine o'clock evening news: neutrality policy spared the country, war abroad in brief, Lisbon welcomes refugees in transit, Mondego works, weather. |
+| emissora_lusitana (670 kc) | news_morning_1 | news | ~39 | Five o'clock (dawn) morning bulletin: Government reaffirms neutrality, brief vague foreign news, Lisbon weather, fishermen, shops and buses. |
+| emissora_lusitana (670 kc) | news_evening_1 | news | ~38 | Six o'clock (dusk) evening news: neutrality policy spared the country, war abroad in brief, Lisbon welcomes refugees in transit, Mondego works, weather. |
 | emissora_lusitana (670 kc) | news_evening_2 | news | ~37 | Second evening bulletin: new neighbourhood market inaugurated in Lisbon with a new bus line, troop movements abroad, Portugal at peace, a comedy at the National Theatre. |
 | emissora_lusitana (670 kc) | notice_1 | notice | ~33 | Ministry of Economy rationing notice: sugar, rice and pasta only against ration coupons, handed out at parish councils. |
 | emissora_lusitana (670 kc) | notice_2 | notice | ~32 | Harbour authority notice to the sardine fleet: may sail at dawn tomorrow, limited to five miles because of drifting mines, fly the national flag. |
 | emissora_lusitana (670 kc) | market_prices_1 | notice | ~33 | Official fixed market prices at the Ribeira market: salt cod, sardines, olive oil, bread, rice, potatoes, eggs; report overcharging. |
-| emissora_lusitana (670 kc) | signoff_1 | signoff | ~20 | Night sign-off at eleven: thanks listeners, wishes good night, back on air at six, 'may God keep you'. |
+| emissora_lusitana (670 kc) | signoff_1 | signoff | ~20 | Night sign-off at eight: thanks listeners, wishes good night, back on air at five, 'may God keep you'. |
 | emissora_lusitana (670 kc) | breaking_1 | breaking | ~26 | Breaking: a neutral-flag merchant ship carrying refugees has entered the Tagus bar; Red Cross and port authorities prepare a reception at the Alcantara quay. |
 | radio_tejo (1035 kc) | ident_1 | ident | ~14 | Station ident: Radio Tejo, the cheerful voice of the city, 1035 kc, fado and good cheer from Lisbon. |
 | radio_tejo (1035 kc) | ident_2 | ident | ~14 | Second ident: 'Attention, friends', you are tuned to Radio Tejo, the wireless that brightens home, street and neighbourhood. |
@@ -49,7 +49,7 @@ Seconds are estimates at roughly 2.3 words per second; the real duration comes f
 - European Portuguese, post-1990 orthography, pt-PT vocabulary (`autocarro`, `comboio`, `telefonia`,
   `quilociclos`, `a transmitir` instead of the Brazilian gerund).
 - Plain text for TTS: no digits, abbreviations, brackets, stage directions or speaker names. Numbers,
-  times, prices and frequencies are written as words ("seiscentos e setenta quilociclos", "vinte e uma
+  times, prices and frequencies are written as words ("seiscentos e setenta quilociclos", "dezoito
   horas", "dez escudos e cinquenta centavos").
 - Short sentences with commas and full stops to pace the voice. A colon appears only in the repeated
   "Repito:" lines of the coded messages.

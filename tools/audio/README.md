@@ -79,7 +79,7 @@ input -> mono, 22.05 kHz
 ```
 
 Noise bed, generated with numpy and seeded from the output name (`<folder>/<clip>`), so the same inputs always give the same bytes
-(ffmpeg also runs with `-fflags +bitexact`): pink noise at -30 dBFS RMS (about 14 dB under the programme), shaped like a receiver passband
+(ffmpeg also runs with `-fflags +bitexact`): pink noise at -40 dBFS RMS (about 24 dB under the programme; -30 hurt speech intelligibility, see docs/critic/m3-m4-report.md), shaped like a receiver passband
 (roughly 120 Hz to 4.5 kHz) with a slow carrier-fading swell; plus sparse crackle: single pops about 0.5 per second and short clusters of
 tiny clicks about once every 12 seconds. Constants (`HIGHPASS_HZ`, `NOISE_RMS_DBFS`, `POPS_PER_SECOND`, ...) are at the top of `am_fx.py`.
 The programme is levelled *before* the noise is mixed, so the noise-to-signal ratio is the same for every clip.

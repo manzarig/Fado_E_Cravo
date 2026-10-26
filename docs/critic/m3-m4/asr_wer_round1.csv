@@ -1,0 +1,8 @@
+clip,model,wer_before,wer_after
+emissora_lusitana/ident_1,medium,0.226,0.065
+emissora_lusitana/news_morning_1,medium,0.270,0.213
+radio_tejo/ad_1,medium,0.333,0.246
+radio_tejo/ident_2,medium,0.636,0.303
+radio_atlantico/news_1,medium,0.192,0.115
+radio_atlantico/personal_messages_1,medium,0.262,0.179
+MEAN (6 clips),medium,0.320,0.187

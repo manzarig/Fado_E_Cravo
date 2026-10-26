@@ -77,7 +77,7 @@
     "news_morning_1": {
       "sound": "fadoecravo:radio.emissora_lusitana.news_morning_1",
       "kind": "news",
-      "duration": 31.9
+      "duration": 32.2
     },
     "orquestra_1": {
       "sound": "fadoecravo:radio.music.orquestra_1",
@@ -127,7 +127,7 @@
     "news_evening_1": {
       "sound": "fadoecravo:radio.emissora_lusitana.news_evening_1",
       "kind": "news",
-      "duration": 35.8
+      "duration": 35.4
     },
     "news_evening_2": {
       "sound": "fadoecravo:radio.emissora_lusitana.news_evening_2",
@@ -137,7 +137,7 @@
     "signoff_1": {
       "sound": "fadoecravo:radio.emissora_lusitana.signoff_1",
       "kind": "signoff",
-      "duration": 18.8
+      "duration": 18.3
     },
     "breaking_1": {
       "sound": "fadoecravo:radio.emissora_lusitana.breaking_1",

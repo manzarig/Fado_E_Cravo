@@ -6,7 +6,7 @@
 Every output is mono, 22 050 Hz Ogg Vorbis (libvorbis -q:a 2). Profiles:
 
   broadcast  speech and music. Band-limit (300 Hz - 3.4 kHz), broadcast compressor, gentle tube-style
-             saturation, pink noise at -30 dBFS RMS plus sparse crackle/pops, loudness-normalised to -16 LUFS.
+             saturation, pink noise at -40 dBFS RMS plus sparse crackle/pops, loudness-normalised to -16 LUFS.
   sfx        mono + resample, light 6 kHz low-pass, nothing added, source level kept.
   test       format conversion only.
 
@@ -41,7 +41,9 @@ LOWPASS_HZ = 3400
 TARGET_LUFS = -16.0
 TARGET_TP_DB = -2.0  # headroom for the lossy Vorbis encode
 TARGET_LRA = 11
-NOISE_RMS_DBFS = -30.0  # pink noise level; the programme itself sits at -16 LUFS before the final trim
+# pink noise level; the programme itself sits at -16 LUFS before the final trim.
+# CA-C1-01: -30 dBFS took Whisper-medium WER on the speech from 0.14 to 0.32, so the bed is kept well below the voice.
+NOISE_RMS_DBFS = -40.0
 POPS_PER_SECOND = 0.5  # single clicks
 BURSTS_PER_SECOND = 0.08  # short clusters of tiny clicks ("crackle")
 FADE_DEPTH = 0.2  # slow +-2 dB-ish swell of the hiss, like carrier fading
