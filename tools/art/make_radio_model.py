@@ -437,11 +437,12 @@ def block_model_json(rects: list[FaceRect]) -> dict:
     }
 
 
-# Item display transforms, kept from the M3 model (the critic checked the item frame shows the front).
+# Item display transforms, from the M3 model (the critic checked the item frame shows the front); the
+# frame scale is 0.7, not the 0.5 of a full block, because the cabinet only fills 14 x 12 pixels.
 DISPLAY = {
     "gui": {"rotation": [30, 225, 0], "translation": [0, 0, 0], "scale": [0.75, 0.75, 0.75]},
     "ground": {"rotation": [0, 0, 0], "translation": [0, 3, 0], "scale": [0.35, 0.35, 0.35]},
-    "fixed": {"rotation": [0, 0, 0], "translation": [0, 0, 0], "scale": [0.5, 0.5, 0.5]},
+    "fixed": {"rotation": [0, 0, 0], "translation": [0, 0.5, 0], "scale": [0.7, 0.7, 0.7]},
     "thirdperson_righthand": {"rotation": [75, 45, 0], "translation": [0, 2.5, 0], "scale": [0.375, 0.375, 0.375]},
     "thirdperson_lefthand": {"rotation": [75, 225, 0], "translation": [0, 2.5, 0], "scale": [0.375, 0.375, 0.375]},
     "firstperson_righthand": {"rotation": [0, 45, 0], "translation": [0, 0, 0], "scale": [0.4, 0.4, 0.4]},
