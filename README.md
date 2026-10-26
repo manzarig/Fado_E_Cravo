@@ -4,7 +4,7 @@ A Fabric mod for Minecraft set in 1940s Lisbon. Its first feature is an AM radio
 tunes into stations which broadcast on a schedule, so the city keeps its own rhythm whether or
 not you are listening. A later, secret "Proto-Cravo" storyline waits behind the static.
 
-**Status:** v0.1.0 — in development
+**Status:** v0.1.0-alpha.2 — playable radio
 
 ## Requirements
 
@@ -17,6 +17,40 @@ not you are listening. A later, secret "Proto-Cravo" storyline waits behind the 
 
 See [docs/MODRINTH.md](docs/MODRINTH.md) for a step-by-step guide to installing the current build in
 the Modrinth App.
+
+## How to play
+
+**Recipe.** Craft the AM radio on a crafting table:
+
+```
+P P P
+P N P
+C R C
+```
+
+P = any planks, N = note block, C = copper ingot, R = redstone dust.
+
+**Using it.** Right-click the radio to open the tuning screen. Sneak + right-click switches it on or
+off. Each redstone pulse also toggles it. The screen has a power button too.
+
+**Tuning.** The dial covers 530–1600 kHz. Scroll the mouse wheel to move 1 kHz, or hold Shift to move
+10 kHz. The left and right arrow keys work the same way. You can also click or drag the dial.
+
+**Stations.**
+
+- Emissora Lusitana: 670 kHz
+- Rádio Tejo: 1035 kHz
+- Rádio Atlântico: 1440 kHz, night only, with a weak signal
+
+The stations follow the in-game clock, so what is on air depends on the time of day.
+
+**Range.** About 64 blocks. The sound fades with distance. The volume follows the "Jukebox/Note Blocks"
+slider, under Options, then Music & Sounds.
+
+**Op command.** Operators (permission level 2) can put breaking news on a station:
+
+- `/fadoecravo breaking <station>`, where the station is `emissora_lusitana`, `radio_tejo` or `radio_atlantico`
+- `/fadoecravo breaking clear` takes the bulletin off the air
 
 ## Building
 
@@ -57,12 +91,13 @@ src/
 art/
 └── models/                        # Blockbench sources (planned)
 tools/
-└── audio/                         # audio pipeline (planned)
+└── audio/                         # audio pipeline (Python, see its README)
 ```
 
 ## Roadmap
 
-- **v1: the radio** — milestones M0 to M6
+- **v1: the radio** — milestones M0 to M6. M0 to M4 are done, so the radio is playable. Next is M5
+  (animated model), then M6.
 - **v1.1:** real 1940s recordings
 - **v2:** art (title screen, concept art)
 - **v3:** Proto-Cravo

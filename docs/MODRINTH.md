@@ -1,11 +1,13 @@
 # Tocar a Telefonia — running Fado e Cravo in the Modrinth App
 
-Install the first build of Fado e Cravo in the Modrinth App and check that it loads. It takes about
+Install Fado e Cravo in the Modrinth App and play the radio. It takes about
 ten minutes.
 
-> **This is a foundation build (0.1.0-alpha.1).** The radio block isn't in it yet, so you won't hear
-> anything in-game. This run checks that the mod installs, loads and shows up next to its
-> dependencies. The radio, its tuning screen and the station schedule arrive in milestones M3 and M4.
+> **Status: v0.1.0-alpha.2, playable radio.** The AM radio is in this build. Craft it or `/give` it,
+> place it, switch it on, and tune in to three stations. The block art is placeholder until M5, and the
+> music is placeholder until real recordings. See the
+> [release notes](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-alpha.2) for what is new
+> and what is still missing.
 
 ## What you need
 
@@ -35,12 +37,12 @@ ten minutes.
    click **Install**:
    - **Fabric API** `0.116.17+1.21.1`
    - **GeckoLib** `4.9.3`
-   - **Mod Menu** `11.0.5` (optional, but it makes step 7 easier)
+   - **Mod Menu** `11.0.5` (optional, but it shows the mod list in-game)
 
    Search results inside an instance already match its Minecraft version and loader.
 
 4. **Download the mod jar.** Open the
-   [v0.1.0-alpha.1 pre-release](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-alpha.1)
+   [v0.1.0-alpha.2 pre-release](https://github.com/manzarig/Fado_E_Cravo/releases/tag/v0.1.0-alpha.2)
    and download `fadoecravo-0.1.0.jar` from Assets.
 
    *Release not published yet?* Build the jar from your checkout instead. Building needs a
@@ -77,20 +79,36 @@ ten minutes.
 6. **Press Play.** The app picks Java 21 on its own for 1.21.1. The first launch can take a minute
    or two.
 
-7. **Check that it loaded.**
-   - **With Mod Menu:** title screen → **Mods** → you should see **Fado e Cravo 0.1.0** with the
-     wooden-radio icon.
-   - **Without Mod Menu:** the instance's **Logs** tab → current log → search for `wireless`:
+7. **Play.** Follow the steps in [Play](#play) below.
 
-     ```
-     [main/INFO]: Loading 45 mods:
-     	- fadoecravo 0.1.0
-     	- geckolib 4.9.3
-     ...
-     [main/INFO]: Fado e Cravo: the wireless is warming up.
-     ```
+## Play
 
-   The mod count depends on what else is installed. There's nothing to place in a world yet.
+1. **Get a radio.** Craft one with the recipe below. Or, in a world with cheats on, run
+   `/give @p fadoecravo:radio`.
+
+   ```
+   P P P      P = any planks
+   P N P      N = note block
+   C R C      C = copper ingot, R = redstone dust
+   ```
+
+2. **Place it.** The radio turns to face you when you place it.
+
+3. **Switch it on.** Sneak (hold Shift) and right-click the radio. You'll hear a click and the valves
+   warming up. Wait a couple of seconds for the warm-up to finish.
+
+4. **Tune.** Right-click the radio to open the dial. Scroll to move 1 kHz, or hold Shift to move 10 kHz.
+   The left and right arrow keys work too, and you can click or drag the dial. You'll hear a whistle as
+   the needle reaches a station. The dial covers 530 to 1600 kHz.
+
+5. **Try the three stations.**
+   - **Emissora Lusitana, 670 kHz.** A formal state station with news and notices.
+   - **Rádio Tejo, 1035 kHz.** A popular station with adverts and song requests.
+   - **Rádio Atlântico, 1440 kHz.** A weak signal, on the air at night only. In a world with cheats on,
+     run `/time set 18000` to make it night.
+
+   The stations follow the in-game clock, so what you hear depends on the time of day. To read what is
+   playing, turn on **Options → Accessibility Settings → Show Subtitles**.
 
 ## If it doesn't start
 
@@ -104,9 +122,9 @@ ten minutes.
 
 ## Coming next
 
-- **M3 — the radio block:** craft it, place it, turn it on with a click or a redstone signal.
-- **M4 — tuning and schedules:** scroll the dial to Emissora Lusitana, Rádio Tejo or the
-  night-only Rádio Atlântico.
+- **M5 — the animated radio:** an animated model with glowing valves and a moving needle, and the
+  final block art to replace the placeholder.
+- **M6:** the last milestone of v1. Details to follow.
 - Then replace the jar in `mods` with the new build and press Play.
 
 Button names can differ slightly between Modrinth App versions.
