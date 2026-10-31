@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.735Z" hostname="PC-GUSTAVO" time="0.009">
+  <properties/>
+  <testcase name="skipEndingExactlyOnAChunkBoundary()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.002"/>
+  <testcase name="firstBytesAfterTheSkipAreTheExpectedSamples()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.001"/>
+  <testcase name="oneHugeChunkIsCutAtTheOffset()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.001"/>
+  <testcase name="ofSecondsUsesTheSourceFormat()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.001"/>
+  <testcase name="skipNowDoesTheWorkEarlyAndReadReturnsTheLeftover()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.0"/>
+  <testcase name="offsetExactlyAtTheEndGivesAnEmptyBuffer()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.001"/>
+  <testcase name="zeroAndNegativeSkipPassThrough()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.0"/>
+  <testcase name="restOfTheStreamIsExactlyTheTail()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.0"/>
+  <testcase name="delegatesFormatAndClose()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.0"/>
+  <testcase name="offsetPastTheEndGivesAnEmptyBufferForever()" classname="com.manzarig.fadoecravo.client.audio.SkippingAudioStreamTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

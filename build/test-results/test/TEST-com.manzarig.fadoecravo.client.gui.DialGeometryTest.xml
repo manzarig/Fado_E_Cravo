@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.gui.DialGeometryTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.805Z" hostname="PC-GUSTAVO" time="0.024">
+  <properties/>
+  <testcase name="everyHundredIsTallAndNumbersAreOnTheEvenHundredsFrom600()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="theDialSitsInsideTheStripWithRoomForTheLabels()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.002"/>
+  <testcase name="movingWithinOrOutOfTheWindowDoesNot()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="endsOfTheBandLandOnTheFirstAndLastColumn()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="everyKilohertzSurvivesTheRoundTripThroughX()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="khzForXNeverDecreasesAsXGrows()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.008"/>
+  <testcase name="tickRangeRoundsInwardsWhenTheBandDoesNotStartOnATick()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="aMouseWithinAHalfKilohertzOfATickPicksThatKilohertz()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="tickXIsClampedToTheBand()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="comingIntoTheWindowFromEitherSideCounts()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="badDimensionsAreRefused()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.003"/>
+  <testcase name="everySingleStepFromOutsideToInsideIsDetectedExactlyOnce()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="tallTicksAreTwentyPixelsApart()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="anXBeyondEitherEndGivesTheEndFrequency()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="stayingOutsideWithoutPassingTheWindowDoesNot()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="ticksRunFrom530To1600()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="smallTicksAreExactlyTwoPixelsApart()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="jumpingCleanOverTheWindowCounts()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <testcase name="theBandIsTheRadioBand()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.001"/>
+  <testcase name="anyWindowChecksEveryStation()" classname="com.manzarig.fadoecravo.client.gui.DialGeometryTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

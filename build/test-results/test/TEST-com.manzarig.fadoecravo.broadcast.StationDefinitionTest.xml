@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" tests="27" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.020Z" hostname="PC-GUSTAVO" time="0.109">
+  <properties/>
+  <testcase name="recordsCopyTheirCollections()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.0"/>
+  <testcase name="validateFlagsAnUnknownKindAndABreakingClipOfTheWrongKind()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.001"/>
+  <testcase name="validateFlagsDurationsThatAreNotPositive()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="parseRejectsAFileThatIsMissingAKey()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.014"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.004"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.003"/>
+  <testcase name="parseReportsTheProblemsOfAFileThatReadsFine()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.003"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.022"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.003"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="realStationsHaveTheContractedDialPositionsAndStrengths()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="parseRejectsAnUnknownPhaseAndWrongTypes()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.013"/>
+  <testcase name="realStationFieldsMatchTheJson()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="validateFlagsClipIdsThatAreNotInClips()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.001"/>
+  <testcase name="validateFlagsAMissingPhase()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.0"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.006"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.003"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.002"/>
+  <testcase name="offAirPhasesParseAsOffAir()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.001"/>
+  <testcase name="aCorrectStationHasNoProblems()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.0"/>
+  <testcase name="validateFlagsPhaseSettingsThatDoNothingUseful()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.001"/>
+  <testcase name="validateFlagsABadIdentityFrequencyOrStrength()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.001"/>
+  <testcase name="validateFlagsAnUnsupportedSchema()" classname="com.manzarig.fadoecravo.broadcast.StationDefinitionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

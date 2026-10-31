@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.PhaseTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:33.926Z" hostname="PC-GUSTAVO" time="0.094">
+  <properties/>
+  <testcase name="keysAreLowercasePhaseNames()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="elapsedTicksCountsFromTheStartAndAcrossMidnight()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="everyPhaseInstanceHasOneDayNumber()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.02"/>
+  <testcase name="extremeDayTimesDoNotOverflow()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="aDawnKeepsTheSameDayAcrossMidnight()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.012"/>
+  <testcase name="phasesTileTheWholeDay()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.009"/>
+  <testcase name="[1] 0, DAWN" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.008"/>
+  <testcase name="[2] 999, DAWN" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[3] 1000, DAY" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[4] 11999, DAY" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[5] 12000, DUSK" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[6] 13799, DUSK" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[7] 13800, NIGHT" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[8] 22999, NIGHT" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[9] 23000, DAWN" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[10] 23999, DAWN" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="dayIndexIsFloorDivOfShiftedDayTime()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.005"/>
+  <testcase name="[1] -100" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="[2] -3" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="[3] -1" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="[4] 1" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="[5] 3" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.001"/>
+  <testcase name="[6] 100" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[7] 1000000" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="[8] 123456789" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <testcase name="negativeDayTimesWrapBackwards()" classname="com.manzarig.fadoecravo.broadcast.PhaseTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

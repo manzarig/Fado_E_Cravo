@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.829Z" hostname="PC-GUSTAVO" time="0.008">
+  <properties/>
+  <testcase name="aServerThatNeverRepeatsTheValueWinsAfterOneSecond()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.001"/>
+  <testcase name="aLocalChangeShowsAtOnceAndIsClamped()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="discardingGoesBackToTheServersValue()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="startsOnTheGivenFrequencyWithNothingToSend()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="theChangeIsSentQuarterOfASecondAfterTheLastOne()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="comingBackToTheServersValueBeforeSendingSendsNothing()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="aStaleServerValueDoesNotMoveTheNeedleAfterSendingEither()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="aStaleServerValueDoesNotMoveTheNeedleWhileTheChangeIsUnsent()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="theContractedTimingsAreUsed()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.001"/>
+  <testcase name="initialValueIsClamped()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="anotherPlayersChangeShowsWhenNothingIsPending()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="flushSendsAtOnceAndOnlyOnce()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.001"/>
+  <testcase name="backwardsBandIsRefused()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.001"/>
+  <testcase name="comingBackToTheOldValueAfterSendingMustStillBeSent()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="everyChangeRestartsTheDelay()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.001"/>
+  <testcase name="draggingKeepsTheLocalValueAcrossSeveralSends()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="settingTheShownValueIsNotAChange()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="serverValuesAreClamped()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <testcase name="theEchoIsTheAcknowledgement()" classname="com.manzarig.fadoecravo.client.gui.FrequencySyncTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

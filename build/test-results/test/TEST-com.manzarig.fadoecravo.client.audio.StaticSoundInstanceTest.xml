@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.744Z" hostname="PC-GUSTAVO" time="0.003">
+  <properties/>
+  <testcase name="constructorSetsUpAPositionalLoopInTheRecordsCategory()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <testcase name="settingATargetCancelsAPendingStop()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <testcase name="aSilentLoopStillStartsSoItCanFadeIn()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <testcase name="fadeOutAndStopStopsOnlyOnceSilent()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.001"/>
+  <testcase name="aNegativeVolumeCountsAsSilence()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <testcase name="volumeFadesByAboutATenthPerTick()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <testcase name="usesTheSameFadeStepAsTheProgramme()" classname="com.manzarig.fadoecravo.client.audio.StaticSoundInstanceTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.RadioChannelTest" tests="32" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.631Z" hostname="PC-GUSTAVO" time="0.081">
+  <properties/>
+  <testcase name="turningTheDialWithinOneStationOnlyMovesTheVolumes()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.008"/>
+  <testcase name="releaseFadesEverythingOutOverHalfASecond()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="changingStationFadesTheOldProgrammeOutAndStartsTheNewOne()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="aClockThatStandsStillButIsNotFrozenWouldRestartTheClipOverAndOver()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <testcase name="theOffsetInTheSnapshotAdvancesWithTheTicks()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="clearingTheBulletinGoesBackToTheSchedule()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="aStationThatIsOffTheAirGivesTheHissAndComesOnWhenItsPhaseBegins()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <testcase name="aSoundThatNeverStartsIsRetriedFromTheScheduleAfterFiveSeconds()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <testcase name="aNewerBulletinReplacesTheOneOnTheAir()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="theStaticLoopIsStartedSilentAndWantedEvenAtVolumeZero()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aStationReloadStartsAgainFromTheSchedule()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aClipStillSoundingLongAfterItShouldHaveEndedIsReplaced()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.004"/>
+  <testcase name="aJumpInTimeBeyondFiveSecondsStartsAgainFromTheSchedule()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="tuningAwayFromAStationFadesItOutAndBringsInTheHiss()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="stopNowCutsEverythingAtOnce()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="aBulletinForAnotherStationIsIgnored()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="aClipThatBeginsExactlyAtItsStartIsNotFadedIn()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="startsPartWayIntoTheClipTheScheduleSaysAndFadesIn()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="whenTheSequenceEndsTheRadioFallsSilent()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aJumpInTimeOfFourSecondsIsLeftAlone()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aClipThatEndsALittleLateDoesNotPutTheRadioBehind()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <testcase name="staticFillsWhatTheSignalLeavesOpen()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="thereIsOneProgrammeAndOneStaticLoopAtATimeAcrossManyChanges()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.007"/>
+  <testcase name="noStationGivesStaticAndTheCarrierHiss()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="breakingNewsInterruptsTheProgrammeAndHandsBackWhenItIsOver()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <testcase name="aFrozenClockNeverRestartsTheClip()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="whenThePhaseChangesTheRadioSwitchesOverAtOnceWithoutFading()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aBulletinKeepsPlayingThroughAPhaseChange()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aLoopTheEngineDroppedIsStartedAgain()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.0"/>
+  <testcase name="aClipOfTenSecondsRepeatedAllNightStaysInStepWithTheSchedule()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.023"/>
+  <testcase name="whenAClipEndsTheNextOneBeginsFromItsStart()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.001"/>
+  <testcase name="aBulletinWhoseAudioEndedEarlyIsNotPlayedAgain()" classname="com.manzarig.fadoecravo.client.audio.RadioChannelTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

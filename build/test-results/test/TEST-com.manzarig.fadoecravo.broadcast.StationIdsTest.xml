@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.StationIdsTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.129Z" hostname="PC-GUSTAVO" time="0.006">
+  <properties/>
+  <testcase name="idsAreSortedAlphabetically()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.001"/>
+  <testcase name="otherFilesAndBareExtensionsAreIgnored()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.0"/>
+  <testcase name="noFilesMeansNoStations()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.0"/>
+  <testcase name="duplicatesCountOnce()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.0"/>
+  <testcase name="idsAreTheNamesOfTheJsonFilesWithoutTheExtension()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.0"/>
+  <testcase name="theStationFilesOnTheClasspathAreTheBuiltInStations()" classname="com.manzarig.fadoecravo.broadcast.StationIdsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

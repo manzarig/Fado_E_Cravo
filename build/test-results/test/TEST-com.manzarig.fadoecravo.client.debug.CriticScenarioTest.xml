@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" tests="26" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.755Z" hostname="PC-GUSTAVO" time="0.045">
+  <properties/>
+  <testcase name="shotNamesBecomeFileNames()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.003"/>
+  <testcase name="closeQuitAndClickPowerTakeTrue()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="twoActionsInOneStepAreAnError()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="aModifierMustBelongToTheAction()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="waitIsInTicksAndWaitSInSeconds()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="snapshotMarkAndNoteTakeText()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.003"/>
+  <testcase name="rejectsJsonThatIsNotAScenario()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="hideHudTakesABoolean()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="aCommentKeyIsIgnored()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="anObjectCarriesSettingsAndSteps()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="dialStepsTakeFrequenciesInTheBand()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="tpTakesPositionAndOptionalRotation()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.002"/>
+  <testcase name="anUnknownActionListsTheKnownOnes()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="stepsKeepTheirOrderAndIndex()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="anArrayIsASceneWithDefaultSettings()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.004"/>
+  <testcase name="theStepIsKeptAsWrittenForTheLog()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="anEmptyScenarioIsAllowed()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="scrollTakesNotchesAndShift()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="clickTakesGuiCoordinates()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="everyScenarioInTheRepositoryParsesAndEndsWithQuit()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.006"/>
+  <testcase name="rejectsBadSettings()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.004"/>
+  <testcase name="rejectsBadWaits()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="aCommandLosesItsSlash()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.0"/>
+  <testcase name="openNeedsABlockPosition()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="theWindowSizeDefaultsTo720pAndCanBeSet()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.001"/>
+  <testcase name="keyTakesNameRepeatAndShift()" classname="com.manzarig.fadoecravo.client.debug.CriticScenarioTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

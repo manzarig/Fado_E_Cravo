@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" tests="30" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:33.100Z" hostname="PC-GUSTAVO" time="0.231">
+  <properties/>
+  <testcase name="zeroAndNegativeDurationsStillAdvanceTheWalk()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.107"/>
+  <testcase name="fewerProgrammesThanTheSpacingStillWorks()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.002"/>
+  <testcase name="sequenceIsLazy()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.003"/>
+  <testcase name="[1] DAY, 0, 7458419982402006206, o0 o1 p4 p5 i0 p0 p1 i1 p2 p3 i2 p4 p5 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.007"/>
+  <testcase name="[2] DAY, 5, -5065420741532295366, o0 o1 p0 p1 i2 p2 p3 i0 p4 p5 i1 p0 p1 i2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[3] DAY, -3, -2383815246122436356, o0 o1 p2 p3 i1 p4 p5 i2 p0 p1 i0 p2 p3 i1" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[4] DAY, 100, -6935586793023233232, o0 o1 p0 p1 i0 p2 p3 i1 p4 p5 i2 p0 p1 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[5] DUSK, 0, 6589676086371258070, p1 i0 p2 i1 p0 i0 p1 i1 p2 i0 p0 i1 p1 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[6] DUSK, 5, -5326556916982969673, p1 i0 p2 i1 p0 i0 p1 i1 p2 i0 p0 i1 p1 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[7] DUSK, -3, -6225306621577866515, p1 i0 p2 i1 p0 i0 p1 i1 p2 i0 p0 i1 p1 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[8] DUSK, 100, -6074626216936647092, p1 i1 p2 i0 p0 i1 p1 i0 p2 i1 p0 i0 p1 i1" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[9] DAWN, 0, 8143967569271666909, o0 i1 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2 i0 i1" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[10] DAWN, 5, 947371002166107083, o0 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[11] DAWN, -3, -8475673562665773267, o0 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[12] DAWN, 100, 5616642443998872975, o0 i0 i1 i2 i0 i1 i2 i0 i1 i2 i0 i1 i2 i0" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[13] NIGHT, 0, 4801807309562466536, p0 p1 p2 i0 p3 p0 p1 i0 p2 p3 p0 i0 p1 p2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[14] NIGHT, 5, -2810572949034367979, p0 p1 p2 i0 p3 p0 p1 i0 p2 p3 p0 i0 p1 p2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="[15] NIGHT, -3, -8027090618888021960, p0 p1 p2 i0 p3 p0 p1 i0 p2 p3 p0 i0 p1 p2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="[16] NIGHT, 100, -1387168083822191105, p0 p1 p2 i0 p3 p0 p1 i0 p2 p3 p0 i0 p1 p2" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="offAirMissingAndUnlistedPhasesAreOffAir()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="unknownClipIdsAreSkipped()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="aMixOfZeroLengthAndNormalClipsStaysConsistent()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.002"/>
+  <testcase name="offsetsFollowTheClipDurations()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.004"/>
+  <testcase name="interstitialsAreIgnoredWhenTheSpacingIsZero()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="anOpeningWithNothingToLoopEndsTheBroadcast()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <testcase name="anOnAirPhaseWithNothingAtAllIsOffAir()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.0"/>
+  <testcase name="aPhaseOfOnlyUnknownClipIdsIsOffAirAndDoesNotHang()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.003"/>
+  <testcase name="clipsThatAreNotWholeTicksStillTileTheTime()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.037"/>
+  <testcase name="interstitialsWithoutProgrammesLoopOnTheirOwn()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.002"/>
+  <testcase name="aProgrammeThatIsNotAMultipleOfTheSpacingStartsAtZero()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleEdgeCasesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.TuningTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.135Z" hostname="PC-GUSTAVO" time="0.014">
+  <properties/>
+  <testcase name="aWeakStationNeverComesInClearly()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.001"/>
+  <testcase name="theConstantsAreTheContractedOnes()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.001"/>
+  <testcase name="signalIsSymmetricAroundTheStation()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.001"/>
+  <testcase name="stationsOutOfRangeOfEachOtherDoNotMask()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.002"/>
+  <testcase name="signalAtWholeKilohertzOffsets()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <testcase name="equalSignalsAreSplitByTheLowerFrequencyWhateverTheOrder()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <testcase name="falloffIsFlatThenLinearThenZero()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.001"/>
+  <testcase name="bestPicksTheStrongestStationOfTheRealOnes()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.003"/>
+  <testcase name="aStrongerStationBeatsAWeakOneEvenWhenFurtherAway()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <testcase name="bestBetweenTwoCloseStationsFollowsTheDial()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <testcase name="sameFrequencyAndStrengthAreSplitById()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <testcase name="theHalfwayPointIsAHalfAtNineAndAHalfKilohertz()" classname="com.manzarig.fadoecravo.broadcast.TuningTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

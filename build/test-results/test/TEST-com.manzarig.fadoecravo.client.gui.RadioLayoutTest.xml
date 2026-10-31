@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.838Z" hostname="PC-GUSTAVO" time="0.011">
+  <properties/>
+  <testcase name="theHintFitsBelowTheReadout()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.0"/>
+  <testcase name="theDialIsInsideTheStripWithRoomForTheLastLabel()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.001"/>
+  <testcase name="theStripHoldsNeedleNumbersMarksAndTicksInOrderFromTheTop()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.0"/>
+  <testcase name="theReadoutColumnsFitInTheReadout()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.001"/>
+  <testcase name="theSignalBarIsTenSegments()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.0"/>
+  <testcase name="theTitleLeavesRoomAboveTheStrip()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.001"/>
+  <testcase name="thePanelIsAboutTheContractedSizeAndFitsASmallWindow()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.0"/>
+  <testcase name="rectsKnowTheirEdges()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.001"/>
+  <testcase name="everyBlockIsInsideTheBorder()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.006"/>
+  <testcase name="theBlocksDoNotOverlap()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.0"/>
+  <testcase name="theButtonIsCentredAndTheLampAndLabelSitToItsLeft()" classname="com.manzarig.fadoecravo.client.gui.RadioLayoutTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

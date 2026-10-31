@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.730Z" hostname="PC-GUSTAVO" time="0.005">
+  <properties/>
+  <testcase name="settingATargetCancelsAPendingStop()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.0"/>
+  <testcase name="fadeOutAndStopStopsOnlyOnceSilent()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.001"/>
+  <testcase name="negativeOffsetCountsAsZero()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.001"/>
+  <testcase name="constructorSetsUpAPositionalRecordsSound()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.001"/>
+  <testcase name="aSilentRadioStillStartsSoItCanFadeIn()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.0"/>
+  <testcase name="volumeFadesByAboutATenthPerTick()" classname="com.manzarig.fadoecravo.client.audio.RadioSoundInstanceTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.154Z" hostname="PC-GUSTAVO" time="0.465">
+  <properties/>
+  <testcase name="decoderRunsInPlainJUnitAndReportsTheContractFormat()" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.17"/>
+  <testcase name="radioSoundInstanceSkipsThroughVanillasSoundBufferLibrary()" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.068"/>
+  <testcase name="restOfTheClipIsExactlyTheTailOfTheFullDecode()" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.058"/>
+  <testcase name="start at 0 s sounds like 300 Hz" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.031"/>
+  <testcase name="start at 12.5 s sounds like 500 Hz" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.03"/>
+  <testcase name="start at 31 s sounds like 900 Hz" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.037"/>
+  <testcase name="start at 57 s sounds like 1400 Hz" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.044"/>
+  <testcase name="offsetPastTheEndOfTheClipEndsTheStream()" classname="com.manzarig.fadoecravo.client.audio.OggSeekIntegrationTest" time="0.022"/>
+  <system-out><![CDATA[RadioSoundInstance at 31 s: measured 900.0 Hz
+offset   0.0 s: measured   295.0 Hz (expected 300 Hz), open+skip+read took 2 ms
+offset  12.5 s: measured   500.0 Hz (expected 500 Hz), open+skip+read took 6 ms
+offset  31.0 s: measured   900.0 Hz (expected 900 Hz), open+skip+read took 11 ms
+offset  57.0 s: measured  1400.0 Hz (expected 1400 Hz), open+skip+read took 19 ms
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

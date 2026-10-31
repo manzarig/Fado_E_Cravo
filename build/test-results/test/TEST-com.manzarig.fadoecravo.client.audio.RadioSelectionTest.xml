@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.715Z" hostname="PC-GUSTAVO" time="0.015">
+  <properties/>
+  <testcase name="measuresToTheMiddleOfTheBlockInThreeDimensions()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.005"/>
+  <testcase name="theHeadStartIsSmallSoAFarRadioDoesNotStayForEver()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.002"/>
+  <testcase name="aRadioThatIsAlreadyPlayingKeepsItsPlaceAgainstAnAlmostAsNearNewcomer()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.002"/>
+  <testcase name="theHeadStartDoesNotExtendTheRange()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.001"/>
+  <testcase name="leavesOutRadiosBeyondTheRange()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.001"/>
+  <testcase name="aZeroOrNegativeLimitSelectsNothing()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.0"/>
+  <testcase name="returnsFewerWhenThereAreFewer()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.001"/>
+  <testcase name="picksTheNearestInOrder()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.0"/>
+  <testcase name="equalDistancesAreSplitByPositionSoTheOrderOfTheInputDoesNotMatter()" classname="com.manzarig.fadoecravo.client.audio.RadioSelectionTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

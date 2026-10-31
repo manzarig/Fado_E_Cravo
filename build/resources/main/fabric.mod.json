@@ -1,0 +1,31 @@
+{
+	"schemaVersion": 1,
+	"id": "fadoecravo",
+	"version": "0.1.0",
+	"name": "Fado e Cravo",
+	"description": "An AM radio from 1940s Lisbon: tune in to fado, bulletins and whispers on the medium wave.",
+	"authors": [
+		"manzarig"
+	],
+	"license": "All-Rights-Reserved",
+	"icon": "assets/fadoecravo/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.manzarig.fadoecravo.FadoECravo"
+		],
+		"client": [
+			"com.manzarig.fadoecravo.client.FadoECravoClient"
+		],
+		"fabric-datagen": [
+			"com.manzarig.fadoecravo.datagen.FadoECravoDataGenerator"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*",
+		"geckolib": ">=4.9"
+	}
+}

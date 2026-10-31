@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.619Z" hostname="PC-GUSTAVO" time="0.007">
+  <properties/>
+  <testcase name="negativeAndNanOffsetsClampToZero()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <testcase name="explicitLayoutMatchesFormatOverload()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <testcase name="stereoDoublesTheByteCount()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <testcase name="resultIsAlwaysWholeFrames()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.001"/>
+  <testcase name="hugeOffsetsDoNotOverflow()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <testcase name="rejectsFormatsWithoutALayout()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.001"/>
+  <testcase name="roundsToTheNearestFrame()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <testcase name="monoAt22050()" classname="com.manzarig.fadoecravo.client.audio.PcmOffsetsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

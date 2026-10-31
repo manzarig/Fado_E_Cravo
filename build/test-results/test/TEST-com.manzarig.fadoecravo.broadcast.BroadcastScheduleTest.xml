@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" tests="41" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:33.332Z" hostname="PC-GUSTAVO" time="0.593">
+  <properties/>
+  <testcase name="tejoDayHasAnAdAfterExactlyEveryTwoProgrammeItems()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.048"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.028"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.013"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.007"/>
+  <testcase name="breakingNewsIsEmptyWithoutAUsableClip()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="lusitanaOpensEachPhaseWithWhatItsFileSays()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.047"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.028"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.011"/>
+  <testcase name="breakingNewsRunsFromItsStartUntilTheClipEnds()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.003"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="atlanticoIsOnAirAtNightAndOffAirOtherwise()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.033"/>
+  <testcase name="lusitanaNightLoopsTheIntervalSignalAfterTheSignOff()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.003"/>
+  <testcase name="nextIsEmptyForAnOffAirPhaseAndForBreakingNews()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.087"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.046"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.018"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.004"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="differentDaysRotateTheProgramme()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="everyTejoAnnouncementIsFollowedByTheSongItIntroduces()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.011"/>
+  <testcase name="jumpingFromDayToNightGivesANightSlot()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.07"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.039"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.015"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="breakingNewsPicksTheClipBySeed()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="theOffsetIsCorrectMidClip()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="lusitanaDuskPutsAnInterstitialAfterEveryProgrammeItem()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.005"/>
+  <testcase name="theHashIsStableAndDependsOnEveryInput()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.008"/>
+  <testcase name="theProgrammeIsPlayedInTheWrittenOrderAndNeverShuffled()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.006"/>
+  <testcase name="aDawnPlaysStraightThroughMidnight()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.002"/>
+  <testcase name="theOpeningIsFollowedByTheProgrammeAtItsRotatedStart()" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.003"/>
+  <testcase name="[1] emissora_lusitana" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="[2] radio_tejo" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <testcase name="[3] radio_atlantico" classname="com.manzarig.fadoecravo.broadcast.BroadcastScheduleTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

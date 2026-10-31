@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" tests="19" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.747Z" hostname="PC-GUSTAVO" time="0.008">
+  <properties/>
+  <testcase name="aSoundTheEngineHadAndNoLongerHasHasEnded()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theExpectedEndIsTheRemainderPlusTwoSeconds()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theScheduleDecidesWhenThereIsNoNextClip()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="anotherPhaseInstanceCannotBeCompared()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="aPositionPastTheEndOfTheClipCountsAsTheEnd()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theGracePeriodIsAboutOneAndAHalfSeconds()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="anActiveSoundPastItsExpectedEndIsGivenUpOn()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theSameClipDriftsByTheDifferenceOfThePositions()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.001"/>
+  <testcase name="aSoundTheEngineHasNotReportedYetGetsTheGracePeriod()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="clipsMoreThanOneApartAreInfinitelyFar()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theDriftIsMeasuredAcrossTheBoundaryWhenTheScheduleIsOneClipBack()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="aScheduleFarFromTheNextClipWins()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="withoutAScheduleTheNextClipFollows()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="aSoundTheEngineHasAndHasNotFinishedIsPlaying()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="aScheduleThatHasMovedOnByLessThanTheLimitStillGetsTheNextClipFromItsStart()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="aBulletinIsOnlyComparedWithItself()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="sameSlotIgnoresTheOffset()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <testcase name="theSameClipIsStartedWhereTheScheduleSaysItIs()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.001"/>
+  <testcase name="theDriftIsMeasuredAcrossTheBoundaryWhenTheScheduleIsOneClipOn()" classname="com.manzarig.fadoecravo.client.audio.SyncPolicyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "id": "emissora_lusitana",
+  "name": "station.fadoecravo.emissora_lusitana",
+  "frequency_khz": 670,
+  "signal_strength": 1.0,
+  "phases": {
+    "dawn": {
+      "on_air": true,
+      "opening": [
+        "ident_1",
+        "news_morning_1"
+      ],
+      "programs": [
+        "orquestra_1",
+        "fado_menor_1"
+      ],
+      "interstitials": [
+        "notice_1"
+      ],
+      "interstitial_every": 2
+    },
+    "day": {
+      "on_air": true,
+      "opening": [
+        "interval_lusitana",
+        "ident_2"
+      ],
+      "programs": [
+        "orquestra_1",
+        "fado_menor_2",
+        "guitarrada_1",
+        "fado_menor_1"
+      ],
+      "interstitials": [
+        "market_prices_1",
+        "notice_1",
+        "notice_2"
+      ],
+      "interstitial_every": 2
+    },
+    "dusk": {
+      "on_air": true,
+      "opening": [
+        "news_evening_1"
+      ],
+      "programs": [
+        "fado_menor_1",
+        "orquestra_1"
+      ],
+      "interstitials": [
+        "news_evening_2"
+      ],
+      "interstitial_every": 1
+    },
+    "night": {
+      "on_air": true,
+      "opening": [
+        "signoff_1"
+      ],
+      "programs": [
+        "interval_lusitana"
+      ],
+      "interstitials": [],
+      "interstitial_every": 0
+    }
+  },
+  "breaking": [
+    "breaking_1"
+  ],
+  "clips": {
+    "ident_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.ident_1",
+      "kind": "ident",
+      "duration": 14.0
+    },
+    "news_morning_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.news_morning_1",
+      "kind": "news",
+      "duration": 31.9
+    },
+    "orquestra_1": {
+      "sound": "fadoecravo:radio.music.orquestra_1",
+      "kind": "music",
+      "duration": 79.9
+    },
+    "fado_menor_1": {
+      "sound": "fadoecravo:radio.music.fado_menor_1",
+      "kind": "music",
+      "duration": 84.6
+    },
+    "notice_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.notice_1",
+      "kind": "notice",
+      "duration": 27.6
+    },
+    "interval_lusitana": {
+      "sound": "fadoecravo:radio.music.interval_lusitana",
+      "kind": "interval",
+      "duration": 10.3
+    },
+    "ident_2": {
+      "sound": "fadoecravo:radio.emissora_lusitana.ident_2",
+      "kind": "ident",
+      "duration": 15.6
+    },
+    "fado_menor_2": {
+      "sound": "fadoecravo:radio.music.fado_menor_2",
+      "kind": "music",
+      "duration": 81.6
+    },
+    "guitarrada_1": {
+      "sound": "fadoecravo:radio.music.guitarrada_1",
+      "kind": "music",
+      "duration": 74.8
+    },
+    "market_prices_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.market_prices_1",
+      "kind": "notice",
+      "duration": 33.2
+    },
+    "notice_2": {
+      "sound": "fadoecravo:radio.emissora_lusitana.notice_2",
+      "kind": "notice",
+      "duration": 28.2
+    },
+    "news_evening_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.news_evening_1",
+      "kind": "news",
+      "duration": 35.8
+    },
+    "news_evening_2": {
+      "sound": "fadoecravo:radio.emissora_lusitana.news_evening_2",
+      "kind": "news",
+      "duration": 31.9
+    },
+    "signoff_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.signoff_1",
+      "kind": "signoff",
+      "duration": 18.8
+    },
+    "breaking_1": {
+      "sound": "fadoecravo:radio.emissora_lusitana.breaking_1",
+      "kind": "breaking",
+      "duration": 21.4
+    }
+  }
+}

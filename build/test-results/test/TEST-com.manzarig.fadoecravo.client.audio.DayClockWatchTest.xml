@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.149Z" hostname="PC-GUSTAVO" time="0.004">
+  <properties/>
+  <testcase name="aJumpBackwardsIsAChangeToo()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.001"/>
+  <testcase name="aClockThatStandsStillForFortyTicksIsFrozen()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.0"/>
+  <testcase name="nothingIsFrozenBeforeTheFirstObservationOrAfterAReset()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.001"/>
+  <testcase name="theThresholdIsTwoSeconds()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.0"/>
+  <testcase name="anyChangeEndsTheFreezeAtOnce()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.001"/>
+  <testcase name="aRunningClockIsNeverFrozen()" classname="com.manzarig.fadoecravo.client.audio.DayClockWatchTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

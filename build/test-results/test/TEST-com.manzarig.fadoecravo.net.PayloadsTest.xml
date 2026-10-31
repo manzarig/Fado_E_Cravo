@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.manzarig.fadoecravo.net.PayloadsTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-26T02:05:34.857Z" hostname="PC-GUSTAVO" time="0.106">
+  <properties/>
+  <testcase name="togglePowerRoundTrips()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.079"/>
+  <testcase name="anEmptyStationIdMeansCleared()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.02"/>
+  <testcase name="setFrequencyRoundTrips()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.003"/>
+  <testcase name="breakingNewsRoundTripsWithANegativeSeed()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.001"/>
+  <testcase name="eachPayloadReportsItsOwnType()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.001"/>
+  <testcase name="reachIsEightBlocks()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.001"/>
+  <testcase name="payloadIdsAreTheOnesOfTheContract()" classname="com.manzarig.fadoecravo.net.PayloadsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
