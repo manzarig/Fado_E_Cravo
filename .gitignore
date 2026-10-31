@@ -1,0 +1,29 @@
+# Gradle / build output
+.gradle/
+build/
+out/
+run/
+bin/
+classes/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Audio pipeline (local cache and virtualenv)
+tools/audio/.cache/
+tools/audio/.venv/
+__pycache__/
+
+# Datagen hash cache
+src/main/generated/.cache/
+
+# Agent worktrees (isolated copies used by parallel workers)
+.claude/worktrees/

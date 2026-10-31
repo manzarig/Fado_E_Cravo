@@ -1,0 +1,421 @@
+{
+ "comment": "Critic scenario: static against programme. One radio at 3 m, the dial swept from 850 (nothing tuned) through 1018..1060 around Radio Tejo at 1035 (signal 0 at +-15, 1 inside +-4). Each position holds 5 s with a snapshot a second. mixcheck.py (scratchpad) regresses the WAV against the clip OGGs to get programme and static gains. Also the tuning whistle when the needle enters a station window. The daylight cycle is on, so the programme moves on in real time.",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "timeout_minutes": 14
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 10 -50 10 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:850} replace"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "mark": "sync_start"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "open": [
+    0,
+    -60,
+    3
+   ]
+  },
+  {
+   "wait": 10
+  },
+  {
+   "note": "STAGE 1: pure static + hiss at 850 for 6 s, then walk the dial up to 1035 and past it"
+  },
+  {
+   "wait": 100
+  },
+  {
+   "note": "SWEEP 1018"
+  },
+  {
+   "click_dial_khz": 1018
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1018"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1020"
+  },
+  {
+   "click_dial_khz": 1020
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1020"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1022"
+  },
+  {
+   "click_dial_khz": 1022
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1022"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1024"
+  },
+  {
+   "click_dial_khz": 1024
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1024"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1026"
+  },
+  {
+   "click_dial_khz": 1026
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1026"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1028"
+  },
+  {
+   "click_dial_khz": 1028
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1028"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1030"
+  },
+  {
+   "click_dial_khz": 1030
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1030"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1032"
+  },
+  {
+   "click_dial_khz": 1032
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1032"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1033"
+  },
+  {
+   "click_dial_khz": 1033
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1033"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1035"
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1035"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1038"
+  },
+  {
+   "click_dial_khz": 1038
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1038"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1039"
+  },
+  {
+   "click_dial_khz": 1039
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1039"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1041"
+  },
+  {
+   "click_dial_khz": 1041
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1041"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1043"
+  },
+  {
+   "click_dial_khz": 1043
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1043"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1045"
+  },
+  {
+   "click_dial_khz": 1045
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1045"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1047"
+  },
+  {
+   "click_dial_khz": 1047
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1047"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1049"
+  },
+  {
+   "click_dial_khz": 1049
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1049"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1050"
+  },
+  {
+   "click_dial_khz": 1050
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1050"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1052"
+  },
+  {
+   "click_dial_khz": 1052
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1052"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "SWEEP 1060"
+  },
+  {
+   "click_dial_khz": 1060
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "sweep_1060"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "note": "STAGE 2: whistle: from 850 click straight onto 1035 (enters the window), twice, 3 s apart"
+  },
+  {
+   "click_dial_khz": 850
+  },
+  {
+   "wait": 80
+  },
+  {
+   "mark": "before_whistle"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "whistle_1"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "click_dial_khz": 850
+  },
+  {
+   "wait": 60
+  },
+  {
+   "click_dial_khz": 1440
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "whistle_1440_day_enters_window_but_off_air"
+  },
+  {
+   "wait": 80
+  },
+  {
+   "close": true
+  },
+  {
+   "wait": 20
+  },
+  {
+   "mark": "sync_end"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "quit": true
+  }
+ ]
+}

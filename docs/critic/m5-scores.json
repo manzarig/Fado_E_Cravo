@@ -1,0 +1,18 @@
+{
+  "build": "7b082dc",
+  "scores": {
+    "M5-A model and textures": 4,
+    "M5-B needle and knobs": 5,
+    "M5-C glow and light": 4,
+    "M5-D warm-up": 5,
+    "M5-E item, frame, particles": 4,
+    "M5-F tuning screen texture": 5,
+    "M5-G pt-PT wording": 5,
+    "M5-H schedule pacing": 5,
+    "M5-I Estudio": 4,
+    "M6-R regression": 5,
+    "M6-S dedicated server": 5
+  },
+  "minimum": 4,
+  "corrective_actions": []
+}

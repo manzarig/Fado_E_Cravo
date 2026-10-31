@@ -1,0 +1,147 @@
+plugins {
+	id 'fabric-loom' version "${loom_version}"
+	id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// Loom adds the essential Minecraft and Fabric repositories automatically.
+	maven {
+		name = 'GeckoLib'
+		url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+		content {
+			includeGroup 'software.bernie.geckolib'
+		}
+	}
+}
+
+loom {
+	// Common code lives in src/main, client-only code in src/client.
+	splitEnvironmentSourceSets()
+
+	mods {
+		"fadoecravo" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+// Dev-only automation harness (see tools/critic/README.md). With -Pcritic=<absolute scenario.json> the
+// dev client gets the scenario path and a fixed window (1280x720, or -PcriticWidth/-PcriticHeight);
+// -PcriticOut=<absolute dir> says where the harness writes its logs and screenshots. Without -Pcritic
+// nothing changes.
+if (project.hasProperty('critic')) {
+	loom {
+		runs {
+			client {
+				vmArg "-Dfadoecravo.critic=${project.property('critic')}"
+				if (project.hasProperty('criticOut')) {
+					vmArg "-Dfadoecravo.critic.out=${project.property('criticOut')}"
+				}
+				programArgs "--width", "${project.findProperty('criticWidth') ?: '1280'}",
+					"--height", "${project.findProperty('criticHeight') ?: '720'}"
+			}
+		}
+	}
+}
+
+fabricApi {
+	// Datagen writes to src/main/generated, which is added to the main resources.
+	configureDataGeneration {
+		client = true
+		modId = project.archives_base_name
+	}
+}
+
+dependencies {
+	// To change the versions see the gradle.properties file
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	// Fabric API
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	// GeckoLib (animated models)
+	modImplementation "software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}"
+
+	// Tests (JUnit 5, no Minecraft bootstrap needed)
+	testImplementation platform("org.junit:junit-bom:${project.junit_version}")
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+processResources {
+	def modVersion = project.version
+	inputs.property "version", modVersion
+
+	filesMatching("fabric.mod.json") {
+		expand "version": modVersion
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+	it.options.encoding = 'UTF-8'
+}
+
+java {
+	// Loom attaches the sources jar to the remapping and to the "build" task.
+	withSourcesJar()
+
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Let tests see the client source set (src/client) and the client-only Minecraft classes, such as
+// the OGG decoder. Loom keeps them out of the test source set by default.
+sourceSets {
+	test {
+		compileClasspath += sourceSets.client.output + sourceSets.client.compileClasspath
+		runtimeClasspath += sourceSets.client.output + sourceSets.client.runtimeClasspath
+	}
+}
+
+test {
+	useJUnitPlatform()
+
+	// Minecraft's bundled log4j config writes logs/latest.log into the working directory, so run
+	// the tests somewhere under build/ rather than in the project root.
+	def testWorkDir = layout.buildDirectory.dir("test-work").get().asFile
+	workingDir = testWorkDir
+	doFirst { testWorkDir.mkdirs() }
+}
+
+// Audio lives in the main jar only; keep the sources jar small.
+tasks.named('sourcesJar') {
+	exclude '**/*.ogg'
+}
+
+jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	from("LICENSE") {
+		rename { "${it}_$projectName" }
+	}
+}
+
+// configure the maven publication
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+
+	repositories {
+		// Add repositories to publish to here.
+	}
+}

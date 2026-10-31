@@ -1,0 +1,98 @@
+{
+ "comment": "Critic scenario (round 1 re-test): the item frame shows the radio's front, head on, next to a vanilla furnace in a frame for comparison; then the held item.",
+ "settings": {
+  "daylight_cycle": false,
+  "snapshot_every_ticks": 0,
+  "gui_scale": 3,
+  "lang": "en_us"
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 10 -50 10 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    3.5,
+    -60,
+    0.0,
+    0,
+    5
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 3 -60 3 minecraft:stone"
+  },
+  {
+   "cmd": "summon item_frame 3 -60 2 {Facing:2b,Item:{id:\"fadoecravo:radio\",count:1},Fixed:1b}"
+  },
+  {
+   "cmd": "setblock 6 -60 3 minecraft:stone"
+  },
+  {
+   "cmd": "summon item_frame 6 -60 2 {Facing:2b,Item:{id:\"minecraft:furnace\",count:1},Fixed:1b}"
+  },
+  {
+   "hide_hud": true
+  },
+  {
+   "tp": [
+    4.5,
+    -60,
+    0.0,
+    0,
+    5
+   ]
+  },
+  {
+   "wait": 40
+  },
+  {
+   "shot": "item_frames_radio_left_furnace_right_for_comparison"
+  },
+  {
+   "tp": [
+    3.5,
+    -60,
+    0.2,
+    0,
+    5
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "shot": "item_frame_radio_close"
+  },
+  {
+   "cmd": "summon item 3.5 -59.5 1.0 {Item:{id:\"fadoecravo:radio\",count:1},PickupDelay:32767,Age:-32768}"
+  },
+  {
+   "wait": 10
+  },
+  {
+   "hide_hud": false
+  },
+  {
+   "cmd": "give @p fadoecravo:radio"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "shot": "held_item_name_only"
+  },
+  {
+   "quit": true
+  }
+ ]
+}

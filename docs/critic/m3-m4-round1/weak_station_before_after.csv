@@ -1,0 +1,7 @@
+quantity,baseline,round1
+Atlantico programme volume at 3 m (signal 0.55),0.55,0.55
+Atlantico static volume when locked,0.27,0.43
+static power re programme (dB),-13.8,-9.8
+Atlantico programme level re Tejo (dB),-5.1,-4.6
+whole-run WAV level of the Atlantico stage (dBFS L+R),-23.7,-23.5
+screen label when locked,"Signal locked (bar 55%)","Weak signal (bar 55%)"

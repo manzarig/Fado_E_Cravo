@@ -1,0 +1,233 @@
+{
+ "comment": "Critic scenario: breaking news. Night, so all three stations are on air. Radios: 1035 at (0,-60,3), 670 at (3,-60,3), 1440 at (6,-60,3), 850 at (-3,-60,3), and a switched-off 1035 at (9,-60,3). Bulletin on Radio Tejo: only the 1035 radio interrupts; late tuners and a late power-on join mid-clip; it ends after the clip or with 'breaking clear' and the schedule resumes. A second command replaces the first. Error cases: unknown station, no argument, wrong case. Chat stays in the shots.",
+ "settings": {
+  "daylight_cycle": true,
+  "snapshot_every_ticks": 20,
+  "gui_scale": 3,
+  "lang": "en_us",
+  "chat_in_shots": true,
+  "timeout_minutes": 14
+ },
+ "steps": [
+  {
+   "cmd": "time set 18000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 12 -50 12 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    3.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "cmd": "setblock 3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:670} replace"
+  },
+  {
+   "cmd": "setblock 6 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1440} replace"
+  },
+  {
+   "cmd": "setblock -3 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:850} replace"
+  },
+  {
+   "cmd": "setblock 9 -60 3 fadoecravo:radio[facing=north,on=false]{frequency:1035} replace"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "baseline"
+  },
+  {
+   "mark": "sync_start"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "note": "STAGE 1: bulletin on Radio Tejo. Radio on 1035 interrupts; 670 and 1440 do not"
+  },
+  {
+   "cmd": "fadoecravo breaking radio_tejo"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "bulletin1_start"
+  },
+  {
+   "shot": "bulletin1_subtitle"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "bulletin1_7s"
+  },
+  {
+   "note": "the 850 radio is tuned onto 1035 mid-bulletin; the off radio at 9 is switched on mid-bulletin: both must join it"
+  },
+  {
+   "open": [
+    -3,
+    -60,
+    3
+   ]
+  },
+  {
+   "wait": 5
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 20
+  },
+  {
+   "close": true
+  },
+  {
+   "wait": 5
+  },
+  {
+   "cmd": "setblock 9 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "bulletin1_joined_late"
+  },
+  {
+   "shot": "bulletin1_joined_late"
+  },
+  {
+   "wait": 360
+  },
+  {
+   "snapshot": "bulletin1_after_clip_end"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "bulletin1_resumed"
+  },
+  {
+   "note": "STAGE 2: second bulletin cleared by hand after 6 s"
+  },
+  {
+   "cmd": "fadoecravo breaking radio_tejo"
+  },
+  {
+   "wait": 120
+  },
+  {
+   "snapshot": "bulletin2_6s"
+  },
+  {
+   "cmd": "fadoecravo breaking clear"
+  },
+  {
+   "wait": 30
+  },
+  {
+   "snapshot": "bulletin2_cleared_plus_1s"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "bulletin2_cleared_plus_4s"
+  },
+  {
+   "note": "STAGE 3: bulletin on Emissora Lusitana, then Radio Atlantico replaces it (one bulletin at a time)"
+  },
+  {
+   "cmd": "fadoecravo breaking emissora_lusitana"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "bulletin3_lusitana"
+  },
+  {
+   "cmd": "fadoecravo breaking radio_atlantico"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "bulletin4_atlantico_replaces"
+  },
+  {
+   "shot": "bulletin4_atlantico"
+  },
+  {
+   "cmd": "fadoecravo breaking clear"
+  },
+  {
+   "wait": 60
+  },
+  {
+   "snapshot": "bulletins_cleared"
+  },
+  {
+   "note": "STAGE 4: error cases"
+  },
+  {
+   "cmd": "fadoecravo breaking no_such_station"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "fadoecravo breaking"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "fadoecravo breaking RADIO_TEJO"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "snapshot": "uppercase_id"
+  },
+  {
+   "cmd": "fadoecravo breaking clear"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "cmd": "fadoecravo"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "shot": "chat_after_errors"
+  },
+  {
+   "quit": true
+  }
+ ]
+}

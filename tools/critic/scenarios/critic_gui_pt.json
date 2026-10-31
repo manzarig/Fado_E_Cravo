@@ -1,0 +1,296 @@
+{
+ "comment": "Critic scenario: the tuning screen and command feedback in pt_pt, window 1280x720, GUI scale 3. Every station by day and night, partial signal either side of 1035, static, band ends and clamping, key and wheel tuning, power button, then the breaking-news command, its clear and its two error cases.",
+ "settings": {
+  "lang": "pt_pt",
+  "window": "1280x720",
+  "gui_scale": 3,
+  "snapshot_every_ticks": 0,
+  "chat_in_shots": true
+ },
+ "steps": [
+  {
+   "cmd": "time set 6000"
+  },
+  {
+   "cmd": "fill -10 -60 -10 10 -50 10 air"
+  },
+  {
+   "cmd": "kill @e[type=!player]"
+  },
+  {
+   "tp": [
+    0.5,
+    -60,
+    0.5,
+    0,
+    15
+   ]
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "setblock 0 -60 3 fadoecravo:radio[facing=north,on=true]{frequency:1035} replace"
+  },
+  {
+   "wait": 70
+  },
+  {
+   "snapshot": "radio_on_1035_noon"
+  },
+  {
+   "shot": "world_radio_on_subtitles"
+  },
+  {
+   "open": [
+    0,
+    -60,
+    3
+   ]
+  },
+  {
+   "wait": 12
+  },
+  {
+   "shot": "screen_1035_tejo_locked"
+  },
+  {
+   "click_dial_khz": 670
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_670_day"
+  },
+  {
+   "shot": "screen_lusitana_locked"
+  },
+  {
+   "click_dial_khz": 1440
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1440_day"
+  },
+  {
+   "shot": "screen_1440_day_off_air"
+  },
+  {
+   "cmd": "time set 18000"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "tuned_1440_night"
+  },
+  {
+   "shot": "screen_1440_atlantico_night"
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 15
+  },
+  {
+   "click_dial_khz": 1040
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1040_plus5"
+  },
+  {
+   "shot": "screen_1040_partial_plus5"
+  },
+  {
+   "click_dial_khz": 1045
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1045_plus10"
+  },
+  {
+   "shot": "screen_1045_partial_plus10"
+  },
+  {
+   "click_dial_khz": 1049
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1049_plus14"
+  },
+  {
+   "shot": "screen_1049_partial_plus14"
+  },
+  {
+   "click_dial_khz": 1051
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1051_plus16"
+  },
+  {
+   "shot": "screen_1051_just_outside"
+  },
+  {
+   "click_dial_khz": 1030
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_1030_minus5"
+  },
+  {
+   "shot": "screen_1030_partial_minus5"
+  },
+  {
+   "click_dial_khz": 850
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "tuned_850"
+  },
+  {
+   "shot": "screen_850_static"
+  },
+  {
+   "key": "right",
+   "repeat": 5
+  },
+  {
+   "key": "left",
+   "shift": true
+  },
+  {
+   "scroll": 3
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "keys_and_wheel_expect_848"
+  },
+  {
+   "shot": "screen_848_after_keys_and_wheel"
+  },
+  {
+   "click_dial_khz": 530
+  },
+  {
+   "wait": 15
+  },
+  {
+   "key": "left",
+   "repeat": 5
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "band_low_end"
+  },
+  {
+   "shot": "screen_530_band_low_end_clamped"
+  },
+  {
+   "click_dial_khz": 1600
+  },
+  {
+   "wait": 15
+  },
+  {
+   "key": "right",
+   "repeat": 5
+  },
+  {
+   "wait": 15
+  },
+  {
+   "snapshot": "band_high_end"
+  },
+  {
+   "shot": "screen_1600_band_high_end_clamped"
+  },
+  {
+   "click_dial_khz": 1035
+  },
+  {
+   "wait": 15
+  },
+  {
+   "click_power": true
+  },
+  {
+   "wait": 15
+  },
+  {
+   "shot": "screen_power_off_1035"
+  },
+  {
+   "click_power": true
+  },
+  {
+   "wait": 15
+  },
+  {
+   "close": true
+  },
+  {
+   "wait": 30
+  },
+  {
+   "note": "command feedback in this language"
+  },
+  {
+   "cmd": "fadoecravo breaking radio_tejo"
+  },
+  {
+   "wait": 40
+  },
+  {
+   "snapshot": "breaking_subtitle"
+  },
+  {
+   "shot": "world_breaking_news_subtitle"
+  },
+  {
+   "cmd": "fadoecravo breaking clear"
+  },
+  {
+   "wait": 20
+  },
+  {
+   "cmd": "fadoecravo breaking nonexistent_station"
+  },
+  {
+   "wait": 10
+  },
+  {
+   "cmd": "fadoecravo breaking"
+  },
+  {
+   "wait": 10
+  },
+  {
+   "wait": 20
+  },
+  {
+   "quit": true
+  }
+ ]
+}

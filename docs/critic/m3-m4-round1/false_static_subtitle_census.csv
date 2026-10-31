@@ -1,0 +1,12 @@
+run,baseline_static_subtitle_seconds,baseline_false,round1_static_subtitle_seconds,round1_false
+power,15,15,0,0
+falloff,7,7,0,0
+multi,15,15,0,0
+misc,9,6,3,0
+blend,3,0,10,0
+gui_en,0,0,6,0
+gui_pt,0,0,6,0
+breaking,3,0,3,0
+phases,4,0,4,0
+subtitles_pt,5,0,6,0
+TOTAL,61,43,38,0

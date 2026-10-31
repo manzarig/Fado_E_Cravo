@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "id": "radio_tejo",
+  "name": "station.fadoecravo.radio_tejo",
+  "frequency_khz": 1035,
+  "signal_strength": 1.0,
+  "phases": {
+    "dawn": {
+      "on_air": true,
+      "opening": [
+        "ident_1"
+      ],
+      "programs": [
+        "announce_2",
+        "marcha_1",
+        "announce_1",
+        "fado_menor_1"
+      ],
+      "interstitials": [
+        "ad_1",
+        "ad_2"
+      ],
+      "interstitial_every": 2
+    },
+    "day": {
+      "on_air": true,
+      "opening": [
+        "ident_2"
+      ],
+      "programs": [
+        "announce_3",
+        "guitarrada_1",
+        "request_1",
+        "fado_corrido_1",
+        "announce_2",
+        "marcha_1",
+        "announce_1",
+        "fado_menor_2"
+      ],
+      "interstitials": [
+        "ad_1",
+        "ad_2",
+        "ad_3",
+        "ad_4"
+      ],
+      "interstitial_every": 2
+    },
+    "dusk": {
+      "on_air": true,
+      "opening": [
+        "ident_1"
+      ],
+      "programs": [
+        "announce_1",
+        "fado_menor_2",
+        "announce_2",
+        "marcha_1"
+      ],
+      "interstitials": [
+        "ad_3",
+        "ad_4"
+      ],
+      "interstitial_every": 2
+    },
+    "night": {
+      "on_air": true,
+      "opening": [
+        "ident_2"
+      ],
+      "programs": [
+        "fado_menor_2",
+        "fado_corrido_1",
+        "announce_1",
+        "fado_menor_1"
+      ],
+      "interstitials": [
+        "ad_2",
+        "ad_4"
+      ],
+      "interstitial_every": 2
+    }
+  },
+  "breaking": [
+    "breaking_1"
+  ],
+  "clips": {
+    "ident_1": {
+      "sound": "fadoecravo:radio.radio_tejo.ident_1",
+      "kind": "ident",
+      "duration": 14.1
+    },
+    "announce_2": {
+      "sound": "fadoecravo:radio.radio_tejo.announce_2",
+      "kind": "announce",
+      "duration": 17.6
+    },
+    "marcha_1": {
+      "sound": "fadoecravo:radio.music.marcha_1",
+      "kind": "music",
+      "duration": 75.0
+    },
+    "announce_1": {
+      "sound": "fadoecravo:radio.radio_tejo.announce_1",
+      "kind": "announce",
+      "duration": 15.5
+    },
+    "fado_menor_1": {
+      "sound": "fadoecravo:radio.music.fado_menor_1",
+      "kind": "music",
+      "duration": 84.6
+    },
+    "ad_1": {
+      "sound": "fadoecravo:radio.radio_tejo.ad_1",
+      "kind": "ad",
+      "duration": 22.4
+    },
+    "ad_2": {
+      "sound": "fadoecravo:radio.radio_tejo.ad_2",
+      "kind": "ad",
+      "duration": 19.2
+    },
+    "ident_2": {
+      "sound": "fadoecravo:radio.radio_tejo.ident_2",
+      "kind": "ident",
+      "duration": 13.5
+    },
+    "announce_3": {
+      "sound": "fadoecravo:radio.radio_tejo.announce_3",
+      "kind": "announce",
+      "duration": 22.0
+    },
+    "guitarrada_1": {
+      "sound": "fadoecravo:radio.music.guitarrada_1",
+      "kind": "music",
+      "duration": 74.8
+    },
+    "request_1": {
+      "sound": "fadoecravo:radio.radio_tejo.request_1",
+      "kind": "request",
+      "duration": 22.4
+    },
+    "fado_corrido_1": {
+      "sound": "fadoecravo:radio.music.fado_corrido_1",
+      "kind": "music",
+      "duration": 72.2
+    },
+    "fado_menor_2": {
+      "sound": "fadoecravo:radio.music.fado_menor_2",
+      "kind": "music",
+      "duration": 81.6
+    },
+    "ad_3": {
+      "sound": "fadoecravo:radio.radio_tejo.ad_3",
+      "kind": "ad",
+      "duration": 21.8
+    },
+    "ad_4": {
+      "sound": "fadoecravo:radio.radio_tejo.ad_4",
+      "kind": "ad",
+      "duration": 20.6
+    },
+    "breaking_1": {
+      "sound": "fadoecravo:radio.radio_tejo.breaking_1",
+      "kind": "breaking",
+      "duration": 23.8
+    }
+  }
+}

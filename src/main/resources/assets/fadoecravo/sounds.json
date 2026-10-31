@@ -1,0 +1,422 @@
+{
+  "radio.emissora_lusitana.breaking_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/breaking_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.breaking"
+  },
+  "radio.emissora_lusitana.ident_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/ident_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ident"
+  },
+  "radio.emissora_lusitana.ident_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/ident_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ident"
+  },
+  "radio.emissora_lusitana.market_prices_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/market_prices_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.notice"
+  },
+  "radio.emissora_lusitana.news_evening_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/news_evening_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.emissora_lusitana.news_evening_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/news_evening_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.emissora_lusitana.news_morning_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/news_morning_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.emissora_lusitana.notice_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/notice_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.notice"
+  },
+  "radio.emissora_lusitana.notice_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/notice_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.notice"
+  },
+  "radio.emissora_lusitana.signoff_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/emissora_lusitana/signoff_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.signoff"
+  },
+  "radio.music.fado_corrido_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/fado_corrido_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.music.fado_menor_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/fado_menor_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.music.fado_menor_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/fado_menor_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.music.guitarrada_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/guitarrada_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.music.interval_atlantico": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/interval_atlantico",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.interval"
+  },
+  "radio.music.interval_lusitana": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/interval_lusitana",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.interval"
+  },
+  "radio.music.marcha_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/marcha_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.music.orquestra_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/music/orquestra_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.music"
+  },
+  "radio.radio_atlantico.breaking_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/breaking_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.breaking"
+  },
+  "radio.radio_atlantico.ident_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/ident_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ident"
+  },
+  "radio.radio_atlantico.news_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/news_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.radio_atlantico.news_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/news_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.radio_atlantico.news_3": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/news_3",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.news"
+  },
+  "radio.radio_atlantico.personal_messages_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_atlantico/personal_messages_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.personal_messages"
+  },
+  "radio.radio_tejo.ad_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ad_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ad"
+  },
+  "radio.radio_tejo.ad_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ad_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ad"
+  },
+  "radio.radio_tejo.ad_3": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ad_3",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ad"
+  },
+  "radio.radio_tejo.ad_4": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ad_4",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ad"
+  },
+  "radio.radio_tejo.announce_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/announce_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.announce"
+  },
+  "radio.radio_tejo.announce_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/announce_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.announce"
+  },
+  "radio.radio_tejo.announce_3": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/announce_3",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.announce"
+  },
+  "radio.radio_tejo.breaking_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/breaking_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.breaking"
+  },
+  "radio.radio_tejo.ident_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ident_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ident"
+  },
+  "radio.radio_tejo.ident_2": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/ident_2",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.ident"
+  },
+  "radio.radio_tejo.request_1": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:radio/radio_tejo/request_1",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.request"
+  },
+  "sfx.carrier_hiss": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:sfx/carrier_hiss",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.carrier_hiss"
+  },
+  "sfx.power_off": {
+    "sounds": [
+      {
+        "attenuation_distance": 16,
+        "name": "fadoecravo:sfx/power_off",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.power_off"
+  },
+  "sfx.power_on": {
+    "sounds": [
+      {
+        "attenuation_distance": 16,
+        "name": "fadoecravo:sfx/power_on",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.power_on"
+  },
+  "sfx.static_loop": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:sfx/static_loop",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.static_loop"
+  },
+  "sfx.tube_warmup": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:sfx/tube_warmup",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.tube_warmup"
+  },
+  "sfx.tuning_whistle": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:sfx/tuning_whistle",
+        "stream": false
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.sfx.tuning_whistle"
+  },
+  "test.seek_test": {
+    "sounds": [
+      {
+        "attenuation_distance": 64,
+        "name": "fadoecravo:test/seek_test",
+        "stream": true
+      }
+    ],
+    "subtitle": "subtitles.fadoecravo.test.seek_test"
+  }
+}
